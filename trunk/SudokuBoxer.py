@@ -1,21 +1,3 @@
-#
-#    SudokuBoxer is a Sudoku GUI game & solver
-#
-#    Copyright (C) 2010  Falldog
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 import wx
 import wx.lib.newevent
 from copy import deepcopy
@@ -28,7 +10,6 @@ from PuzzleLoader import PuzzleLoaderDB
 from boxer import SudokuBoxer, Step
 from user import GetUserInfo
 _ = wx.GetTranslation
-
 
 LICENSE = '''
 This program is free software: you can redistribute it and/or modify
@@ -988,7 +969,7 @@ class MainFrame(wx.Frame):
         info = wx.AboutDialogInfo()
         info.Name = "Sudoku Boxer"
         info.Version = App.VERSION + '.' + App.VERSION_DATE
-        info.Copyright = "(C) 2010 Falldog"
+        info.Copyright = "(C) 2010 Falldog (falldog7@gmail.com)"
         info.Description = wordwrap(
             "Sudoku Boxer, play and solve with sudoku software. Enjoy it!",
             350, wx.ClientDC(self))
