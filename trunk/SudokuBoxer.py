@@ -81,7 +81,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         #self.SetBackgroundColour('WHITE')
         
         self.BG_CL         = '#EEEEEE'
-        self.BG_CL_DEFAULT = '#D9F1FF'
+        self.BG_CL_DEFAULT = '#E3EDFF'
         self.BG_CL_OVER    = '#8FD6FF'
         self.BG_CL_FOCUS   = '#C1DEA3'
         self.CL_LINE_DOT   = '#777777'
