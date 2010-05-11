@@ -1,0 +1,207 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-05-09 09:03+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\SudokuBoxer.py:651
+msgid "About"
+msgstr "關於"
+
+#: ..\SudokuBoxer.py:727
+msgid "Best Time:"
+msgstr "最佳時間 :"
+
+#: ..\SudokuBoxer.py:644
+msgid "CHT"
+msgstr "中文"
+
+#: ..\SudokuBoxer.py:696
+msgid "Check Valid"
+msgstr "檢查正確"
+
+#: ..\SudokuBoxer.py:868
+msgid "Check Valid : Correctly!"
+msgstr "檢查是否正確 : 正確無誤!"
+
+#: ..\SudokuBoxer.py:870
+msgid "Check Valid : Wrong!"
+msgstr "檢查是否正確 : 錯了啦~大哥~"
+
+#: ..\root.py:20
+msgid "Choice Language"
+msgstr "選擇語言"
+
+#: ..\SudokuBoxer.py:699
+msgid "Choice User"
+msgstr "選擇使用者"
+
+#: ..\SudokuBoxer.py:691
+msgid "Clear All"
+msgstr "全部清除"
+
+#: ..\SudokuBoxer.py:881
+msgid "Congratulations! You had finish this Sudoku!"
+msgstr "恭喜恭喜! 你已經完成了這個Sudoku"
+
+#: ..\user.py:144
+msgid "Create a User"
+msgstr "建立使用者"
+
+#: ..\user.py:111
+msgid "Create a new user"
+msgstr "建立一名新的使用者"
+
+#: ..\SudokuBoxer.py:643
+msgid "ENU"
+msgstr "英文"
+
+#: ..\SudokuBoxer.py:637
+msgid "Easy"
+msgstr "簡單"
+
+#: ..\SudokuBoxer.py:640
+msgid "Evil"
+msgstr "真他馬的難"
+
+#: ..\SudokuBoxer.py:694
+msgid "Guess Easy"
+msgstr "猜1"
+
+#: ..\SudokuBoxer.py:695
+msgid "Guess Medium"
+msgstr "猜2"
+
+#: ..\SudokuBoxer.py:639
+msgid "Hard"
+msgstr "困難"
+
+#: ..\SudokuBoxer.py:656
+msgid "Help"
+msgstr "幫助"
+
+#: ..\SudokuBoxer.py:887
+msgid "Hey man! Your answer is wrong... try again!"
+msgstr "嘿~大哥~ 你的答案錯了啦~ 再試一下~"
+
+#: ..\SudokuBoxer.py:760 ..\SudokuBoxer.py:823 ..\SudokuBoxer.py:855
+#: ..\SudokuBoxer.py:871 ..\SudokuBoxer.py:892
+msgid "Information"
+msgstr "訊息"
+
+#: ..\SudokuBoxer.py:654
+msgid "Language"
+msgstr "語言"
+
+#: ..\SudokuBoxer.py:638
+msgid "Medium"
+msgstr "中等"
+
+#: ..\SudokuBoxer.py:653
+msgid "Mode"
+msgstr "等級"
+
+#: ..\SudokuBoxer.py:685
+msgid "New Null Puzzle"
+msgstr "開啟空的Sudoku"
+
+#: ..\SudokuBoxer.py:684
+msgid "New Puzzle"
+msgstr "開啟新的Sudoku"
+
+#: ..\user.py:119
+msgid "OK"
+msgstr "確定"
+
+#: ..\SudokuBoxer.py:655
+msgid "Options"
+msgstr "選項"
+
+#: ..\SudokuBoxer.py:811
+#, python-format
+msgid "Please input a ID number : (1~%d)"
+msgstr "請輸入ID號碼：(1~%d)"
+
+#: ..\SudokuBoxer.py:823
+msgid "Please input a correctly number!"
+msgstr "請輸入正確的數字"
+
+#: ..\user.py:143
+msgid "Please input a user name"
+msgstr "請輸入一個使用者名稱"
+
+#: ..\SudokuBoxer.py:760
+msgid "Please relaunch SudokuBoxer to load correctly Language"
+msgstr "請重新開啟SudokuBoxer 新的語言才會生效!"
+
+#: ..\SudokuBoxer.py:730
+msgid "Puzzle ID :"
+msgstr "Sudoku ID :"
+
+#: ..\user.py:170
+msgid "PuzzleID"
+msgstr "Puzzle ID"
+
+#: ..\SudokuBoxer.py:647
+msgid "Record Last Puzzle"
+msgstr "結束時記錄最後Puzzle"
+
+#: ..\SudokuBoxer.py:931
+msgid "Record List"
+msgstr "記錄清單"
+
+#: ..\SudokuBoxer.py:700
+msgid "Record Time"
+msgstr "花費時間 :"
+
+#: ..\SudokuBoxer.py:690
+msgid "Redo"
+msgstr "下一步"
+
+#: ..\SudokuBoxer.py:686
+msgid "Select Puzzle By ID"
+msgstr "輸入ID選擇Sudoku"
+
+#: ..\SudokuBoxer.py:905
+msgid "Select User"
+msgstr "選擇使用者"
+
+#: ..\SudokuBoxer.py:648
+msgid "Show AutoTip"
+msgstr "每一格秀出提示"
+
+#: ..\SudokuBoxer.py:854
+msgid ""
+"Sorry! I can't fix this puzzle now.\n"
+"Please wait new version."
+msgstr ""
+"抱歉! 目前無法解決此Puzzle.\n"
+"請等待新的加強版..."
+
+#: ..\SudokuBoxer.py:733
+msgid "Spend Time :"
+msgstr "花費時間 :"
+
+#: ..\user.py:171
+msgid "Time"
+msgstr "時間"
+
+#: ..\SudokuBoxer.py:689
+msgid "Undo"
+msgstr "上一步"
+
+#: ..\SudokuBoxer.py:724
+msgid "User Name :"
+msgstr "使用者："

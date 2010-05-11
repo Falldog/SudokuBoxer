@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<project>
+	<options name = "SudokuBoxer"/>
+	<options bootfile = "root.py"/>
+	<options runargs = ""/>
+	<options workdir = ""/>
+	<options remotepath = ""/>
+	<options remotefilesync = "false"/>
+	<group name = "SudokuBoxer">
+        <file path = "App.py"/>
+		<file path = "anim.py"/>
+		<file path = "boxer.py"/>
+		<file path = "PuzzleLoader.py"/>
+		<file path = "root.py"/>
+		<file path = "SudokuBoxer.py"/>
+		<file path = "user.py"/>
+		<file path = "util.py"/>
+		<group name = "config">
+			<file path = "config.ini"/>
+		</group>
+	</group>
+</project>
