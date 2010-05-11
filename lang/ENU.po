@@ -1,0 +1,207 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-05-09 09:03+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ..\SudokuBoxer.py:651
+msgid "About"
+msgstr "About"
+
+#: ..\SudokuBoxer.py:727
+msgid "Best Time:"
+msgstr "Best Time :"
+
+#: ..\SudokuBoxer.py:644
+msgid "CHT"
+msgstr "中文"
+
+#: ..\SudokuBoxer.py:696
+msgid "Check Valid"
+msgstr "Check Valid"
+
+#: ..\SudokuBoxer.py:868
+msgid "Check Valid : Correctly!"
+msgstr "Check Valid : Correctly!"
+
+#: ..\SudokuBoxer.py:870
+msgid "Check Valid : Wrong!"
+msgstr "Check Valid : Wrong!"
+
+#: ..\root.py:20
+msgid "Choice Language"
+msgstr "Choice Language"
+
+#: ..\SudokuBoxer.py:699
+msgid "Choice User"
+msgstr "Choice User"
+
+#: ..\SudokuBoxer.py:691
+msgid "Clear All"
+msgstr "Clear All"
+
+#: ..\SudokuBoxer.py:881
+msgid "Congratulations! You had finish this Sudoku!"
+msgstr "Congratulations! You had finish this Sudoku!"
+
+#: ..\user.py:144
+msgid "Create a User"
+msgstr "Create a User"
+
+#: ..\user.py:111
+msgid "Create a new user"
+msgstr "Create a new user"
+
+#: ..\SudokuBoxer.py:643
+msgid "ENU"
+msgstr "English"
+
+#: ..\SudokuBoxer.py:637
+msgid "Easy"
+msgstr "Easy"
+
+#: ..\SudokuBoxer.py:640
+msgid "Evil"
+msgstr "Evil"
+
+#: ..\SudokuBoxer.py:694
+msgid "Guess Easy"
+msgstr "Guess Easy"
+
+#: ..\SudokuBoxer.py:695
+msgid "Guess Medium"
+msgstr "Guess Medium"
+
+#: ..\SudokuBoxer.py:639
+msgid "Hard"
+msgstr "Hard"
+
+#: ..\SudokuBoxer.py:656
+msgid "Help"
+msgstr "Help"
+
+#: ..\SudokuBoxer.py:887
+msgid "Hey man! Your answer is wrong... try again!"
+msgstr "Hey man! Your answer is wrong... try again!"
+
+#: ..\SudokuBoxer.py:760 ..\SudokuBoxer.py:823 ..\SudokuBoxer.py:855
+#: ..\SudokuBoxer.py:871 ..\SudokuBoxer.py:892
+msgid "Information"
+msgstr "Information"
+
+#: ..\SudokuBoxer.py:654
+msgid "Language"
+msgstr "Language"
+
+#: ..\SudokuBoxer.py:638
+msgid "Medium"
+msgstr "Medium"
+
+#: ..\SudokuBoxer.py:653
+msgid "Mode"
+msgstr "Mode"
+
+#: ..\SudokuBoxer.py:685
+msgid "New Null Puzzle"
+msgstr "New Empty Puzzle"
+
+#: ..\SudokuBoxer.py:684
+msgid "New Puzzle"
+msgstr "New Puzzle"
+
+#: ..\user.py:119
+msgid "OK"
+msgstr "OK"
+
+#: ..\SudokuBoxer.py:655
+msgid "Options"
+msgstr "Options"
+
+#: ..\SudokuBoxer.py:811
+#, python-format
+msgid "Please input a ID number : (1~%d)"
+msgstr "Please input a ID number : (1~%d)"
+
+#: ..\SudokuBoxer.py:823
+msgid "Please input a correctly number!"
+msgstr "Please input a correctly number!"
+
+#: ..\user.py:143
+msgid "Please input a user name"
+msgstr "Please input a user name"
+
+#: ..\SudokuBoxer.py:760
+msgid "Please relaunch SudokuBoxer to load correctly Language"
+msgstr "Please relaunch SudokuBoxer to load correctly Language"
+
+#: ..\SudokuBoxer.py:730
+msgid "Puzzle ID :"
+msgstr "Puzzle ID :"
+
+#: ..\user.py:170
+msgid "PuzzleID"
+msgstr "PuzzleID"
+
+#: ..\SudokuBoxer.py:647
+msgid "Record Last Puzzle"
+msgstr "Record Last Puzzle"
+
+#: ..\SudokuBoxer.py:931
+msgid "Record List"
+msgstr "Record List"
+
+#: ..\SudokuBoxer.py:700
+msgid "Record Time"
+msgstr "Record Time :"
+
+#: ..\SudokuBoxer.py:690
+msgid "Redo"
+msgstr "Redo"
+
+#: ..\SudokuBoxer.py:686
+msgid "Select Puzzle By ID"
+msgstr "Select Puzzle By ID"
+
+#: ..\SudokuBoxer.py:905
+msgid "Select User"
+msgstr "Select User"
+
+#: ..\SudokuBoxer.py:648
+msgid "Show AutoTip"
+msgstr "Show Tips on every cell"
+
+#: ..\SudokuBoxer.py:854
+msgid ""
+"Sorry! I can't fix this puzzle now.\n"
+"Please wait new version."
+msgstr ""
+"Sorry! I can't fix this puzzle now.\n"
+"Please wait new version."
+
+#: ..\SudokuBoxer.py:733
+msgid "Spend Time :"
+msgstr "Spend Time :"
+
+#: ..\user.py:171
+msgid "Time"
+msgstr "Time"
+
+#: ..\SudokuBoxer.py:689
+msgid "Undo"
+msgstr "Undo"
+
+#: ..\SudokuBoxer.py:724
+msgid "User Name :"
+msgstr "User Name :"
