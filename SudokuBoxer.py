@@ -167,6 +167,9 @@ class NumberBoard(wx.Panel, SudokuBoxer):
     def _initToDefault(self):
         self.clearStepInfo()
         self.answer = None
+        self.highlightNum = 0
+        self.focusPos     = (-1,-1)
+        self.mouseOverPos = (-1,-1)
         
     def clearToNull(self):
         num = []
