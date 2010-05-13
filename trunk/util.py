@@ -58,7 +58,7 @@ def Str2Puzzle(s):
     for i in range(9):
         n.append([])
         for j in range(9):
-            n[-1].append( int(s[i*9+j]) )
+            n[-1].append( int(s[j*9+i]) )
     return n
     
 def print_exctime(f):

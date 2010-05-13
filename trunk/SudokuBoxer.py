@@ -1,4 +1,4 @@
-import wx
+﻿import wx
 import wx.lib.newevent
 from copy import deepcopy
 import os
@@ -78,6 +78,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         for i in App.rgLINE:
             self.num[i] = [ Number() for n in App.rgLINE ]
         self.default = deepcopy(self.num)
+        self.answer = None
         
         self.steps = [] #record change history
         self.cur_step = -1
@@ -133,27 +134,40 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.Bind(wx.EVT_KEY_DOWN,     self.onKeyDown)
         self.Bind(wx.EVT_KEY_UP,       self.onKeyUp)
         self.Bind(wx.EVT_LEAVE_WINDOW, self.onMouseLeave)
+    
+    def unbindEvent(self, skipPaint=True):
+        if not skipPaint:
+            self.Unbind(wx.EVT_PAINT)
+        self.Unbind(wx.EVT_MOTION)
+        self.Unbind(wx.EVT_LEFT_DOWN)
+        self.Unbind(wx.EVT_KEY_DOWN)
+        self.Unbind(wx.EVT_KEY_UP)
+        self.Unbind(wx.EVT_LEAVE_WINDOW)
         
     def setDefault(self, d, cur_d=[]):
         assert len(d)==len(self.default)
         #Default
         for i in App.rgLINE:
             for j in App.rgLINE:
-                self.default[j][i].val = d[i][j]
-                self.default[j][i].isDefault  =  d[i][j]!=0
+                self.default[i][j].val = d[i][j]
+                self.default[i][j].isDefault  =  d[i][j]!=0
                     
         #Current Number of puzzle
         if cur_d:
             for i in App.rgLINE:
                 for j in App.rgLINE:
-                    self.num[j][i].val = cur_d[i][j]
-                    self.num[j][i].isDefault = self.default[j][i].isDefault
+                    self.num[i][j].val = cur_d[i][j]
+                    self.num[i][j].isDefault = self.default[i][j].isDefault
         else:
             self.num = deepcopy(self.default)
         self._updateAutoTip()
-        self.clearStepInfo()
+        self._initToDefault()
         self.Refresh()
     
+    def _initToDefault(self):
+        self.clearStepInfo()
+        self.answer = None
+        
     def clearToNull(self):
         num = []
         for i in App.rgLINE:
@@ -169,15 +183,42 @@ class NumberBoard(wx.Panel, SudokuBoxer):
     def clearStepInfo(self):
         self.steps = []
         self.cur_step = -1
+    
+    def queryAnswer(self):
+        ori_num = deepcopy(self.num)
         
-    def guessNext(self, autoFill=True, mode='easy'):
+        while True:
+            gotOne = False
+            while True:
+                if self.guessNext(mode='easy', silentFill=True):
+                    gotOne = True
+                else:
+                    break
+            
+            if self.guessNext(mode='medium', silentFill=True):
+                gotOne = True
+            
+            if not gotOne:
+                break
+        
+        #[TODO] Fix, should finish and don't use brute method.
+        if not self.checkFinish():
+            self.boxerBrute( bCheckFromDefault=False )
+            
+        self.answer = self.num
+        self.num = ori_num
+        
+    def guessNext(self, autoFill=True, silentFill=False, mode='easy'):
         ret = self.boxerNext(mode)
         if ret:
             self.dirtyCell(*self.focusPos) #dirty original focus cell
             pos, v = ret
             self.focusPos = pos
             if autoFill:
-                self.setVal(pos[0],pos[1],v)
+                if silentFill:
+                    self._setVal(pos[0],pos[1],v)
+                else:
+                    self.setVal(pos[0],pos[1],v)
         return ret
     
     def getNum(self, i, j):
@@ -580,6 +621,42 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         pass
 
 
+class AnswerBoard(wx.Dialog):
+    def __init__(
+            self, parent, ID, title, size=wx.DefaultSize, pos=wx.DefaultPosition, 
+            style=wx.DEFAULT_DIALOG_STYLE,
+            useMetal=False,
+            ):
+
+        # Instead of calling wx.Dialog.__init__ we precreate the dialog
+        # so we can set an extra style that must be set before
+        # creation, and then we create the GUI object using the Create
+        # method.
+        pre = wx.PreDialog()
+        pre.SetExtraStyle(wx.DIALOG_EX_CONTEXTHELP)
+        pre.Create(parent, ID, title, pos, size, style)
+        
+        # This next step is the most important, it turns this Python
+        # object into the real wrapper of the dialog (instead of pre)
+        # as far as the wxPython extension is concerned.
+        self.PostCreate(pre)
+        
+        # This extra style can be set after the UI object has been created.
+        if 'wxMac' in wx.PlatformInfo and useMetal:
+            self.SetExtraStyle(wx.DIALOG_EX_METAL)
+        
+        
+        self.board = NumberBoard(self, -1, pos=(0,0), size=(30*App.nLINE,30*App.nLINE))
+        self.board.NUM_SIZE= 30
+        self.board.font    = wx.Font( 12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
+        self.board.fontTip = wx.Font( 6, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
+        self.board.unbindEvent()
+        #self.board.SetEvtHandlerEnabled(False)
+    
+    def setPuzzle(self, default, answer):
+        self.board.setDefault(default, answer)
+        
+
 #Event
 FunFinishEvent, EVT_FINISH = wx.lib.newevent.NewEvent()
 
@@ -612,7 +689,7 @@ ID_TOOLBAR_NEW       = wx.NewId()
 ID_TOOLBAR_NEW_NULL  = wx.NewId()
 ID_TOOLBAR_CHECK     = wx.NewId()
 ID_TOOLBAR_GUESS     = wx.NewId()
-ID_TOOLBAR_GUESSALL  = wx.NewId()
+ID_TOOLBAR_ANSWER    = wx.NewId()
 ID_TOOLBAR_CHECKVALID= wx.NewId()
 ID_TOOLBAR_CLEARALL  = wx.NewId()
 ID_TOOLBAR_SELECT    = wx.NewId()
@@ -721,8 +798,8 @@ class MainFrame(wx.Frame):
         self.toolbar.AddTool(ID_TOOLBAR_CLEARALL,   wx.Bitmap('./img/clear all.png'),        shortHelpString=_('Clear All'))
         self.toolbar.AddSeparator()
         
-        self.toolbar.AddTool(ID_TOOLBAR_GUESS,      wx.Bitmap('./img/guess.png'),            shortHelpString=_('Guess Easy'))
-        self.toolbar.AddTool(ID_TOOLBAR_GUESSALL,   wx.Bitmap('./img/guess all.png'),        shortHelpString=_('Guess Medium'))
+        self.toolbar.AddTool(ID_TOOLBAR_GUESS,      wx.Bitmap('./img/guess.png'),            shortHelpString=_('Guess Next'))
+        self.toolbar.AddTool(ID_TOOLBAR_ANSWER,   wx.Bitmap('./img/guess all.png'),        shortHelpString=_('Show Answer'))
         self.toolbar.AddTool(ID_TOOLBAR_CHECKVALID, wx.Bitmap('./img/check valid.png'),      shortHelpString=_('Check Valid'))
         self.toolbar.AddSeparator()
         
@@ -739,7 +816,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_TOOL, self.undo,       id=wx.ID_UNDO)
         self.Bind(wx.EVT_TOOL, self.redo,       id=wx.ID_REDO)
         self.Bind(wx.EVT_TOOL, self.guess,      id=ID_TOOLBAR_GUESS)
-        self.Bind(wx.EVT_TOOL, self.guessall,   id=ID_TOOLBAR_GUESSALL)
+        self.Bind(wx.EVT_TOOL, self.showAnswer,   id=ID_TOOLBAR_ANSWER)
         self.Bind(wx.EVT_TOOL, self.checkValid, id=ID_TOOLBAR_CHECKVALID)
         self.Bind(wx.EVT_TOOL, self.clearAll,   id=ID_TOOLBAR_CLEARALL)
         
@@ -861,30 +938,28 @@ class MainFrame(wx.Frame):
     def clearAll(self, evt):
         self.board.clearToDefault()
         
-    def guessall(self, evt):
+    def showAnswer(self, evt):
         '''
         Do 'easy' first, then 'medium' and try 'easy' again!
         '''
-        while True:
-            gotOne = False
-            while True:
-                if self.board.guessNext(mode='easy'):
-                    gotOne = True
-                else:
-                    break
-            
-            if self.board.guessNext(mode='medium'):
-                gotOne = True
-            
-            if not gotOne:
-                break
         
-        #[TODO] Fix it!
-        if not self.board.checkFinish():
-            msg = _("Sorry! I can't fix this puzzle now.\nPlease wait new version.")
-            dlg = wx.MessageDialog(None, msg, _('Information'), style=wx.OK)
-            dlg.ShowModal()
-            dlg.Destroy()
+        if not self.board.answer:
+            self.board.queryAnswer()
+        
+        dlg = AnswerBoard(self, -1, _("Answer"), size=(30*App.nLINE, 30*App.nLINE+30), style=wx.DEFAULT_DIALOG_STYLE, useMetal=False )
+        
+        #put answerBoard to right side of MainFrom
+        pos  = self.GetPosition()
+        size = self.GetSize()
+        mw, mh = size.GetWidth(), size.GetHeight() #main frame width, height
+        d_size = dlg.GetSize()
+        dw, dh = d_size.GetWidth(), d_size.GetHeight() #dlg width, height
+        
+        dlg.SetPosition( (pos.x+mw, pos.y+(mh-dh)/2.0) )
+        dlg.setPuzzle( self.board.default, self.board.answer )
+        
+        dlg.ShowModal()
+        dlg.Destroy()
         
     def guess(self, evt):
         guessModeList = ['easy', 'medium']
