@@ -1,3 +1,4 @@
+﻿import wx
 import App
 from copy import deepcopy
 
@@ -12,6 +13,74 @@ class Step:
     def infoUndo(self):
         return self.pos[0], self.pos[1], self.ori_val
 
+
+class BoxerInfo:
+    ''' Control all info cells, create & draw '''
+    def __init__(self, *argv):
+        self.infos = []
+        pass
+    
+    def add(self, _type, *argv):
+        info = None
+        if _type == 'cell grid':
+            info = InfoCellGrid(*argv)
+        elif _type == 'line':
+            info = InfoLine(*argv)
+        elif _type == 'cell':
+            info = InfoCell(*argv)
+            
+        if info:
+            self.infos.append(info)
+        
+    def clear(self):
+        ret = len(self.infos)>0
+        self.infos = []
+        return ret
+        
+    def draw(self, dc, cellSize):
+        [ i.draw(dc, cellSize) for i in self.infos ]
+        
+
+class InfoCell:
+    ''' Info about draw a single cell (1x1)'''
+    def __init__(self, i, j):
+        self.cellPos = i, j
+    def draw(self, dc, cellSize):
+        dc.SetPen(wx.Pen('#33BB33', 3, wx.DOT))
+        dc.SetBrush(wx.TRANSPARENT_BRUSH)
+        dc.DrawRectangle(self.cellPos[0]*cellSize, self.cellPos[1]*cellSize, cellSize, cellSize)
+        
+class InfoCellGrid:
+    ''' Info about draw a cell grid (3x3)'''
+    def __init__(self, i, j):
+        self.gridPos = i,j
+    def draw(self, dc, cellSize):
+        size = cellSize*3
+        dc.SetPen(wx.Pen('#FF0000', 3, wx.SOLID))
+        dc.SetBrush(wx.TRANSPARENT_BRUSH)
+        dc.DrawRectangle(self.gridPos[0]*size, self.gridPos[1]*size, size, size)
+
+class InfoLine:
+    ''' Info about draw a line'''
+    def __init__(self, direction, idx):
+        '''
+        direction : 'v', 'h'
+        '''
+        assert direction in ('v','h')
+        self.direction = direction
+        self.idx = idx
+        pass
+    def draw(self, dc, cellSize):
+        half = cellSize/2
+        quart = cellSize/4
+        dc.SetPen(wx.Pen('#DD2222', 3, wx.DOT))
+        if self.direction == 'v':
+            dc.DrawLine(self.idx*cellSize+half, quart, self.idx*cellSize+half, cellSize*9-quart)
+        else:
+            dc.DrawLine(quart, self.idx*cellSize+half, cellSize*9-quart, self.idx*cellSize+half)
+        pass
+        
+        
 class SudokuBoxer:
     def __init__(self):
         self.__lineBoolNum__ = [ False for j in App.rgLINE]
@@ -116,21 +185,59 @@ class SudokuBoxer:
     def _checkEasy(self, num):
         self._initBoolNum()
         self._markBoolNoVal()
+        numPosList = []
+        #mark num in all grid
         for i in App.rgGRID:
             for j in App.rgGRID:
                 g = self.grid(i,j)
                 x, y = self._queryGridBoolNum(g, num)
                 if (x,y) == (-1,-1):
                     continue
-                self._markBoolNumByXY(i*3+x, j*3+y)
+                pos = i*3+x, j*3+y
+                self._markBoolNumByXY(*pos)
+                numPosList.append( {'pos':pos, 'grid':(i,j)} ) #for boxerInfo
+                
+        #check all grid which only one space
         for i in App.rgGRID:
             for j in App.rgGRID:
                 g = self.grid(i,j, self._boolNum)
                 g_num = self.grid(i,j)
                 if self._countGridBoolNum(g,False) == 1 and self._countGridBoolNum(g_num,num) == 0:
                     x,y = self._queryGridBoolNum(g,False)
-                    return i*3+x, j*3+y
-        return -1, -1
+                    
+                    #set boxer info
+                    bi = BoxerInfo()
+                    bi.add('cell grid', i, j)
+                    for np in numPosList:
+                        if np['grid'][0] == i and not self.checkGridLineFull(i,j,'v',np['pos'][0]%3,g_num):
+                            bi.add('line', 'v', np['pos'][0])
+                            bi.add('cell', np['pos'][0], np['pos'][1])
+                        elif np['grid'][1] == j and not self.checkGridLineFull(i,j,'h',np['pos'][1]%3,g_num):
+                            bi.add('line', 'h', np['pos'][1])
+                            bi.add('cell', np['pos'][0], np['pos'][1])
+                    return (i*3+x, j*3+y), bi
+                    
+        return (-1, -1), None
+        
+    def checkGridLineFull(self, i, j, direction, idx, gridNum=None):
+        '''
+        check the line is full or not in a grid
+        Ex:
+        grid (0,0) -> 010
+                      203 -> check direction='h', idx=1 -> '203' -> not full (have 1 space)
+                      864 -> check direction='h', idx=2 -> '864' -> full (no space)
+        '''
+        assert direction in ('v', 'h')
+        if not gridNum:
+            gridNum = self.grid(i,j)
+            
+        full = True
+        for i in App.rgGRID:
+            if direction == 'v':
+                full = full and (gridNum[idx][i]!=0)
+            else:
+                full = full and (gridNum[i][idx]!=0)
+        return full
         
     def checkValidInput(self, num, posX, posY):
         '''
@@ -188,9 +295,9 @@ class SudokuBoxer:
     def boxerNextEasy(self):
         for num in App.rgLINE:
             num += 1
-            pos = self._checkEasy(num)
+            pos, info = self._checkEasy(num)
             if pos != (-1, -1):
-                return pos, num
+                return pos, num, info
         return None
     
     def boxerNextSoSo(self):
@@ -224,7 +331,7 @@ class SudokuBoxer:
                             checkBoolNum[n-1] = True
                     if self._countLineBoolNum(checkBoolNum,False) == 1:
                         print 'CheckVertical line=%s\n (i,j)=%s, checkBoolNum=%s' % ([int(self.num[i][n]) for n in App.rgLINE], (i,j), checkBoolNum)
-                        return (i,j), checkBoolNum.index(False)+1
+                        return (i,j), checkBoolNum.index(False)+1, None
             pass
         #check horizantol
         for j in App.rgLINE:
@@ -247,7 +354,7 @@ class SudokuBoxer:
                             checkBoolNum[n-1] = True
                     if self._countLineBoolNum(checkBoolNum,False) == 1:
                         print 'CheckHorizantol line=%s\n (i,j)=%s, checkBoolNum=%s' % ([self.num[n][j] for n in App.rgLINE], (i,j), checkBoolNum)
-                        return (i,j), checkBoolNum.index(False)+1
+                        return (i,j), checkBoolNum.index(False)+1, None
         
         #check Grid
         for i in App.rgGRID:
@@ -270,7 +377,7 @@ class SudokuBoxer:
                         if self._countLineBoolNum(checkBoolNum, False) == 1:
                             num = checkBoolNum.index(False)+1
                             print 'CheckGrid (i,j)=%s checkBoolNum=%s' % ((gx,gy), checkBoolNum)
-                            return (gx,gy), num
+                            return (gx,gy), num, None
         return None
         
     def boxerNextSoSo2(self):
@@ -320,7 +427,7 @@ class SudokuBoxer:
                 if self._countLineBoolNum(checkLineBoolNum, False) == 1:
                     print 'CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s' % ([int(self.num[i][n]) for n in App.rgLINE], (i,j), checkLineBoolNum)
                     j = checkLineBoolNum.index(False)
-                    return (i,j), num
+                    return (i,j), num, None
             
         #check horizontal
         for j in App.rgLINE:
@@ -358,7 +465,7 @@ class SudokuBoxer:
                 if self._countLineBoolNum(checkLineBoolNum, False) == 1:
                     print 'CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s' % ([int(self.num[n][j]) for n in App.rgLINE], (i,j), checkLineBoolNum)
                     i = checkLineBoolNum.index(False)
-                    return (i,j), num
+                    return (i,j), num, None
         
         #check Grid
         for i in App.rgGRID:
@@ -381,7 +488,7 @@ class SudokuBoxer:
                         pos = self._queryGridBoolNum(checkGridBoolNum, False)
                         gx, gy = pos[0] + i*App.nGRID, pos[1] + j*App.nGRID #global x,y
                         print 'CheckGrid (i,j)=%s, GridBoolNum=%s' % (pos, checkGridBoolNum)
-                        return (gx,gy), num
+                        return (gx,gy), num, None
         return None
         
     def boxerNext(self, mode='easy'):
