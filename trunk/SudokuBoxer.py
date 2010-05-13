@@ -213,6 +213,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.answer = self.num
         self.num = ori_num
         self.focusPos = (-1,-1)
+        self.boxerInfo.clear()
         
     def guessNext(self, autoFill=True, silentFill=False, mode='easy'):
         ret = self.boxerNext(mode)
