@@ -393,10 +393,20 @@ class SudokuBoxer:
                 ret = self.boxerNextSoSo2()
             return ret
     
-    def boxerBrute(self):
+    def boxerBrute(self, autoFill=True, bCheckFromDefault=True):
+        '''
+        bCheckFromDefault : False -> use self.num to check, should confirm self.num is correctly
+        '''
         import util
-        oriNum = deepcopy(self.num)
-        self.num = deepcopy(self.default)
+        if not autoFill:
+            oriNum = deepcopy(self.num)
+            
+        if bCheckFromDefault:
+            self.num = deepcopy(self.default)
+        else:
+            oriDefault = deepcopy(self.default)
+            self.default = deepcopy(self.num) #set num to default
+            
         
         #set validList
         for x in App.rgLINE:
@@ -406,9 +416,15 @@ class SudokuBoxer:
         
         ret = self._brute(0, 0)
         print '[boxerBrute] ret=%s\npuzzle=%s' % (ret, util.Puzzle2Str(self.num))
+        answer = self.num
         
-        self.num = oriNum
-    
+        
+        if not autoFill:
+            self.num = oriNum
+        if not bCheckFromDefault:
+            self.default = oriDefault
+        return answer
+        
     def _brute(self, i, j):
         if j*App.nLINE+i == App.nLINE*App.nLINE: #the last cell
             return True
