@@ -1064,6 +1064,5 @@ class MainFrame(wx.Frame):
         wx.AboutBox(info)
     
     def linkProject(self, evt):
-        import webbrowser
-        webbrowser.open('http://sourceforge.net/projects/sudokuboxer/')
+        wx.LaunchDefaultBrowser('http://sourceforge.net/projects/sudokuboxer/')
         
