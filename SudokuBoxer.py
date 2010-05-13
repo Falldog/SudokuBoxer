@@ -668,6 +668,7 @@ ID_MENU_MODE_EVIL    = wx.NewId()
 ID_MENU_LANG_ENU     = wx.NewId()
 ID_MENU_LANG_CHT     = wx.NewId()
 ID_MENU_HELP_ABOUT   = wx.NewId()
+ID_MENU_HELP_LINKPROJECT       = wx.NewId()
 ID_MENU_OPT_RECORD_LAST_PUZZLE = wx.NewId()
 ID_MENU_OPT_SHOW_AUTOTIP       = wx.NewId()
 
@@ -756,6 +757,7 @@ class MainFrame(wx.Frame):
         #About
         _help = wx.Menu()
         _help.Append(ID_MENU_HELP_ABOUT, _('About'))
+        _help.Append(ID_MENU_HELP_LINKPROJECT, _('Check New Version'))
         
         self.menubar.Append(self.menuMode,  _('Mode'))
         self.menubar.Append(self.menuLang,  _('Language'))
@@ -776,6 +778,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, _clickMode, id=ID_MENU_MODE_EVIL)
         
         self.Bind(wx.EVT_MENU, self.about, id=ID_MENU_HELP_ABOUT)
+        self.Bind(wx.EVT_MENU, self.linkProject, id=ID_MENU_HELP_LINKPROJECT)
         self.Bind(wx.EVT_MENU, self.onRecordLastPuzzle, id=ID_MENU_OPT_RECORD_LAST_PUZZLE)
         self.Bind(wx.EVT_MENU, self.onShowAutoTip, id=ID_MENU_OPT_SHOW_AUTOTIP)
         
@@ -1055,4 +1058,8 @@ class MainFrame(wx.Frame):
 
         # Then we call wx.AboutBox giving it that info object
         wx.AboutBox(info)
-
+    
+    def linkProject(self, evt):
+        import webbrowser
+        webbrowser.open('http://sourceforge.net/projects/sudokuboxer/')
+        
