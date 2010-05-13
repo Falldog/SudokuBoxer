@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-13 08:11+0800\n"
+"POT-Creation-Date: 2010-05-13 14:23+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,31 +16,35 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ..\SudokuBoxer.py:758
+#: ..\SudokuBoxer.py:759
 msgid "About"
 msgstr "關於"
 
-#: ..\SudokuBoxer.py:949
+#: ..\SudokuBoxer.py:952
 msgid "Answer"
 msgstr "答案"
 
-#: ..\SudokuBoxer.py:834
+#: ..\SudokuBoxer.py:837
 msgid "Best Time:"
 msgstr "最佳時間 :"
 
-#: ..\SudokuBoxer.py:751
+#: ..\SudokuBoxer.py:752
 msgid "CHT"
 msgstr "中文"
 
-#: ..\SudokuBoxer.py:803
+#: ..\SudokuBoxer.py:760
+msgid "Check New Version"
+msgstr "檢查新版本"
+
+#: ..\SudokuBoxer.py:806
 msgid "Check Valid"
 msgstr "檢查正確"
 
-#: ..\SudokuBoxer.py:973
+#: ..\SudokuBoxer.py:976
 msgid "Check Valid : Correctly!"
 msgstr "檢查是否正確 : 正確無誤!"
 
-#: ..\SudokuBoxer.py:975
+#: ..\SudokuBoxer.py:978
 msgid "Check Valid : Wrong!"
 msgstr "檢查是否正確 : 錯了啦~大哥~"
 
@@ -48,15 +52,15 @@ msgstr "檢查是否正確 : 錯了啦~大哥~"
 msgid "Choice Language"
 msgstr "選擇語言"
 
-#: ..\SudokuBoxer.py:806
+#: ..\SudokuBoxer.py:809
 msgid "Choice User"
 msgstr "選擇使用者"
 
-#: ..\SudokuBoxer.py:798
+#: ..\SudokuBoxer.py:801
 msgid "Clear All"
 msgstr "全部清除"
 
-#: ..\SudokuBoxer.py:986
+#: ..\SudokuBoxer.py:989
 msgid "Congratulations! You had finish this Sudoku!"
 msgstr "恭喜恭喜! 你已經完成了這個Sudoku"
 
@@ -68,56 +72,56 @@ msgstr "建立使用者"
 msgid "Create a new user"
 msgstr "建立一名新的使用者"
 
-#: ..\SudokuBoxer.py:750
+#: ..\SudokuBoxer.py:751
 msgid "ENU"
 msgstr "英文"
 
-#: ..\SudokuBoxer.py:744
+#: ..\SudokuBoxer.py:745
 msgid "Easy"
 msgstr "簡單"
 
-#: ..\SudokuBoxer.py:747
+#: ..\SudokuBoxer.py:748
 msgid "Evil"
 msgstr "真他馬的難"
 
-#: ..\SudokuBoxer.py:801
+#: ..\SudokuBoxer.py:804
 msgid "Guess Next"
 msgstr "猜下一步"
 
-#: ..\SudokuBoxer.py:746
+#: ..\SudokuBoxer.py:747
 msgid "Hard"
 msgstr "困難"
 
-#: ..\SudokuBoxer.py:763
+#: ..\SudokuBoxer.py:765
 msgid "Help"
 msgstr "幫助"
 
-#: ..\SudokuBoxer.py:992
+#: ..\SudokuBoxer.py:995
 msgid "Hey man! Your answer is wrong... try again!"
 msgstr "嘿~大哥~ 你的答案錯了啦~ 再試一下~"
 
-#: ..\SudokuBoxer.py:867 ..\SudokuBoxer.py:930 ..\SudokuBoxer.py:976
-#: ..\SudokuBoxer.py:997
+#: ..\SudokuBoxer.py:870 ..\SudokuBoxer.py:933 ..\SudokuBoxer.py:979
+#: ..\SudokuBoxer.py:1000
 msgid "Information"
 msgstr "訊息"
 
-#: ..\SudokuBoxer.py:761
+#: ..\SudokuBoxer.py:763
 msgid "Language"
 msgstr "語言"
 
-#: ..\SudokuBoxer.py:745
+#: ..\SudokuBoxer.py:746
 msgid "Medium"
 msgstr "中等"
 
-#: ..\SudokuBoxer.py:760
+#: ..\SudokuBoxer.py:762
 msgid "Mode"
 msgstr "等級"
 
-#: ..\SudokuBoxer.py:792
+#: ..\SudokuBoxer.py:795
 msgid "New Null Puzzle"
 msgstr "開啟空的Sudoku"
 
-#: ..\SudokuBoxer.py:791
+#: ..\SudokuBoxer.py:794
 msgid "New Puzzle"
 msgstr "開啟新的Sudoku"
 
@@ -125,16 +129,16 @@ msgstr "開啟新的Sudoku"
 msgid "OK"
 msgstr "確定"
 
-#: ..\SudokuBoxer.py:762
+#: ..\SudokuBoxer.py:764
 msgid "Options"
 msgstr "選項"
 
-#: ..\SudokuBoxer.py:918
+#: ..\SudokuBoxer.py:921
 #, python-format
 msgid "Please input a ID number : (1~%d)"
 msgstr "請輸入ID號碼：(1~%d)"
 
-#: ..\SudokuBoxer.py:930
+#: ..\SudokuBoxer.py:933
 msgid "Please input a correctly number!"
 msgstr "請輸入正確的數字"
 
@@ -142,11 +146,11 @@ msgstr "請輸入正確的數字"
 msgid "Please input a user name"
 msgstr "請輸入一個使用者名稱"
 
-#: ..\SudokuBoxer.py:867
+#: ..\SudokuBoxer.py:870
 msgid "Please relaunch SudokuBoxer to load correctly Language"
 msgstr "請重新開啟SudokuBoxer 新的語言才會生效!"
 
-#: ..\SudokuBoxer.py:837
+#: ..\SudokuBoxer.py:840
 msgid "Puzzle ID :"
 msgstr "Sudoku ID :"
 
@@ -154,39 +158,39 @@ msgstr "Sudoku ID :"
 msgid "PuzzleID"
 msgstr "Puzzle ID"
 
-#: ..\SudokuBoxer.py:754
+#: ..\SudokuBoxer.py:755
 msgid "Record Last Puzzle"
 msgstr "結束時記錄最後Puzzle"
 
-#: ..\SudokuBoxer.py:1036
+#: ..\SudokuBoxer.py:1039
 msgid "Record List"
 msgstr "記錄清單"
 
-#: ..\SudokuBoxer.py:807
+#: ..\SudokuBoxer.py:810
 msgid "Record Time"
 msgstr "花費時間 :"
 
-#: ..\SudokuBoxer.py:797
+#: ..\SudokuBoxer.py:800
 msgid "Redo"
 msgstr "下一步"
 
-#: ..\SudokuBoxer.py:793
+#: ..\SudokuBoxer.py:796
 msgid "Select Puzzle By ID"
 msgstr "輸入ID選擇Sudoku"
 
-#: ..\SudokuBoxer.py:1010
+#: ..\SudokuBoxer.py:1013
 msgid "Select User"
 msgstr "選擇使用者"
 
-#: ..\SudokuBoxer.py:802
+#: ..\SudokuBoxer.py:805
 msgid "Show Answer"
 msgstr "秀出答案"
 
-#: ..\SudokuBoxer.py:755
+#: ..\SudokuBoxer.py:756
 msgid "Show AutoTip"
 msgstr "每一格秀出提示"
 
-#: ..\SudokuBoxer.py:840
+#: ..\SudokuBoxer.py:843
 msgid "Spend Time :"
 msgstr "花費時間 :"
 
@@ -194,11 +198,11 @@ msgstr "花費時間 :"
 msgid "Time"
 msgstr "時間"
 
-#: ..\SudokuBoxer.py:796
+#: ..\SudokuBoxer.py:799
 msgid "Undo"
 msgstr "上一步"
 
-#: ..\SudokuBoxer.py:831
+#: ..\SudokuBoxer.py:834
 msgid "User Name :"
 msgstr "使用者："
 
