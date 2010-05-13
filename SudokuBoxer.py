@@ -7,7 +7,7 @@ import anim
 import util
 import App
 from PuzzleLoader import PuzzleLoaderDB
-from boxer import SudokuBoxer, Step
+from boxer import SudokuBoxer, Step, BoxerInfo
 from user import GetUserInfo
 _ = wx.GetTranslation
 
@@ -82,6 +82,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         
         self.steps = [] #record change history
         self.cur_step = -1
+        self.boxerInfo = BoxerInfo()
         
         self.highlightNum = 0
         self.focusPos     = (-1,-1)
@@ -170,6 +171,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.highlightNum = 0
         self.focusPos     = (-1,-1)
         self.mouseOverPos = (-1,-1)
+        self.boxerInfo.clear()
         
     def clearToNull(self):
         num = []
@@ -216,13 +218,18 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         ret = self.boxerNext(mode)
         if ret:
             self.dirtyCell(*self.focusPos) #dirty original focus cell
-            pos, v = ret
+            pos, v, info = ret
             self.focusPos = pos
             if autoFill:
                 if silentFill:
                     self._setVal(pos[0],pos[1],v)
                 else:
                     self.setVal(pos[0],pos[1],v)
+            
+            if info:
+                self.boxerInfo = info
+            self.Refresh()
+                
         return ret
     
     def getNum(self, i, j):
@@ -257,6 +264,9 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.steps.append( Step(i,j,ori_v,v) )
         self.cur_step = len(self.steps)-1
         self._setVal(i,j,v)
+        
+        if self.boxerInfo.clear():
+            self.Refresh()
         
         #check finish
         if self.checkFinish():
@@ -541,6 +551,9 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         
         #draw border
         dc.DrawBitmap(self.bmpBorder, 0, 0, True)
+        
+        #draw boxer info
+        self.boxerInfo.draw(dc, self.NUM_SIZE)
         
     def onDrawText(self, dc):
         '''
