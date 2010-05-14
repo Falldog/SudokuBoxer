@@ -62,22 +62,28 @@ class InfoCellGrid:
 
 class InfoLine:
     ''' Info about draw a line'''
-    def __init__(self, direction, idx):
+    def __init__(self, direction, idx, start=-1, end=-1):
         '''
         direction : 'v', 'h'
         '''
         assert direction in ('v','h')
         self.direction = direction
         self.idx = idx
+        self.start = 0
+        self.end = 9
+        if start >= 0:
+            self.start = start
+        if end >= 0:
+            self.end = end
         pass
     def draw(self, dc, cellSize):
         half = cellSize/2
         quart = cellSize/4
         dc.SetPen(wx.Pen('#DD2222', 3, wx.DOT))
         if self.direction == 'v':
-            dc.DrawLine(self.idx*cellSize+half, quart, self.idx*cellSize+half, cellSize*9-quart)
+            dc.DrawLine(self.idx*cellSize+half, self.start*cellSize+quart, self.idx*cellSize+half, self.end*cellSize-quart)
         else:
-            dc.DrawLine(quart, self.idx*cellSize+half, cellSize*9-quart, self.idx*cellSize+half)
+            dc.DrawLine(self.start*cellSize+quart, self.idx*cellSize+half, self.end*cellSize-quart, self.idx*cellSize+half)
         pass
         
         
@@ -203,17 +209,25 @@ class SudokuBoxer:
                 g = self.grid(i,j, self._boolNum)
                 g_num = self.grid(i,j)
                 if self._countGridBoolNum(g,False) == 1 and self._countGridBoolNum(g_num,num) == 0:
-                    x,y = self._queryGridBoolNum(g,False)
+                    x, y = self._queryGridBoolNum(g,False)
                     
                     #set boxer info
                     bi = BoxerInfo()
                     bi.add('cell grid', i, j)
                     for np in numPosList:
                         if np['grid'][0] == i and not self.checkGridLineFull(i,j,'v',np['pos'][0]%3,g_num):
-                            bi.add('line', 'v', np['pos'][0])
+                            if np['pos'][1]/3 < j:
+                                start, end = np['pos'][1]+1, (j+1)*3
+                            else:
+                                start, end = j*3, np['pos'][1]
+                            bi.add('line', 'v', np['pos'][0], start, end)
                             bi.add('cell', np['pos'][0], np['pos'][1])
                         elif np['grid'][1] == j and not self.checkGridLineFull(i,j,'h',np['pos'][1]%3,g_num):
-                            bi.add('line', 'h', np['pos'][1])
+                            if np['pos'][0]/3 < i:
+                                start, end = np['pos'][0]+1, (i+1)*3
+                            else:
+                                start, end = i*3, np['pos'][0]
+                            bi.add('line', 'h', np['pos'][1], start, end)
                             bi.add('cell', np['pos'][0], np['pos'][1])
                     return (i*3+x, j*3+y), bi
                     
