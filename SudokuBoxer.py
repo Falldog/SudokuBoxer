@@ -72,7 +72,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.CL_TEXT_AUTOTIP='#AAAAAA'
         self.CL_TEXT_HIGHLIGHT='#AA2222'
         
-        self.NUM_SIZE = 50
+        self.CELL_SIZE = App.nCellSize
         
         self.num = [ [] for n in App.rgLINE ]
         for i in App.rgLINE:
@@ -90,8 +90,8 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         
         self.testAnim = anim.AnimBase(self)
         
-        self.font    = wx.Font( 20, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
-        self.fontTip = wx.Font( 10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
+        self.font    = wx.Font( self.CELL_SIZE*0.4, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
+        self.fontTip = wx.Font( self.CELL_SIZE*0.2, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
         self.brush_bg        = wx.Brush(self.BG_CL)
         self.brush_bg_defalt = wx.Brush(self.BG_CL_DEFAULT)
         self.brush_bg_over   = wx.Brush(self.BG_CL_OVER)
@@ -376,7 +376,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         return True
         
     def pt2pos(self, x, y):
-        _x, _y = int(x / self.NUM_SIZE), int(y / self.NUM_SIZE)
+        _x, _y = int(x / self.CELL_SIZE), int(y / self.CELL_SIZE)
         if 0 <= _x < App.nLINE or 0 <= _y < App.nLINE:
             return _x, _y
         else:
@@ -498,10 +498,10 @@ class NumberBoard(wx.Panel, SudokuBoxer):
     def dirtyCell(self, i, j):
         if i == -1 or j == -1:
             return
-        self.RefreshRect((i*self.NUM_SIZE, j*self.NUM_SIZE, self.NUM_SIZE, self.NUM_SIZE))
+        self.RefreshRect((i*self.CELL_SIZE, j*self.CELL_SIZE, self.CELL_SIZE, self.CELL_SIZE))
     
     def initBmpBorder(self):
-        bmp = wx.EmptyBitmap(App.nLINE*self.NUM_SIZE, App.nLINE*self.NUM_SIZE)
+        bmp = wx.EmptyBitmap(App.nLINE*self.CELL_SIZE, App.nLINE*self.CELL_SIZE)
         mdc = wx.MemoryDC()
         mdc.SelectObject(bmp)
         mdc.SetBackground(wx.BLACK_BRUSH) #set black for mask
@@ -514,7 +514,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.bmpBorder = bmp
     
     def initBmpNum(self):
-        size = self.NUM_SIZE
+        size = self.CELL_SIZE
         content_list = [ {'bmp':self.bmpNum,        'font':self.font,    'textColor':self.CL_TEXT_VALID,   'size': size },
                          {'bmp':self.bmpNumInvalid, 'font':self.font,    'textColor':self.CL_TEXT_INVALID, 'size': size },
                          {'bmp':self.bmpNumAutoTip, 'font':self.fontTip, 'textColor':self.CL_TEXT_AUTOTIP, 'size': size/3 } ]
@@ -554,7 +554,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         dc.DrawBitmap(self.bmpBorder, 0, 0, True)
         
         #draw boxer info
-        self.boxerInfo.draw(dc, self.NUM_SIZE)
+        self.boxerInfo.draw(dc, self.CELL_SIZE)
         
     def onDrawText(self, dc):
         '''
@@ -567,7 +567,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         dc.SetPen(self.penTrans) #Don't draw the border on BG rect
         for i in App.rgLINE:
             for j in App.rgLINE:
-                _r = (i*self.NUM_SIZE, j*self.NUM_SIZE, self.NUM_SIZE, self.NUM_SIZE)
+                _r = (i*self.CELL_SIZE, j*self.CELL_SIZE, self.CELL_SIZE, self.CELL_SIZE)
                 
                 #skip the cell doesn't in dirty region
                 if not( dirtyR[0] <= _r[0] and dirtyR[1] <= _r[1] and dirtyR[2] >= _r[2] and dirtyR[3] >= _r[3] ):
@@ -602,8 +602,8 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         pass
     
     def onDrawAutoTip(self, dc, i, j):
-        l, t = i*self.NUM_SIZE, j*self.NUM_SIZE
-        size = self.NUM_SIZE/3
+        l, t = i*self.CELL_SIZE, j*self.CELL_SIZE
+        size = self.CELL_SIZE/3
         dc.SetFont( self.fontTip )
         dc.SetTextForeground( self.CL_TEXT_AUTOTIP )
         for n in self.num[i][j].autoTipList:
@@ -613,7 +613,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
     def onDrawBorder(self, dc):
         dc.SetBrush(wx.NullBrush)
         
-        s  = self.NUM_SIZE
+        s  = self.CELL_SIZE
         sl = s * App.nLINE
         
         #Draw Dot Line
@@ -663,11 +663,11 @@ class AnswerBoard(wx.Dialog):
         if 'wxMac' in wx.PlatformInfo and useMetal:
             self.SetExtraStyle(wx.DIALOG_EX_METAL)
         
-        
-        self.board = NumberBoard(self, -1, pos=(0,0), size=(30*App.nLINE,30*App.nLINE))
-        self.board.NUM_SIZE= 30
-        self.board.font    = wx.Font( 12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
-        self.board.fontTip = wx.Font( 6, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
+        cellSize = App.nAnswerCellSize
+        self.board = NumberBoard(self, -1, pos=(0,0), size=(cellSize*App.nLINE,cellSize*App.nLINE))
+        self.board.CELL_SIZE = cellSize
+        self.board.font    = wx.Font( cellSize*0.4, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
+        self.board.fontTip = wx.Font( cellSize*0.2, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
         self.board.unbindEvent()
         #self.board.SetEvtHandlerEnabled(False)
     
@@ -718,14 +718,17 @@ ID_TOOLBAR_RECORDTIME= wx.NewId()
 class MainFrame(wx.Frame):
     """ MainFrame """
     def __init__(self, parent, title):
+        boardLen = App.nCellSize*App.nLINE
+        size = 500, boardLen+150
         wx.Frame.__init__(self, parent, 
                           title=title, 
-                          size=(500,600), 
+                          size=size, 
                           style=wx.DEFAULT_FRAME_STYLE & ~(wx.RESIZE_BORDER | wx.RESIZE_BOX | wx.MAXIMIZE_BOX) )
         #set icon
         self.SetIcon( wx.Icon(u'./img/sudoku.ico', wx.BITMAP_TYPE_ICO) )
         
-        self.board = NumberBoard(self, -1, pos=(10,80), size=(450,450))
+        l, t = (size[0]-boardLen)/2.0, (size[1]-boardLen)/2.0
+        self.board = NumberBoard(self, -1, pos=(l,t), size=(boardLen, boardLen))
         
         self.btn = wx.Button(self, -1, size=(10,10))
         self.btn.Show(False)
@@ -967,7 +970,7 @@ class MainFrame(wx.Frame):
         if not self.board.answer:
             self.board.queryAnswer()
         
-        dlg = AnswerBoard(self, -1, _("Answer"), size=(30*App.nLINE, 30*App.nLINE+30), style=wx.DEFAULT_DIALOG_STYLE, useMetal=False )
+        dlg = AnswerBoard(self, -1, _("Answer"), size=(App.nAnswerCellSize*App.nLINE, App.nAnswerCellSize*App.nLINE+30), style=wx.DEFAULT_DIALOG_STYLE, useMetal=False )
         
         #put answerBoard to right side of MainFrom
         pos  = self.GetPosition()
