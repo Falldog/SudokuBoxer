@@ -15,6 +15,8 @@ VERSION = v
 VERSION_DATE = vd
 #-----------------------------------------------------------------------#
 
+nCellSize = eval(util.config.get('APP', 'CellSize', 50))
+nAnswerCellSize = nCellSize*0.6
 nLINE = 9
 nGRID = 3
 rgLINE = range(nLINE)
@@ -31,4 +33,4 @@ def SetConfig():
     util.config.set('APP', 'RecordLastPuzzle', bRecordLastPuzzle)
     util.config.set('APP', 'LastPuzzle',       str(lastPuzzle))
     util.config.set('APP', 'ShowAutoTip',      bShowAutoTip)
-    
+    util.config.set('APP', 'CellSize',         str(nCellSize))
