@@ -1,4 +1,4 @@
-﻿import wx
+import wx
 import App
 from copy import deepcopy
 
@@ -24,6 +24,10 @@ class BoxerInfo:
         info = None
         if _type == 'cell grid':
             info = InfoCellGrid(*argv)
+        elif _type == 'cell line':
+            info = InfoCellLine(*argv)
+        elif _type == 'cell tips':
+            info = InfoCellTips(*argv)
         elif _type == 'line':
             info = InfoLine(*argv)
         elif _type == 'cell':
@@ -50,6 +54,20 @@ class InfoCell:
         dc.SetBrush(wx.TRANSPARENT_BRUSH)
         dc.DrawRectangle(self.cellPos[0]*cellSize, self.cellPos[1]*cellSize, cellSize, cellSize)
         
+class InfoCellTips:
+    ''' Info about draw tips(1~9) for a single cell (1x1)'''
+    def __init__(self, i, j, nums=[]):
+        self.cellPos = i, j
+        self.nums = nums
+    def draw(self, dc, cellSize):
+        size = cellSize/3.0
+        dc.SetFont(wx.Font( cellSize*0.2, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' ))
+        dc.SetTextForeground( '#1111AA' )
+        l, t = self.cellPos[0]*cellSize, self.cellPos[1]*cellSize
+        for n in self.nums:
+            r = (l + int((n-1)%3)*size, t + int((n-1)/3)*size,size,size)
+            dc.DrawLabel(str(n), r, wx.ALIGN_CENTER)
+        
 class InfoCellGrid:
     ''' Info about draw a cell grid (3x3)'''
     def __init__(self, i, j):
@@ -59,6 +77,21 @@ class InfoCellGrid:
         dc.SetPen(wx.Pen('#FF0000', 3, wx.SOLID))
         dc.SetBrush(wx.TRANSPARENT_BRUSH)
         dc.DrawRectangle(self.gridPos[0]*size, self.gridPos[1]*size, size, size)
+
+class InfoCellLine:
+    ''' Info about draw a cell line(1x9 or 9x1)'''
+    def __init__(self, direction, idx):
+        ''' direction : 'v', 'h' '''
+        assert direction in ('v','h')
+        self.direction = direction
+        self.idx = idx
+    def draw(self, dc, cellSize):
+        dc.SetPen(wx.Pen('#FF0000', 3, wx.SOLID))
+        dc.SetBrush(wx.TRANSPARENT_BRUSH)
+        if self.direction == 'h':
+            dc.DrawRectangle(0, self.idx*cellSize,  App.nLINE*cellSize, cellSize)
+        else:
+            dc.DrawRectangle(self.idx*cellSize, 0,  cellSize, App.nLINE*cellSize)
 
 class InfoLine:
     ''' Info about draw a line'''
@@ -337,15 +370,29 @@ class SudokuBoxer:
             for j in App.rgLINE:
                 n = self.num[i][j]
                 if n == 0:
+                    numPosList = []
                     checkBoolNum = deepcopy(boolNum)
                     for line_i in App.rgLINE:
                         if line_i == i: continue
                         n = self.num[line_i][j]
                         if n > 0 and checkBoolNum[n-1]==False:
                             checkBoolNum[n-1] = True
+                            numPosList.append( {'pos':(line_i,j), 'num':n} )
                     if self._countLineBoolNum(checkBoolNum,False) == 1:
                         print 'CheckVertical line=%s\n (i,j)=%s, checkBoolNum=%s' % ([int(self.num[i][n]) for n in App.rgLINE], (i,j), checkBoolNum)
-                        return (i,j), checkBoolNum.index(False)+1, None
+                        num = checkBoolNum.index(False)+1
+                        
+                        #set boxer info
+                        bi = BoxerInfo()
+                        bi.add('cell line', 'v', i)
+                        conflitNumList = [num]
+                        for _n in numPosList:
+                            bi.add('cell', _n['pos'][0], _n['pos'][1])
+                            conflitNumList.append(_n['num'])
+                        for idx in App.rgLINE:
+                            if self.num[i][idx] == 0 and idx != j:
+                                bi.add('cell tips', i, idx, conflitNumList)
+                        return (i,j), num, bi
             pass
         #check horizantol
         for j in App.rgLINE:
@@ -360,15 +407,29 @@ class SudokuBoxer:
             for i in App.rgLINE:
                 n = self.num[i][j]
                 if n == 0:
+                    numPosList = []
                     checkBoolNum = deepcopy(boolNum)
                     for line_j in App.rgLINE:
                         if line_j == j: continue
                         n = self.num[i][line_j]
                         if n > 0 and checkBoolNum[n-1]==False:
                             checkBoolNum[n-1] = True
+                            numPosList.append( {'pos':(line_i,j), 'num':n} )
                     if self._countLineBoolNum(checkBoolNum,False) == 1:
                         print 'CheckHorizantol line=%s\n (i,j)=%s, checkBoolNum=%s' % ([self.num[n][j] for n in App.rgLINE], (i,j), checkBoolNum)
-                        return (i,j), checkBoolNum.index(False)+1, None
+                        num = checkBoolNum.index(False)+1
+                        
+                        #set boxer info
+                        bi = BoxerInfo()
+                        bi.add('cell line', 'h', j)
+                        conflitNumList = [num]
+                        for _n in numPosList:
+                            bi.add('cell', _n['pos'][0], _n['pos'][1])
+                            conflitNumList.append(_n['num'])
+                        for idx in App.rgLINE:
+                            if self.num[idx][j] == 0 and idx != i:
+                                bi.add('cell tips', idx, j, conflitNumList)
+                        return (i,j), num, bi
         
         #check Grid
         for i in App.rgGRID:
@@ -380,18 +441,37 @@ class SudokuBoxer:
                     for y in App.rgGRID:
                         if g[x][y]!=0: continue
                         gx, gy = x + i*App.nGRID, y + j*App.nGRID #global x,y
+                        conflitNumList = []
                         checkBoolNum = deepcopy(boolNum)
                         for num_idx in App.rgLINE:
                             if checkBoolNum[num_idx]: continue
                             num = num_idx+1
-                            
-                            
                             if self._countBoolNumByXY(gx,gy, num) > 0:
                                 checkBoolNum[num_idx] = True
+                                conflitNumList.append(num)
+                                
                         if self._countLineBoolNum(checkBoolNum, False) == 1:
                             num = checkBoolNum.index(False)+1
                             print 'CheckGrid (i,j)=%s checkBoolNum=%s' % ((gx,gy), checkBoolNum)
-                            return (gx,gy), num, None
+                            
+                            #set boxer info
+                            bi = BoxerInfo()
+                            bi.add('cell grid', i, j)
+                            conflitNumList.append(num)
+                            #mark the conflit cells out of grid
+                            for _x in App.rgLINE:#vertical
+                                if self.num[_x][gy] in conflitNumList:
+                                    bi.add('cell', _x, gy)
+                            for _y in App.rgLINE:#horizantol
+                                if self.num[gx][_y] in conflitNumList:
+                                    bi.add('cell', gx, _y)
+                            #mark cell tips in grid
+                            for _i in App.rgGRID:
+                                for _j in App.rgGRID:
+                                    _x, _y = _i + i*App.nGRID, _j + j*App.nGRID
+                                    if self.num[_x][_y] == 0 and (_x,_y)!=(gx,gy):
+                                        bi.add('cell tips', _x, _y, conflitNumList)
+                            return (gx,gy), num, bi
         return None
         
     def boxerNextSoSo2(self):
