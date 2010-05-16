@@ -1,4 +1,4 @@
-﻿import wx
+import wx
 import wx.lib.newevent
 from copy import deepcopy
 import os
@@ -171,7 +171,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.highlightNum = 0
         self.focusPos     = (-1,-1)
         self.mouseOverPos = (-1,-1)
-        self.boxerInfo.clear()
+        self.clearBoxerInfo()
         
     def clearToNull(self):
         num = []
@@ -188,6 +188,10 @@ class NumberBoard(wx.Panel, SudokuBoxer):
     def clearStepInfo(self):
         self.steps = []
         self.cur_step = -1
+    
+    def clearBoxerInfo(self):
+        if self.boxerInfo.clear():
+            self.Refresh()
     
     def queryAnswer(self):
         ori_num = deepcopy(self.num)
@@ -213,7 +217,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.answer = self.num
         self.num = ori_num
         self.focusPos = (-1,-1)
-        self.boxerInfo.clear()
+        self.clearBoxerInfo()
         
     def guessNext(self, autoFill=True, silentFill=False, mode='easy'):
         ret = self.boxerNext(mode)
@@ -266,8 +270,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.cur_step = len(self.steps)-1
         self._setVal(i,j,v)
         
-        if self.boxerInfo.clear():
-            self.Refresh()
+        self.clearBoxerInfo()
         
         #check finish
         if self.checkFinish():
@@ -332,7 +335,8 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         s = self.steps[self.cur_step]
         self._setVal(*s.infoUndo())
         self.cur_step-=1
-    
+        self.clearBoxerInfo()
+        
     def checkValid(self):
         '''
         Check the board is valid or not.
@@ -406,7 +410,6 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         if key < 256 and \
            key not in [wx.WXK_BACK, wx.WXK_RETURN, wx.WXK_ESCAPE, wx.WXK_SPACE, wx.WXK_DELETE]:
             key = chr(key)
-        #print 'KeyDown', evt.GetKeyCode(), key
         
         try:
             num_list = [wx.WXK_NUMPAD1, wx.WXK_NUMPAD2, wx.WXK_NUMPAD3, wx.WXK_NUMPAD4, 
@@ -414,7 +417,8 @@ class NumberBoard(wx.Panel, SudokuBoxer):
             num_idx = num_list.index(key) + 1
         except ValueError:
             pass
-            
+        print 'KeyDown key=%s, num_idx=%d' % (str(key), num_idx)
+        
         if num_idx > -1:
             self.setVal(self.focusPos[0], self.focusPos[1], num_idx)
             
@@ -423,7 +427,10 @@ class NumberBoard(wx.Panel, SudokuBoxer):
             
         elif key in [wx.WXK_DELETE, wx.WXK_BACK, wx.WXK_SPACE]:
             self.setVal(self.focusPos[0], self.focusPos[1], 0)
-                
+            if self.highlightNum != 0:
+                self.highlightNum = 0
+                self.Refresh()
+            
         else:
             dirty = False
         
