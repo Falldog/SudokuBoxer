@@ -506,6 +506,9 @@ class NumberBoard(wx.Panel, SudokuBoxer):
            
         x,y = evt.GetPosition()
         cellPos = self.pt2pos(x,y)
+        if self.getNum(*cellPos) > 0:
+            return
+            
         s = (App.nCellSize*0.55)*3
         pos = [cellPos[0]*App.nCellSize + (App.nCellSize-s)/2,
                cellPos[1]*App.nCellSize + (App.nCellSize-s)/2]
