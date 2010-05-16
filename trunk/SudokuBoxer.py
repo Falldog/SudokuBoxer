@@ -31,7 +31,8 @@ class Number:
         self.val = val
         self.isDefault = False
         self.valid = True
-        self.autoTipList = []
+        self.autoTipList = [] #auto fill by AP
+        self.tipList = [] #fill in by User
         
     def __str__(self):
         return str(self.val)
@@ -490,6 +491,8 @@ class NumberBoard(wx.Panel, SudokuBoxer):
             self.Refresh()
             
         if self.choiceNumberPanel:
+            _pos = self.choiceNumberPanel.getCellPos()
+            self.getNum(*_pos).tipList = self.choiceNumberPanel.getChoiceNums()
             self.choiceNumberPanel.Destroy()
             self.Refresh()
         #self.testAnim.setType(anim.AnimBase.DECAY)
@@ -497,6 +500,10 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         #self.testAnim.reset(1, 100)
     
     def onMouseRDown(self, evt):
+        self.clearBoxerInfo()
+        if App.bShowAutoTip:
+           return
+           
         x,y = evt.GetPosition()
         cellPos = self.pt2pos(x,y)
         s = (App.nCellSize*0.55)*3
@@ -515,9 +522,13 @@ class NumberBoard(wx.Panel, SudokuBoxer):
             
         import ui
         if self.choiceNumberPanel:
+            _pos = self.choiceNumberPanel.getCellPos()
+            self.getNum(*_pos).tipList = self.choiceNumberPanel.getChoiceNums()
             self.choiceNumberPanel.Destroy()
         self.choiceNumberPanel = ui.ChoiceNumberPanel(self, -1, pos=pos, size=(s,s))
+        self.choiceNumberPanel.setChoiceNums( self.num[cellPos[0]][cellPos[1]].tipList )
         self.choiceNumberPanel.setCellSize(s/3)
+        self.choiceNumberPanel.setCellPos(*cellPos)
         pass
         
     def onMouseMove(self, evt):
@@ -623,7 +634,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
                 dc.SetBrush(wx.NullBrush)
                 
                 if self.num[i][j] == 0:
-                    if App.bShowAutoTip: self.onDrawAutoTip(dc,i,j)
+                    self.onDrawTipList(dc, i, j, App.bShowAutoTip)
                     continue
                 
                 dc.SetFont( self.font )
@@ -638,12 +649,18 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         dc.SetPen(wx.NullPen)
         pass
     
-    def onDrawAutoTip(self, dc, i, j):
+    def onDrawTipList(self, dc, i, j, autoTip=True):
+        if autoTip:
+            tips = self.num[i][j].autoTipList
+        else:
+            tips = self.num[i][j].tipList
+        if not tips:
+            return
         l, t = i*self.CELL_SIZE, j*self.CELL_SIZE
         size = self.CELL_SIZE/3
         dc.SetFont( self.fontTip )
         dc.SetTextForeground( self.CL_TEXT_AUTOTIP )
-        for n in self.num[i][j].autoTipList:
+        for n in tips:
             r = (l + int((n-1)%3)*size, t + int((n-1)/3)*size,size,size)
             dc.DrawLabel(str(n), r, wx.ALIGN_CENTER)
         
