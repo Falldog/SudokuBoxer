@@ -16,6 +16,7 @@ class ChoiceNumberPanel(wx.Panel):
         self.brush_bg_over   = wx.Brush(self.BG_CL_OVER)
         self.brush_bg_focus  = wx.Brush(self.BG_CL_FOCUS)
         
+        self.cellPos = (-1,-1)
         self.focusNums = []
         self.bindEvent()
         
@@ -25,6 +26,10 @@ class ChoiceNumberPanel(wx.Panel):
         self.Bind(wx.EVT_LEFT_DOWN,    self.onMouseDown)
         self.Bind(wx.EVT_LEAVE_WINDOW, self.onMouseLeave)
     
+    def setChoiceNums(self, nums):
+        from copy import deepcopy
+        self.focusNums = deepcopy(nums)
+    
     def getChoiceNums(self):
         return sorted(self.focusNums)
         
@@ -32,6 +37,12 @@ class ChoiceNumberPanel(wx.Panel):
         self.CELL_SIZE = size
         self.font = wx.Font( self.CELL_SIZE*0.5, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
     
+    def setCellPos(self, i, j):
+        self.cellPos = i,j
+        
+    def getCellPos(self):
+        return self.cellPos
+        
     def pt2pos(self, x, y):
         _x, _y = int(x / self.CELL_SIZE), int(y / self.CELL_SIZE)
         if 0 <= _x < 3 or 0 <= _y < 3:
@@ -72,9 +83,13 @@ class ChoiceNumberPanel(wx.Panel):
         self.RefreshRect((i*self.CELL_SIZE, j*self.CELL_SIZE, self.CELL_SIZE, self.CELL_SIZE))
         
     def onDraw(self, event):
-        print '[ChoicePanel] onDraw'
         bpdc = wx.BufferedPaintDC(self)
         dc = wx.GCDC(bpdc)#for alpha effect
+        self.onDrawNums(dc)
+        self.onDrawBorder(dc)
+        pass
+        
+    def onDrawNums(self, dc):
         r = self.GetUpdateRegion()
         dirtyR = r.GetBox()
         
@@ -101,9 +116,6 @@ class ChoiceNumberPanel(wx.Panel):
                 dc.DrawLabel( str(num), _r, wx.ALIGN_CENTER )
                 
         dc.SetPen(wx.NullPen)
-        
-        self.onDrawBorder(dc)
-        pass
         
     def onDrawBorder(self, dc):
         dc.SetBrush(wx.NullBrush)
