@@ -13,6 +13,7 @@
 		<file path = "PuzzleLoader.py"/>
 		<file path = "root.py"/>
 		<file path = "SudokuBoxer.py"/>
+		<file path = "ui.py"/>
 		<file path = "user.py"/>
 		<file path = "util.py"/>
 		<group name = "config">
