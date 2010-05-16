@@ -183,6 +183,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.num = deepcopy(self.default)
         self._updateAutoTip()
         self.clearStepInfo()
+        self.clearBoxerInfo()
         self.Refresh()
         
     def clearStepInfo(self):
