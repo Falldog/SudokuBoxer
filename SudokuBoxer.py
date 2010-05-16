@@ -83,6 +83,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.steps = [] #record change history
         self.cur_step = -1
         self.boxerInfo = BoxerInfo()
+        self.choiceNumberPanel = None
         
         self.highlightNum = 0
         self.focusPos     = (-1,-1)
@@ -132,6 +133,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.Bind(wx.EVT_PAINT,        self.onDraw)
         self.Bind(wx.EVT_MOTION,       self.onMouseMove)
         self.Bind(wx.EVT_LEFT_DOWN,    self.onMouseDown)
+        self.Bind(wx.EVT_RIGHT_DOWN,   self.onMouseRDown)
         self.Bind(wx.EVT_KEY_DOWN,     self.onKeyDown)
         self.Bind(wx.EVT_KEY_UP,       self.onKeyUp)
         self.Bind(wx.EVT_LEAVE_WINDOW, self.onMouseLeave)
@@ -487,9 +489,36 @@ class NumberBoard(wx.Panel, SudokuBoxer):
                 self.highlightNum = 0
             self.Refresh()
             
+        if self.choiceNumberPanel:
+            self.choiceNumberPanel.Destroy()
+            self.Refresh()
         #self.testAnim.setType(anim.AnimBase.DECAY)
         #self.testAnim.assign(0)
         #self.testAnim.reset(1, 100)
+    
+    def onMouseRDown(self, evt):
+        x,y = evt.GetPosition()
+        cellPos = self.pt2pos(x,y)
+        s = (App.nCellSize*0.55)*3
+        pos = [cellPos[0]*App.nCellSize + (App.nCellSize-s)/2,
+               cellPos[1]*App.nCellSize + (App.nCellSize-s)/2]
+        if pos[0] < 0:
+            pos[0] = 0
+        if pos[1] < 0:
+            pos[1] = 0
+            
+        w, h = self.GetSize()
+        if pos[0]+s > w:
+            pos[0] = w-s
+        if pos[1]+s > h:
+            pos[1] = h-s
+            
+        import ui
+        if self.choiceNumberPanel:
+            self.choiceNumberPanel.Destroy()
+        self.choiceNumberPanel = ui.ChoiceNumberPanel(self, -1, pos=pos, size=(s,s))
+        self.choiceNumberPanel.setCellSize(s/3)
+        pass
         
     def onMouseMove(self, evt):
         x,y = evt.GetPosition()
