@@ -34,7 +34,7 @@ class ChoiceNumberPanel(wx.Panel):
         return sorted(self.focusNums)
         
     def setCellSize(self, size):
-        self.CELL_SIZE = size
+        self.CELL_SIZE = int(size)
         self.font = wx.Font( self.CELL_SIZE*0.5, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, 'Comic Sans MS' )
     
     def setCellPos(self, i, j):
