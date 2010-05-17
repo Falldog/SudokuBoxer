@@ -99,7 +99,7 @@ class ChoiceNumberPanel(wx.Panel):
             for j in App.rgGRID:
                 num = i + j*App.nGRID +1
                 _r = (i*self.CELL_SIZE, j*self.CELL_SIZE, self.CELL_SIZE, self.CELL_SIZE)
-                if not( dirtyR[0] <= _r[0] and dirtyR[1] <= _r[1] and dirtyR[2] >= _r[2] and dirtyR[3] >= _r[3] ):
+                if not dirtyR.Intersects(_r):
                     continue
                 
                 if num in self.focusNums:
