@@ -1,4 +1,4 @@
-import wx
+﻿import wx
 import wx.lib.newevent
 from copy import deepcopy
 import os
@@ -746,6 +746,7 @@ ID_MENU_HELP_ABOUT   = wx.NewId()
 ID_MENU_HELP_LINKPROJECT       = wx.NewId()
 ID_MENU_OPT_RECORD_LAST_PUZZLE = wx.NewId()
 ID_MENU_OPT_SHOW_AUTOTIP       = wx.NewId()
+ID_MENU_OPT_SHOW_USERTIP       = wx.NewId()
 
 MODE_STR_MAP = { ID_MENU_MODE_EASY:   'easy',
                  ID_MENU_MODE_MEDIUM: 'medium',
@@ -826,12 +827,14 @@ class MainFrame(wx.Frame):
         self.menuMode.Append(ID_MENU_MODE_EVIL,   _('Evil'),  kind=wx.ITEM_RADIO)
         #Language
         self.menuLang = wx.Menu()
-        self.menuLang.Append(ID_MENU_LANG_ENU, _('ENU'),            kind=wx.ITEM_RADIO)
+        self.menuLang.Append(ID_MENU_LANG_ENU, _('ENU'), kind=wx.ITEM_RADIO)
         self.menuLang.Append(ID_MENU_LANG_CHT, _('CHT'), kind=wx.ITEM_RADIO)
         #Options
         self.menuOpt = wx.Menu()
+        self.menuOpt.Append(ID_MENU_OPT_SHOW_AUTOTIP,       _('Show AutoTip'),       kind=wx.ITEM_RADIO)
+        self.menuOpt.Append(ID_MENU_OPT_SHOW_USERTIP,       _('Show UserTip'),       kind=wx.ITEM_RADIO)
+        self.menuOpt.AppendSeparator()
         self.menuOpt.Append(ID_MENU_OPT_RECORD_LAST_PUZZLE, _('Record Last Puzzle'), kind=wx.ITEM_CHECK)
-        self.menuOpt.Append(ID_MENU_OPT_SHOW_AUTOTIP,       _('Show AutoTip'),       kind=wx.ITEM_CHECK)
         #About
         _help = wx.Menu()
         _help.Append(ID_MENU_HELP_ABOUT, _('About'))
@@ -858,11 +861,17 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.about, id=ID_MENU_HELP_ABOUT)
         self.Bind(wx.EVT_MENU, self.linkProject, id=ID_MENU_HELP_LINKPROJECT)
         self.Bind(wx.EVT_MENU, self.onRecordLastPuzzle, id=ID_MENU_OPT_RECORD_LAST_PUZZLE)
-        self.Bind(wx.EVT_MENU, self.onShowAutoTip, id=ID_MENU_OPT_SHOW_AUTOTIP)
+        
+        _clickTip = lambda evt: self.changeTipMode(evt.GetId())
+        self.Bind(wx.EVT_MENU, _clickTip, id=ID_MENU_OPT_SHOW_AUTOTIP)
+        self.Bind(wx.EVT_MENU, _clickTip, id=ID_MENU_OPT_SHOW_USERTIP)
         
         #Set default
         self.menuOpt.Check(ID_MENU_OPT_RECORD_LAST_PUZZLE, App.bRecordLastPuzzle)
-        self.menuOpt.Check(ID_MENU_OPT_SHOW_AUTOTIP, App.bShowAutoTip)
+        if App.bShowAutoTip:
+            self.menuOpt.Check(ID_MENU_OPT_SHOW_AUTOTIP, True)
+        else:
+            self.menuOpt.Check(ID_MENU_OPT_SHOW_USERTIP, True)
         
         pass
         
@@ -961,9 +970,16 @@ class MainFrame(wx.Frame):
         App.bRecordLastPuzzle = not App.bRecordLastPuzzle
         self.menuOpt.Check(ID_MENU_OPT_RECORD_LAST_PUZZLE, App.bRecordLastPuzzle)
     
-    def onShowAutoTip(self, evt):
-        App.bShowAutoTip = not App.bShowAutoTip
-        self.menuOpt.Check(ID_MENU_OPT_SHOW_AUTOTIP, App.bShowAutoTip)
+    def changeTipMode(self, _id):
+        if _id == ID_MENU_OPT_SHOW_USERTIP:
+            autoTip = False
+        elif _id == ID_MENU_OPT_SHOW_AUTOTIP:
+            autoTip = True
+        else:
+            print '[MainFrame] changeTipMode() _id wrong!'
+            return
+        App.bShowAutoTip = autoTip
+        self.menuOpt.Check(_id, True)
         if App.bShowAutoTip:
             self.board._updateAutoTip()
         self.board.Refresh()
