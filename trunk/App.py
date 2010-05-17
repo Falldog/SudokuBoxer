@@ -15,7 +15,7 @@ VERSION = v
 VERSION_DATE = vd
 #-----------------------------------------------------------------------#
 
-nCellSize = eval(util.config.get('APP', 'CellSize', 50))
+nCellSize = eval(util.config.get('APP', 'CellSize', '50'))
 nAnswerCellSize = nCellSize*0.6
 nLINE = 9
 nGRID = 3
