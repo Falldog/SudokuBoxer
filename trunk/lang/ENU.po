@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-13 14:23+0800\n"
+"POT-Creation-Date: 2010-05-18 00:14+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,35 +16,35 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ..\SudokuBoxer.py:759
+#: ..\SudokuBoxer.py:841
 msgid "About"
 msgstr "About"
 
-#: ..\SudokuBoxer.py:952
+#: ..\SudokuBoxer.py:1047
 msgid "Answer"
 msgstr "Answer"
 
-#: ..\SudokuBoxer.py:837
+#: ..\SudokuBoxer.py:925
 msgid "Best Time:"
 msgstr "Best Time :"
 
-#: ..\SudokuBoxer.py:752
+#: ..\SudokuBoxer.py:831
 msgid "CHT"
 msgstr "中文"
 
-#: ..\SudokuBoxer.py:760
+#: ..\SudokuBoxer.py:842
 msgid "Check New Version"
 msgstr "Check New Version"
 
-#: ..\SudokuBoxer.py:806
+#: ..\SudokuBoxer.py:894
 msgid "Check Valid"
 msgstr "Check Valid"
 
-#: ..\SudokuBoxer.py:976
+#: ..\SudokuBoxer.py:1071
 msgid "Check Valid : Correctly!"
 msgstr "Check Valid : Correctly!"
 
-#: ..\SudokuBoxer.py:978
+#: ..\SudokuBoxer.py:1073
 msgid "Check Valid : Wrong!"
 msgstr "Check Valid : Wrong!"
 
@@ -52,15 +52,15 @@ msgstr "Check Valid : Wrong!"
 msgid "Choice Language"
 msgstr "Choice Language"
 
-#: ..\SudokuBoxer.py:809
+#: ..\SudokuBoxer.py:897
 msgid "Choice User"
 msgstr "Choice User"
 
-#: ..\SudokuBoxer.py:801
+#: ..\SudokuBoxer.py:889
 msgid "Clear All"
 msgstr "Clear All"
 
-#: ..\SudokuBoxer.py:989
+#: ..\SudokuBoxer.py:1084
 msgid "Congratulations! You had finish this Sudoku!"
 msgstr "Congratulations! You had finish this Sudoku!"
 
@@ -72,56 +72,56 @@ msgstr "Create a User"
 msgid "Create a new user"
 msgstr "Create a new user"
 
-#: ..\SudokuBoxer.py:751
+#: ..\SudokuBoxer.py:830
 msgid "ENU"
 msgstr "English"
 
-#: ..\SudokuBoxer.py:745
+#: ..\SudokuBoxer.py:824
 msgid "Easy"
 msgstr "Easy"
 
-#: ..\SudokuBoxer.py:748
+#: ..\SudokuBoxer.py:827
 msgid "Evil"
 msgstr "Evil"
 
-#: ..\SudokuBoxer.py:804
+#: ..\SudokuBoxer.py:892
 msgid "Guess Next"
 msgstr "Guess Next"
 
-#: ..\SudokuBoxer.py:747
+#: ..\SudokuBoxer.py:826
 msgid "Hard"
 msgstr "Hard"
 
-#: ..\SudokuBoxer.py:765
+#: ..\SudokuBoxer.py:847
 msgid "Help"
 msgstr "Help"
 
-#: ..\SudokuBoxer.py:995
+#: ..\SudokuBoxer.py:1090
 msgid "Hey man! Your answer is wrong... try again!"
 msgstr "Hey man! Your answer is wrong... try again!"
 
-#: ..\SudokuBoxer.py:870 ..\SudokuBoxer.py:933 ..\SudokuBoxer.py:979
-#: ..\SudokuBoxer.py:1000
+#: ..\SudokuBoxer.py:958 ..\SudokuBoxer.py:1028 ..\SudokuBoxer.py:1074
+#: ..\SudokuBoxer.py:1095
 msgid "Information"
 msgstr "Information"
 
-#: ..\SudokuBoxer.py:763
+#: ..\SudokuBoxer.py:845
 msgid "Language"
 msgstr "Language"
 
-#: ..\SudokuBoxer.py:746
+#: ..\SudokuBoxer.py:825
 msgid "Medium"
 msgstr "Medium"
 
-#: ..\SudokuBoxer.py:762
+#: ..\SudokuBoxer.py:844
 msgid "Mode"
 msgstr "Mode"
 
-#: ..\SudokuBoxer.py:795
+#: ..\SudokuBoxer.py:883
 msgid "New Null Puzzle"
 msgstr "New Empty Puzzle"
 
-#: ..\SudokuBoxer.py:794
+#: ..\SudokuBoxer.py:882
 msgid "New Puzzle"
 msgstr "New Puzzle"
 
@@ -129,16 +129,16 @@ msgstr "New Puzzle"
 msgid "OK"
 msgstr "OK"
 
-#: ..\SudokuBoxer.py:764
+#: ..\SudokuBoxer.py:846
 msgid "Options"
 msgstr "Options"
 
-#: ..\SudokuBoxer.py:921
+#: ..\SudokuBoxer.py:1016
 #, python-format
 msgid "Please input a ID number : (1~%d)"
 msgstr "Please input a ID number : (1~%d)"
 
-#: ..\SudokuBoxer.py:933
+#: ..\SudokuBoxer.py:1028
 msgid "Please input a correctly number!"
 msgstr "Please input a correctly number!"
 
@@ -146,11 +146,11 @@ msgstr "Please input a correctly number!"
 msgid "Please input a user name"
 msgstr "Please input a user name"
 
-#: ..\SudokuBoxer.py:870
+#: ..\SudokuBoxer.py:958
 msgid "Please relaunch SudokuBoxer to load correctly Language"
 msgstr "Please relaunch SudokuBoxer to load correctly Language"
 
-#: ..\SudokuBoxer.py:840
+#: ..\SudokuBoxer.py:928
 msgid "Puzzle ID :"
 msgstr "Puzzle ID :"
 
@@ -158,39 +158,43 @@ msgstr "Puzzle ID :"
 msgid "PuzzleID"
 msgstr "PuzzleID"
 
-#: ..\SudokuBoxer.py:755
+#: ..\SudokuBoxer.py:837
 msgid "Record Last Puzzle"
 msgstr "Record Last Puzzle"
 
-#: ..\SudokuBoxer.py:1039
+#: ..\SudokuBoxer.py:1134
 msgid "Record List"
 msgstr "Record List"
 
-#: ..\SudokuBoxer.py:810
+#: ..\SudokuBoxer.py:898
 msgid "Record Time"
 msgstr "Record Time :"
 
-#: ..\SudokuBoxer.py:800
+#: ..\SudokuBoxer.py:888
 msgid "Redo"
 msgstr "Redo"
 
-#: ..\SudokuBoxer.py:796
+#: ..\SudokuBoxer.py:884
 msgid "Select Puzzle By ID"
 msgstr "Select Puzzle By ID"
 
-#: ..\SudokuBoxer.py:1013
+#: ..\SudokuBoxer.py:1108
 msgid "Select User"
 msgstr "Select User"
 
-#: ..\SudokuBoxer.py:805
+#: ..\SudokuBoxer.py:893
 msgid "Show Answer"
 msgstr "Show Answer"
 
-#: ..\SudokuBoxer.py:756
+#: ..\SudokuBoxer.py:834
 msgid "Show AutoTip"
-msgstr "Show Tips on every cell"
+msgstr "Display candidate on every cell"
 
-#: ..\SudokuBoxer.py:843
+#: ..\SudokuBoxer.py:835
+msgid "Show UserTip"
+msgstr "Setting candidate by User"
+
+#: ..\SudokuBoxer.py:931
 msgid "Spend Time :"
 msgstr "Spend Time :"
 
@@ -198,11 +202,11 @@ msgstr "Spend Time :"
 msgid "Time"
 msgstr "Time"
 
-#: ..\SudokuBoxer.py:799
+#: ..\SudokuBoxer.py:887
 msgid "Undo"
 msgstr "Undo"
 
-#: ..\SudokuBoxer.py:834
+#: ..\SudokuBoxer.py:922
 msgid "User Name :"
 msgstr "User Name :"
 
