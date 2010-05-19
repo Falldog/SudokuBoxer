@@ -1,12 +1,11 @@
-import wx
-import os
-import App
-import user
-import anim
-import util
-from SudokuBoxer import MainFrame
-_ = wx.GetTranslation
 
+def ParseArgument():
+    import sys
+    for arg in sys.argv:
+        if arg.upper() in ['DEBUG_LOG']:
+            f = open('debug.log', 'w+')
+            sys.stderr = f
+            sys.stdout = f
 
 
 def SetDefaultLanguage():
@@ -28,12 +27,17 @@ def SetDefaultLanguage():
 
 
 if __name__ == '__main__':
-    import sys
-    for arg in sys.argv:
-        if arg.upper() in ['DEBUG_LOG']:
-            f = open('debug.log', 'w+')
-            sys.stderr = f
-            sys.stdout = f
+    #parse argument first, for set debug_log
+    ParseArgument()
+    
+    import wx
+    import os
+    import App
+    import user
+    import anim
+    import util
+    from SudokuBoxer import MainFrame
+    _ = wx.GetTranslation
     
     app = wx.App(False)
     
