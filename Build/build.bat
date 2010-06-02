@@ -17,8 +17,10 @@ python  .\build_util.py generate_version %VERSION%
 md  %DIST_DIR%\img
 md  %DIST_DIR%\lang
 md  %DIST_DIR%\puzzle
+md  %DIST_DIR%\resource
 xcopy  ..\img     %DIST_DIR%\img /e /y
 xcopy  ..\lang    %DIST_DIR%\lang /e /y
+xcopy  ..\resource %DIST_DIR%\resource /e /y
 copy  %PUZZLE_DIR%\PuzzleDB-1000  %DIST_DIR%\puzzle\PuzzleDB
 
 del %DIST_DIR%\lang\*.po

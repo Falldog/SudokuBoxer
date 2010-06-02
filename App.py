@@ -15,12 +15,21 @@ VERSION = v
 VERSION_DATE = vd
 #-----------------------------------------------------------------------#
 
+XRC_PATH = r'.\resource\xrc'
+
 nCellSize = eval(util.config.get('APP', 'CellSize', '50'))
 nAnswerCellSize = nCellSize*0.6
 nLINE = 9
 nGRID = 3
 rgLINE = range(nLINE)
 rgGRID = range(nGRID)
+
+clBgFocus = '#C1DEA3'
+clBgOver  = '#8FD6FF'
+clBgNormal = '#EEEEEE'
+clBgDefault = '#E3EDFF'
+clTextNormal = '#000000'
+clTextDefault = '#000000'
 
 locale = wx.Locale()
 puzzleLoader = PuzzleLoaderDB()

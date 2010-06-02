@@ -8,7 +8,18 @@ def GeneratePyList(output_file):
     for fname in files:
         if os.path.splitext(fname)[1] != '.py' : continue
         f.write(PY_DIR+fname+'\n')
+    
+    _GenerateXRCTranslateString('.\\xrc_string.py')
+    f.write('xrc_string.py')
     f.close()
+
+def _GenerateXRCTranslateString(filename=''):
+    XRC_Folder = r'..\resource\xrc'
+    xrcList = os.listdir(XRC_Folder)
+    strFiles = ''
+    for xrc in xrcList:
+        strFiles +=  ' ' + os.path.join(XRC_Folder, xrc)
+    os.system('python pywxrc.py -o %s -g %s' % (filename, strFiles))
     
 def GenerateVersion(version_path):
     import datetime
