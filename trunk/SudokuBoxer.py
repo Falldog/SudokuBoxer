@@ -747,6 +747,7 @@ ID_MENU_HELP_LINKPROJECT       = wx.NewId()
 ID_MENU_OPT_RECORD_LAST_PUZZLE = wx.NewId()
 ID_MENU_OPT_SHOW_AUTOTIP       = wx.NewId()
 ID_MENU_OPT_SHOW_USERTIP       = wx.NewId()
+ID_MENU_OPT_PREFERENCE         = wx.NewId()
 
 MODE_STR_MAP = { ID_MENU_MODE_EASY:   'easy',
                  ID_MENU_MODE_MEDIUM: 'medium',
@@ -835,6 +836,8 @@ class MainFrame(wx.Frame):
         self.menuOpt.Append(ID_MENU_OPT_SHOW_USERTIP,       _('Show UserTip'),       kind=wx.ITEM_RADIO)
         self.menuOpt.AppendSeparator()
         self.menuOpt.Append(ID_MENU_OPT_RECORD_LAST_PUZZLE, _('Record Last Puzzle'), kind=wx.ITEM_CHECK)
+        self.menuOpt.Append(ID_MENU_OPT_PREFERENCE,         _('Preference'))
+        
         #About
         _help = wx.Menu()
         _help.Append(ID_MENU_HELP_ABOUT, _('About'))
@@ -861,6 +864,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.about, id=ID_MENU_HELP_ABOUT)
         self.Bind(wx.EVT_MENU, self.linkProject, id=ID_MENU_HELP_LINKPROJECT)
         self.Bind(wx.EVT_MENU, self.onRecordLastPuzzle, id=ID_MENU_OPT_RECORD_LAST_PUZZLE)
+        self.Bind(wx.EVT_MENU, self.onPreference, id=ID_MENU_OPT_PREFERENCE)
         
         _clickTip = lambda evt: self.changeTipMode(evt.GetId())
         self.Bind(wx.EVT_MENU, _clickTip, id=ID_MENU_OPT_SHOW_AUTOTIP)
@@ -970,6 +974,15 @@ class MainFrame(wx.Frame):
         App.bRecordLastPuzzle = not App.bRecordLastPuzzle
         self.menuOpt.Check(ID_MENU_OPT_RECORD_LAST_PUZZLE, App.bRecordLastPuzzle)
     
+    def onPreference(self, evt):
+        from wx import xrc
+        res = xrc.XmlResource( os.path.join(App.XRC_PATH, "PreferenceDialog.xrc") )
+        dlg = res.LoadDialog(None, 'PreferenceDialog')
+        if dlg:
+            dlg.ShowModal()
+            dlg.Destroy()
+        pass
+        
     def changeTipMode(self, _id):
         if _id == ID_MENU_OPT_SHOW_USERTIP:
             autoTip = False

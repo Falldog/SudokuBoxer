@@ -11,3 +11,4 @@ python build_util.py  generate_py_list %PY_LIST_FILE%
 %GETTEXT_DIR%\msgfmt --output-file "..\lang\CHT.mo" "..\lang\CHT.po"
 
 del %PY_LIST_FILE%
+del xrc_string.py
