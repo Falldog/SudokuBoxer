@@ -18,6 +18,7 @@ def _GenerateXRCTranslateString(filename=''):
     xrcList = os.listdir(XRC_Folder)
     strFiles = ''
     for xrc in xrcList:
+        if xrc.lower() in ['.svn']: continue
         strFiles +=  ' ' + os.path.join(XRC_Folder, xrc)
     os.system('python pywxrc.py -o %s -g %s' % (filename, strFiles))
     
