@@ -1,12 +1,5 @@
-
-def ParseArgument():
-    import sys
-    for arg in sys.argv:
-        if arg.upper() in ['DEBUG_LOG']:
-            f = open('debug.log', 'w+')
-            sys.stderr = f
-            sys.stdout = f
-
+import wx
+import App
 
 def SetDefaultLanguage():
     lang = util.config.get('LANG', 'language', 'ENU')
@@ -25,21 +18,57 @@ def SetDefaultLanguage():
             util.config.set('LANG', 'language', lang)
         dlg.Destroy()
 
+class HookStdOut:
+    def __init__(self, f, of):
+        self.encoding = sys.getfilesystemencoding()
+        self.f = f
+        self.of = of
+    def write(self, s):
+        if isinstance(s, unicode):
+            s = s.encode(self.encoding)
+        self.f.write(s)
+        self.of.write(s)
+
+class MainApp(wx.App):
+    def __init__(self):
+        wx.App.__init__(self, False)
+        
+        self.hookStdOutFile = None
+    
+    def close(self):
+        #self.UnHookStdOut()
+        pass
+    
+    def ParseArgument(self):
+        #parse argument first, for set debug_log
+        for arg in sys.argv:
+            if arg.upper() in ['DEBUG_LOG']:
+                self.HookStdOut()
+    
+    def HookStdOut(self):
+        import sys
+        self.hookStdOutFile = open('debug.log', 'w+')
+        sys.stderr = HookStdOut(self.hookStdOutFile, sys.stderr)
+        sys.stdout = HookStdOut(self.hookStdOutFile, sys.stdout)
+    
+    def UnHookStdOut(self):
+        import sys
+        if self.hookStdOutFile:
+            self.hookStdOutFile.close()
+            sys.stderr = sys.__stderr__
+            sys.stdout = sys.__stdout__
+
 
 if __name__ == '__main__':
-    #parse argument first, for set debug_log
-    ParseArgument()
-    
-    import wx
     import os
-    import App
     import user
     import anim
     import util
     from SudokuBoxer import MainFrame
     _ = wx.GetTranslation
     
-    app = wx.App(False)
+    mainApp = MainApp()
+    mainApp.ParseArgument()
     
     SetDefaultLanguage()
     
@@ -72,7 +101,8 @@ if __name__ == '__main__':
     if time:
         frame.setSpendTime(time)
         
-    app.MainLoop()
+    mainApp.MainLoop()
+    mainApp.close()
     
     App.SetConfig()
     util.WriteConfig()
