@@ -1,6 +1,8 @@
-import app
-import boxer_util
 from copy import deepcopy
+
+import boxer_util
+from src import app
+
 __author__ = 'Falldog'
 
 class BoxerBase:

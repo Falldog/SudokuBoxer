@@ -1,9 +1,12 @@
-import app
-import util
 import logging
 from copy import deepcopy
+
+from src import app
+import util
 import boxer_util
 from boxerbase import BoxerBase
+
+
 __author__ = 'Falldog'
 logger = logging.getLogger(__name__)
 
@@ -45,10 +48,10 @@ class BoxerBrute(BoxerBase):
         return answer
 
     def _brute(self, i, j):
-        if j*app.nLINE+i == app.nLINE*app.nLINE:  #the last cell
+        if j* app.nLINE+i == app.nLINE* app.nLINE:  #the last cell
             return True
 
-        if i==app.nLINE-1:
+        if i== app.nLINE-1:
             next = 0, j+1
         else:
             next = i+1, j

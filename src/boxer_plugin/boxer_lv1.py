@@ -1,7 +1,8 @@
-import app
 import boxer_util
 from boxerbase import BoxerBase
 from boxer_info import BoxerInfo
+from src import app
+
 __author__ = 'Falldog'
 
 class BoxerLv1(BoxerBase):

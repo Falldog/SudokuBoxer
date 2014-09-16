@@ -1,5 +1,7 @@
 import wx
-import app
+
+from src import app
+
 __author__ = 'Falldog'
 
 

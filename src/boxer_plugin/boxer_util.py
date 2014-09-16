@@ -1,5 +1,7 @@
-import app
 from copy import deepcopy
+
+from src import app
+
 __author__ = 'Falldog'
 
 def grid(x, y, num):
@@ -9,7 +11,7 @@ def grid(x, y, num):
 
     for i in app.rgGRID:
         for j in app.rgGRID:
-            g[i][j] = num[x*app.nGRID+i][y*app.nGRID+j]
+            g[i][j] = num[x* app.nGRID+i][y* app.nGRID+j]
     return g
 
 def check_valid(num):

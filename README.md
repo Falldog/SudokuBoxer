@@ -32,7 +32,7 @@ Development
 Build Package
 --------------
 * Windows
-  * execute `./sudukuboxer/Build/buil.bat`
+  * execute `./sudukuboxer/Build/build.bat`
 * Linux & Mac
   * not support yet
 

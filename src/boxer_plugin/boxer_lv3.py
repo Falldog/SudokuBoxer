@@ -1,9 +1,10 @@
-import app
 import logging
 from copy import deepcopy
+
 import boxer_util
 from boxerbase import BoxerBase
-from boxer_info import BoxerInfo
+from src import app
+
 
 __author__ = 'Falldog'
 logger = logging.getLogger(__name__)
@@ -115,13 +116,13 @@ class BoxerLv3(BoxerBase):
                     checkGridBoolNum = deepcopy(gridBoolNum)
 
                     for pos in self._iterGridNoVal(g):
-                        gx, gy = pos[0] + i*app.nGRID, pos[1] + j*app.nGRID #global x,y
+                        gx, gy = pos[0] + i* app.nGRID, pos[1] + j* app.nGRID #global x,y
                         if self._countBoolNumByXY(gx, gy, num) > 0:
                             checkGridBoolNum[pos[0]][pos[1]] = True
                     #only one
                     if self._countGridBoolNum(checkGridBoolNum, False) == 1:
                         pos = self._queryGridBoolNum(checkGridBoolNum, False)
-                        gx, gy = pos[0] + i*app.nGRID, pos[1] + j*app.nGRID #global x,y
+                        gx, gy = pos[0] + i* app.nGRID, pos[1] + j* app.nGRID #global x,y
                         logger.info('CheckGrid (i,j)=%s, GridBoolNum=%s', pos, checkGridBoolNum)
                         return (gx,gy), num, None
         return None

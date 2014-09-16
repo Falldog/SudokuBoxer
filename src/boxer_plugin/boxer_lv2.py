@@ -1,9 +1,11 @@
-import app
 import logging
 from copy import deepcopy
+
 import boxer_util
 from boxerbase import BoxerBase
 from boxer_info import BoxerInfo
+from src import app
+
 
 __author__ = 'Falldog'
 logger = logging.getLogger(__name__)
@@ -108,7 +110,7 @@ class BoxerLv2(BoxerBase):
                 for x in app.rgGRID:
                     for y in app.rgGRID:
                         if g[x][y]!=0: continue
-                        gx, gy = x + i*app.nGRID, y + j*app.nGRID #global x,y
+                        gx, gy = x + i* app.nGRID, y + j* app.nGRID #global x,y
                         conflitNumList = []
                         checkBoolNum = deepcopy(boolNum)
                         for num_idx in app.rgLINE:
@@ -136,7 +138,7 @@ class BoxerLv2(BoxerBase):
                             #mark cell tips in grid
                             for _i in app.rgGRID:
                                 for _j in app.rgGRID:
-                                    _x, _y = _i + i*app.nGRID, _j + j*app.nGRID
+                                    _x, _y = _i + i* app.nGRID, _j + j* app.nGRID
                                     if self.num[_x][_y] == 0 and (_x,_y)!=(gx,gy):
                                         bi.add('cell tips', _x, _y, conflitNumList)
                             return (gx,gy), num, bi
