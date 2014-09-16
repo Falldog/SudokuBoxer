@@ -8,7 +8,9 @@ import anim
 import util
 import app
 from puzzle_loader import PuzzleLoaderDB
-from boxer import SudokuBoxer, Step, BoxerInfo
+from boxer import SudokuBoxer, Step
+from boxer_plugin import boxer_util
+from boxer_plugin.boxer_info import BoxerInfo
 from user import GetUserInfo
 
 _ = wx.GetTranslation
@@ -59,10 +61,9 @@ class Number:
         return self.val+v
         
 
-class NumberBoard(wx.Panel, SudokuBoxer): 
+class NumberBoard(wx.Panel):
     def __init__(self, parent, *argv, **argd):
         wx.Panel.__init__(self, parent, *argv, **argd)
-        SudokuBoxer.__init__(self)
         #self.SetBackgroundColour('WHITE')
         
         self.BG_CL         = '#EEEEEE'
@@ -120,19 +121,11 @@ class NumberBoard(wx.Panel, SudokuBoxer):
                            [0,3,0, 0,0,6, 2,7,5] ,
                            [2,0,4, 9,0,0, 0,0,6] ] )
         self.bindEvent()
-    
-    def grid(self, x, y, num=None):
-        if not num:
-            num = self.num
-        g = []
-        for i in app.rgGRID:
-            g.append( [0 for j in app.rgGRID] )
-        
-        for i in app.rgGRID:
-            for j in app.rgGRID:
-                g[i][j] = num[x*app.nGRID+i][y*app.nGRID+j]
-        return g
-        
+
+    @property
+    def boxer(self):
+        return SudokuBoxer(self.num)
+
     def bindEvent(self):
         self.Bind(wx.EVT_PAINT,        self.onDraw)
         self.Bind(wx.EVT_MOTION,       self.onMouseMove)
@@ -219,7 +212,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         
         #[TODO] Fix, should finish and don't use brute method.
         if not self.checkFinish():
-            self.boxerBrute( bCheckFromDefault=False )
+            self.boxer.boxerBrute(self.default, bCheckFromDefault=False)
             
         self.answer = self.num
         self.num = ori_num
@@ -227,7 +220,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self.clearBoxerInfo()
         
     def guessNext(self, autoFill=True, silentFill=False, mode='easy'):
-        ret = self.boxerNext(mode)
+        ret = self.boxer.boxerNext(mode)
         if ret:
             self.dirtyCell(*self.focusPos) #dirty original focus cell
             pos, v, info = ret
@@ -249,7 +242,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
     
     def _setVal(self, i, j, v):
         self.num[i][j].val = v
-        self.num[i][j].valid = self.checkValidInput(v, i, j)
+        self.num[i][j].valid = self.boxer.checkValidInput(v, i, j)
         
         #refresh
         if app.bShowAutoTip:
@@ -293,22 +286,22 @@ class NumberBoard(wx.Panel, SudokuBoxer):
             for x in app.rgLINE:
                 for y in app.rgLINE:
                     if self.num[x][y] == 0:
-                        self.num[x][y].autoTipList = self.getValidNum(x,y)
+                        self.num[x][y].autoTipList = self.boxer.getValidNum(x,y)
         else:
             #Update grid & line base on (i,j)
             for x in app.rgGRID:
                 for y in app.rgGRID:
                     posX, posY = int(i/3)*3 + x, int(j/3*3) + y
                     if self.num[posX][posY] == 0:
-                        self.num[posX][posY].autoTipList = self.getValidNum(posX, posY)
+                        self.num[posX][posY].autoTipList = self.boxer.getValidNum(posX, posY)
             #Update vertical line
             for n in app.rgLINE:
                 if self.num[i][n] == 0:
-                    self.num[i][n].autoTipList = self.getValidNum(i,n)
+                    self.num[i][n].autoTipList = self.boxer.getValidNum(i,n)
             #Update horizantol line
             for n in app.rgLINE:
                 if self.num[n][j] == 0:
-                    self.num[n][j].autoTipList = self.getValidNum(n,j)
+                    self.num[n][j].autoTipList = self.boxer.getValidNum(n,j)
         pass
     
     def getDefaultPuzzle(self, bString=False):
@@ -343,49 +336,13 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         self._setVal(*s.infoUndo())
         self.cur_step-=1
         self.clearBoxerInfo()
-        
+
     def checkValid(self):
-        '''
-        Check the board is valid or not.
-        Check is the line/grid is any number duplicate.
-        Ex: 123456788 -> False, 8 duplicate
-            123456789 -> True
-        '''
-        boolNumFalse = [False for i in app.rgLINE]
-        #Check vertical & horizontal
-        query_hor = lambda x,y: self.num[x][y]
-        query_ver = lambda y,x: self.num[x][y]
-        for query in [query_hor, query_ver]:
-            for x in app.rgLINE:
-                boolNum = deepcopy(boolNumFalse)
-                for y in app.rgLINE:
-                    n = query(x,y)
-                    if n == 0: continue
-                    if boolNum[n-1]:#duplicate
-                        return False
-                    boolNum[n-1] = True
-        #Check grid
-        for i in app.rgGRID:
-            for j in app.rgGRID:
-                boolNum = deepcopy(boolNumFalse)
-                g = self.grid(i,j)
-                for x in app.rgGRID:
-                    for y in app.rgGRID:
-                        n = g[x][y]
-                        if n == 0: continue
-                        if boolNum[n-1]:#duplicate
-                            return False
-                        boolNum[n-1] = True
-        return True
-        
+        return boxer_util.check_valid(self.num)
+
     def checkFinish(self):
-        boolNumFalse = [False for i in app.rgLINE]
-        for i in app.rgLINE:
-            for j in app.rgLINE:
-                if self.num[i][j]==0:
-                    return False
-        return True
-        
+        return boxer_util.check_finish(self.num)
+
     def pt2pos(self, x, y):
         _x, _y = int(x / self.CELL_SIZE), int(y / self.CELL_SIZE)
         if 0 <= _x < app.nLINE or 0 <= _y < app.nLINE:

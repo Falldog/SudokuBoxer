@@ -2,6 +2,7 @@ import os
 import sys
 import time
 import ConfigParser
+import app
 
 #===============================================================================================
 class FConfigParser(ConfigParser.ConfigParser):
@@ -55,7 +56,6 @@ def to_unicode(s):
     except UnicodeDecodeError:
         return unicode(s, sys.getfilesystemencoding())
 
-
 def puzzle2str(puzzle):
     s = ''
     for i in range(9):
@@ -71,11 +71,9 @@ def str2puzzle(s):
             n[-1].append( int(s[j*9+i]) )
     return n
 
-
 def print_exctime(f):
     def _f(*argv, **argd):
         t = time.time()
         f(*argv, **argd)
         print '[print_exctime] %s, time=%s' % (f.__name__, str(time.time()-t))
     return _f
-    
