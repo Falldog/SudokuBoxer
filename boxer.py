@@ -1,5 +1,5 @@
 import wx
-import App
+import app
 from copy import deepcopy
 
 class Step:
@@ -89,9 +89,9 @@ class InfoCellLine:
         dc.SetPen(wx.Pen('#FF0000', 3, wx.SOLID))
         dc.SetBrush(wx.TRANSPARENT_BRUSH)
         if self.direction == 'h':
-            dc.DrawRectangle(0, self.idx*cellSize,  App.nLINE*cellSize, cellSize)
+            dc.DrawRectangle(0, self.idx*cellSize,  app.nLINE*cellSize, cellSize)
         else:
-            dc.DrawRectangle(self.idx*cellSize, 0,  cellSize, App.nLINE*cellSize)
+            dc.DrawRectangle(self.idx*cellSize, 0,  cellSize, app.nLINE*cellSize)
 
 class InfoLine:
     ''' Info about draw a line'''
@@ -122,14 +122,14 @@ class InfoLine:
         
 class SudokuBoxer:
     def __init__(self):
-        self.__lineBoolNum__ = [ False for j in App.rgLINE]
+        self.__lineBoolNum__ = [ False for j in app.rgLINE]
         self.__gridBoolNum__ = []
-        for i in App.rgGRID:
-            self.__gridBoolNum__.append( [ False for j in App.rgGRID] )
+        for i in app.rgGRID:
+            self.__gridBoolNum__.append( [ False for j in app.rgGRID] )
             
         self.__boolNum__     = []
-        for i in App.rgLINE:
-            self.__boolNum__.append( [ False for j in App.rgLINE] )
+        for i in app.rgLINE:
+            self.__boolNum__.append( [ False for j in app.rgLINE] )
         pass
         
     def _initBoolNum(self):
@@ -140,8 +140,8 @@ class SudokuBoxer:
         self._lineBoolNum = deepcopy(self.__lineBoolNum__)
         
     def _markBoolNum(self, _num):
-        for i in App.rgLINE:
-            for j in App.rgLINE:
+        for i in app.rgLINE:
+            for j in app.rgLINE:
                 if self.num[i][j] == _num:
                     self._boolNum[i][j] = True
                 else:
@@ -149,8 +149,8 @@ class SudokuBoxer:
         pass
     
     def _markBoolNoVal(self):
-        for i in App.rgLINE:
-            for j in App.rgLINE:
+        for i in app.rgLINE:
+            for j in app.rgLINE:
                 if self.num[i][j] != 0:
                     self._boolNum[i][j] = True
                     
@@ -160,57 +160,57 @@ class SudokuBoxer:
         1022 -> (2,1) -> TFTT
         0030             FFTF
         '''
-        for i in App.rgLINE:
+        for i in app.rgLINE:
             self._boolNum[i][y] = True
-        for i in App.rgLINE:
+        for i in app.rgLINE:
             self._boolNum[x][i] = True
     
     def _markBoolNumByGrid(self, i, j):
         self._initLineBoolNum()
         g = self.grid(i,j)
-        for x in App.rgGRID:
-            for y in App.rgGRID:
+        for x in app.rgGRID:
+            for y in app.rgGRID:
                 if g[x][y] != 0:
                     self._lineBoolNum[ g[x][y]-1 ] = True
         return self._lineBoolNum
     def _markGridBoolNum(self, i, j):
         self._initGridBoolNum()
         g = self.grid(i,j)
-        for x in App.rgGRID:
-            for y in App.rgGRID:
+        for x in app.rgGRID:
+            for y in app.rgGRID:
                 if g[x][y] != 0:
                     #self._lineBoolNum[ g[x][y]-1 ] = True
                     self._gridBoolNum[x][y] = True
         return self._gridBoolNum
         
     def _queryGridBoolNum(self, grid, state):
-        for x in App.rgGRID:
-            for y in App.rgGRID:
+        for x in app.rgGRID:
+            for y in app.rgGRID:
                 if grid[x][y]==state:
                     return x,y
         return -1, -1
     
     def _iterGridNoVal(self, grid):
-        for x in App.rgGRID:
-            for y in App.rgGRID:
+        for x in app.rgGRID:
+            for y in app.rgGRID:
                 if grid[x][y]==0:
                     yield (x,y)
         pass
     
     def _countBoolNumByXY(self, x, y, num):
         c = 0
-        for i in App.rgLINE:
+        for i in app.rgLINE:
             if self.num[i][y] == num:
                 c += 1
-        for i in App.rgLINE:
+        for i in app.rgLINE:
             if self.num[x][i] == num:
                 c += 1
         return c
     
     def _countGridBoolNum(self, grid, state):
         c = 0
-        for x in App.rgGRID:
-            for y in App.rgGRID:
+        for x in app.rgGRID:
+            for y in app.rgGRID:
                 if grid[x][y]==state:
                     c += 1
         return c
@@ -226,8 +226,8 @@ class SudokuBoxer:
         self._markBoolNoVal()
         numPosList = []
         #mark num in all grid
-        for i in App.rgGRID:
-            for j in App.rgGRID:
+        for i in app.rgGRID:
+            for j in app.rgGRID:
                 g = self.grid(i,j)
                 x, y = self._queryGridBoolNum(g, num)
                 if (x,y) == (-1,-1):
@@ -237,8 +237,8 @@ class SudokuBoxer:
                 numPosList.append( {'pos':pos, 'grid':(i,j)} ) #for boxerInfo
                 
         #check all grid which only one space
-        for i in App.rgGRID:
-            for j in App.rgGRID:
+        for i in app.rgGRID:
+            for j in app.rgGRID:
                 g = self.grid(i,j, self._boolNum)
                 g_num = self.grid(i,j)
                 if self._countGridBoolNum(g,False) == 1 and self._countGridBoolNum(g_num,num) == 0:
@@ -279,7 +279,7 @@ class SudokuBoxer:
             gridNum = self.grid(i,j)
             
         full = True
-        for i in App.rgGRID:
+        for i in app.rgGRID:
             if direction == 'v':
                 full = full and (gridNum[idx][i]!=0)
             else:
@@ -294,11 +294,11 @@ class SudokuBoxer:
         if self._countGridBoolNum(g,num) > 1:
             return False
             
-        line = [self.num[posX][i] for i in App.rgLINE]
+        line = [self.num[posX][i] for i in app.rgLINE]
         if self._countLineBoolNum(line, num) > 1:
             return False
             
-        line = [self.num[i][posY] for i in App.rgLINE]
+        line = [self.num[i][posY] for i in app.rgLINE]
         if self._countLineBoolNum(line, num) > 1:
             return False
             
@@ -321,26 +321,26 @@ class SudokuBoxer:
         #Check grid
         self._initLineBoolNum()
         g = self.grid(posX/3,posY/3)
-        for i in App.rgGRID:
-            for j in App.rgGRID:
+        for i in app.rgGRID:
+            for j in app.rgGRID:
                 if g[i][j] != 0:
                     self._lineBoolNum[ g[i][j]-1 ] = True
         #Check vertical line
-        line = [self.num[posX][i] for i in App.rgLINE]
+        line = [self.num[posX][i] for i in app.rgLINE]
         for num in line:
             if num != 0:
                 self._lineBoolNum[ num-1 ] = True
         #Check horizantol line
-        line = [self.num[i][posY] for i in App.rgLINE]
+        line = [self.num[i][posY] for i in app.rgLINE]
         for num in line:
             if num != 0:
                 self._lineBoolNum[ num-1 ] = True
         
-        res = [ i for i in range(1, App.nLINE+1) if not self._lineBoolNum[i-1] ]
+        res = [ i for i in range(1, app.nLINE+1) if not self._lineBoolNum[i-1] ]
         return res
         
     def boxerNextEasy(self):
-        for num in App.rgLINE:
+        for num in app.rgLINE:
             num += 1
             pos, info = self._checkEasy(num)
             if pos != (-1, -1):
@@ -356,30 +356,30 @@ class SudokuBoxer:
                      X   -> check 3 & 7, if 3 exist, this X is 7
         '''
         print '-----------boxerNextSoSo-----------'
-        boolNumFalse = [False for i in App.rgLINE]
+        boolNumFalse = [False for i in app.rgLINE]
         #check vertical
-        for i in App.rgLINE:
+        for i in app.rgLINE:
             boolNum = deepcopy(boolNumFalse)
             #mark bool number
-            for j in App.rgLINE:
+            for j in app.rgLINE:
                 n = self.num[i][j]
                 if n > 0 :
                     boolNum[n-1] = True
             
             #check non-value line
-            for j in App.rgLINE:
+            for j in app.rgLINE:
                 n = self.num[i][j]
                 if n == 0:
                     numPosList = []
                     checkBoolNum = deepcopy(boolNum)
-                    for line_i in App.rgLINE:
+                    for line_i in app.rgLINE:
                         if line_i == i: continue
                         n = self.num[line_i][j]
                         if n > 0 and checkBoolNum[n-1]==False:
                             checkBoolNum[n-1] = True
                             numPosList.append( {'pos':(line_i,j), 'num':n} )
                     if self._countLineBoolNum(checkBoolNum,False) == 1:
-                        print 'CheckVertical line=%s\n (i,j)=%s, checkBoolNum=%s' % ([int(self.num[i][n]) for n in App.rgLINE], (i,j), checkBoolNum)
+                        print 'CheckVertical line=%s\n (i,j)=%s, checkBoolNum=%s' % ([int(self.num[i][n]) for n in app.rgLINE], (i,j), checkBoolNum)
                         num = checkBoolNum.index(False)+1
                         
                         #set boxer info
@@ -389,34 +389,34 @@ class SudokuBoxer:
                         for _n in numPosList:
                             bi.add('cell', _n['pos'][0], _n['pos'][1])
                             conflitNumList.append(_n['num'])
-                        for idx in App.rgLINE:
+                        for idx in app.rgLINE:
                             if self.num[i][idx] == 0 and idx != j:
                                 bi.add('cell tips', i, idx, conflitNumList)
                         return (i,j), num, bi
             pass
         #check horizantol
-        for j in App.rgLINE:
+        for j in app.rgLINE:
             boolNum = deepcopy(boolNumFalse)
             #mark bool number
-            for i in App.rgLINE:
+            for i in app.rgLINE:
                 n = self.num[i][j]
                 if n > 0 :
                     boolNum[n-1] = True
             
             #check non-value line
-            for i in App.rgLINE:
+            for i in app.rgLINE:
                 n = self.num[i][j]
                 if n == 0:
                     numPosList = []
                     checkBoolNum = deepcopy(boolNum)
-                    for line_j in App.rgLINE:
+                    for line_j in app.rgLINE:
                         if line_j == j: continue
                         n = self.num[i][line_j]
                         if n > 0 and checkBoolNum[n-1]==False:
                             checkBoolNum[n-1] = True
                             numPosList.append( {'pos':(line_i,j), 'num':n} )
                     if self._countLineBoolNum(checkBoolNum,False) == 1:
-                        print 'CheckHorizantol line=%s\n (i,j)=%s, checkBoolNum=%s' % ([self.num[n][j] for n in App.rgLINE], (i,j), checkBoolNum)
+                        print 'CheckHorizantol line=%s\n (i,j)=%s, checkBoolNum=%s' % ([self.num[n][j] for n in app.rgLINE], (i,j), checkBoolNum)
                         num = checkBoolNum.index(False)+1
                         
                         #set boxer info
@@ -426,24 +426,24 @@ class SudokuBoxer:
                         for _n in numPosList:
                             bi.add('cell', _n['pos'][0], _n['pos'][1])
                             conflitNumList.append(_n['num'])
-                        for idx in App.rgLINE:
+                        for idx in app.rgLINE:
                             if self.num[idx][j] == 0 and idx != i:
                                 bi.add('cell tips', idx, j, conflitNumList)
                         return (i,j), num, bi
         
         #check Grid
-        for i in App.rgGRID:
-            for j in App.rgGRID:
+        for i in app.rgGRID:
+            for j in app.rgGRID:
                 boolNum = deepcopy(self._markBoolNumByGrid(i,j))   #represent 1~9
                 
                 g = self.grid(i,j)
-                for x in App.rgGRID:
-                    for y in App.rgGRID:
+                for x in app.rgGRID:
+                    for y in app.rgGRID:
                         if g[x][y]!=0: continue
-                        gx, gy = x + i*App.nGRID, y + j*App.nGRID #global x,y
+                        gx, gy = x + i*app.nGRID, y + j*app.nGRID #global x,y
                         conflitNumList = []
                         checkBoolNum = deepcopy(boolNum)
-                        for num_idx in App.rgLINE:
+                        for num_idx in app.rgLINE:
                             if checkBoolNum[num_idx]: continue
                             num = num_idx+1
                             if self._countBoolNumByXY(gx,gy, num) > 0:
@@ -459,16 +459,16 @@ class SudokuBoxer:
                             bi.add('cell grid', i, j)
                             conflitNumList.append(num)
                             #mark the conflit cells out of grid
-                            for _x in App.rgLINE:#vertical
+                            for _x in app.rgLINE:#vertical
                                 if self.num[_x][gy] in conflitNumList:
                                     bi.add('cell', _x, gy)
-                            for _y in App.rgLINE:#horizantol
+                            for _y in app.rgLINE:#horizantol
                                 if self.num[gx][_y] in conflitNumList:
                                     bi.add('cell', gx, _y)
                             #mark cell tips in grid
-                            for _i in App.rgGRID:
-                                for _j in App.rgGRID:
-                                    _x, _y = _i + i*App.nGRID, _j + j*App.nGRID
+                            for _i in app.rgGRID:
+                                for _j in app.rgGRID:
+                                    _x, _y = _i + i*app.nGRID, _j + j*app.nGRID
                                     if self.num[_x][_y] == 0 and (_x,_y)!=(gx,gy):
                                         bi.add('cell tips', _x, _y, conflitNumList)
                             return (gx,gy), num, bi
@@ -484,25 +484,25 @@ class SudokuBoxer:
                  XX  X   -> check 7, if 2*X has 7, the only 1X is 7
         '''
         print '-----------boxerNextSoSo2-----------'
-        boolNumFalse = [False for i in App.rgLINE]
+        boolNumFalse = [False for i in app.rgLINE]
         #check vertical
-        for i in App.rgLINE:
+        for i in app.rgLINE:
             boolNum = deepcopy(boolNumFalse)
             lineBoolNum = deepcopy(boolNumFalse)
             #mark bool number
-            for j in App.rgLINE:
+            for j in app.rgLINE:
                 n = self.num[i][j]
                 if n > 0 :
                     boolNum[n-1] = True
                     lineBoolNum[j] = True
             
-            for num_idx in App.rgLINE:
+            for num_idx in app.rgLINE:
                 if boolNum[num_idx]: continue
                 checkLineBoolNum = deepcopy(lineBoolNum)
                 num = num_idx+1
                 
                 #check grid
-                for j in App.rgGRID:
+                for j in app.rgGRID:
                     grid_i = int(i / 3)
                     g = self.grid(grid_i, j)
                     pos = self._queryGridBoolNum(g, num)
@@ -510,38 +510,38 @@ class SudokuBoxer:
                         checkLineBoolNum[j*3] = checkLineBoolNum[j*3+1] = checkLineBoolNum[j*3+2] = True
                 
                 #check line
-                for j in App.rgLINE:
+                for j in app.rgLINE:
                     if self.num[i][j] > 0: continue
                     
-                    for line_i in App.rgLINE:
+                    for line_i in app.rgLINE:
                         if self.num[line_i][j] == num:
                             checkLineBoolNum[j] = True
                             break
                             
                 if self._countLineBoolNum(checkLineBoolNum, False) == 1:
-                    print 'CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s' % ([int(self.num[i][n]) for n in App.rgLINE], (i,j), checkLineBoolNum)
+                    print 'CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s' % ([int(self.num[i][n]) for n in app.rgLINE], (i,j), checkLineBoolNum)
                     j = checkLineBoolNum.index(False)
                     return (i,j), num, None
             
         #check horizontal
-        for j in App.rgLINE:
+        for j in app.rgLINE:
             boolNum = deepcopy(boolNumFalse)
             lineBoolNum = deepcopy(boolNumFalse)
             
             #mark bool number
-            for i in App.rgLINE:
+            for i in app.rgLINE:
                 n = self.num[i][j]
                 if n > 0 :
                     boolNum[n-1] = True
                     lineBoolNum[i] = True
             
-            for num_idx in App.rgLINE:
+            for num_idx in app.rgLINE:
                 if boolNum[num_idx]: continue
                 checkLineBoolNum = deepcopy(lineBoolNum)
                 num = num_idx+1
                 
                 #check grid
-                for i in App.rgGRID:
+                for i in app.rgGRID:
                     grid_j = int(j / 3)
                     g = self.grid(i, grid_j)
                     pos = self._queryGridBoolNum(g, num)
@@ -549,38 +549,38 @@ class SudokuBoxer:
                         checkLineBoolNum[i*3] = checkLineBoolNum[i*3+1] = checkLineBoolNum[i*3+2] = True
                 
                 #check line
-                for i in App.rgLINE:
+                for i in app.rgLINE:
                     if self.num[i][j] > 0: continue
                     
-                    for line_j in App.rgLINE:
+                    for line_j in app.rgLINE:
                         if self.num[i][line_j] == num:
                             checkLineBoolNum[i] = True
                             break
                 if self._countLineBoolNum(checkLineBoolNum, False) == 1:
-                    print 'CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s' % ([int(self.num[n][j]) for n in App.rgLINE], (i,j), checkLineBoolNum)
+                    print 'CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s' % ([int(self.num[n][j]) for n in app.rgLINE], (i,j), checkLineBoolNum)
                     i = checkLineBoolNum.index(False)
                     return (i,j), num, None
         
         #check Grid
-        for i in App.rgGRID:
-            for j in App.rgGRID:
+        for i in app.rgGRID:
+            for j in app.rgGRID:
                 boolNum = deepcopy(self._markBoolNumByGrid(i,j)) #represent 1~9
                 gridBoolNum = deepcopy(self._markGridBoolNum(i,j)) #Grid has value
                 
                 g = self.grid(i,j)
-                for num_idx in App.rgLINE:
+                for num_idx in app.rgLINE:
                     if boolNum[num_idx]: continue
                     num = num_idx + 1
                     checkGridBoolNum = deepcopy(gridBoolNum)
                     
                     for pos in self._iterGridNoVal(g):
-                        gx, gy = pos[0] + i*App.nGRID, pos[1] + j*App.nGRID #global x,y
+                        gx, gy = pos[0] + i*app.nGRID, pos[1] + j*app.nGRID #global x,y
                         if self._countBoolNumByXY(gx, gy, num) > 0:
                             checkGridBoolNum[pos[0]][pos[1]] = True
                     #only one
                     if self._countGridBoolNum(checkGridBoolNum, False) == 1:
                         pos = self._queryGridBoolNum(checkGridBoolNum, False)
-                        gx, gy = pos[0] + i*App.nGRID, pos[1] + j*App.nGRID #global x,y
+                        gx, gy = pos[0] + i*app.nGRID, pos[1] + j*app.nGRID #global x,y
                         print 'CheckGrid (i,j)=%s, GridBoolNum=%s' % (pos, checkGridBoolNum)
                         return (gx,gy), num, None
         return None
@@ -610,8 +610,8 @@ class SudokuBoxer:
             
         
         #set validList
-        for x in App.rgLINE:
-            for y in App.rgLINE:
+        for x in app.rgLINE:
+            for y in app.rgLINE:
                 if self.num[x][y] == 0:
                     self.num[x][y].validList = self.getValidNum(x,y)
         
@@ -627,10 +627,10 @@ class SudokuBoxer:
         return answer
         
     def _brute(self, i, j):
-        if j*App.nLINE+i == App.nLINE*App.nLINE: #the last cell
+        if j*app.nLINE+i == app.nLINE*app.nLINE: #the last cell
             return True
             
-        if i==App.nLINE-1:
+        if i==app.nLINE-1:
             next = 0, j+1
         else:
             next = i+1, j
@@ -649,8 +649,8 @@ class SudokuBoxer:
     
     def _debugPrintBoolNum(self):
         print '------boolNum------'
-        for i in App.rgLINE:
-            for j in App.rgLINE:
+        for i in app.rgLINE:
+            for j in app.rgLINE:
                 sys.stdout.write(str(self._boolNum[j][i])[0])
                 if j in [2,5]:
                     sys.stdout.write(' ')

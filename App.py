@@ -1,6 +1,6 @@
 import wx
 import util
-from PuzzleLoader import PuzzleLoaderDB
+from puzzle_loader import PuzzleLoaderDB
 
 #--------------------------- Get Version ------------------------------#
 try:
@@ -43,3 +43,4 @@ def SetConfig():
     util.config.set('APP', 'LastPuzzle',       str(lastPuzzle))
     util.config.set('APP', 'ShowAutoTip',      bShowAutoTip)
     util.config.set('APP', 'CellSize',         str(nCellSize))
+

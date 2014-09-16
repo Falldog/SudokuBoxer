@@ -1,7 +1,7 @@
 import wx
-import App
+import app
 from wx import xrc
-from SudokuBoxer import Number
+from main_frame import Number
 
 class XrcBase:
     def __init__(self):
@@ -58,21 +58,21 @@ class PreferenceDialog(XrcDialog):
         pass
         
     def initColorText(self):
-        self.cpBgFocus.SetColour(App.clBgFocus)
-        self.cpBgOver.SetColour(App.clBgOver)
-        self.cpBgNormal.SetColour(App.clBgNormal)
-        self.cpBgDefault.SetColour(App.clBgDefault)
-        self.cpTextNormal.SetColour(App.clTextNormal)
-        self.cpTextDefault.SetColour(App.clTextDefault)
+        self.cpBgFocus.SetColour(app.clBgFocus)
+        self.cpBgOver.SetColour(app.clBgOver)
+        self.cpBgNormal.SetColour(app.clBgNormal)
+        self.cpBgDefault.SetColour(app.clBgDefault)
+        self.cpTextNormal.SetColour(app.clTextNormal)
+        self.cpTextDefault.SetColour(app.clTextDefault)
         self.colorPickerList = [self.cpBgFocus, self.cpBgOver, self.cpBgNormal, self.cpBgDefault, self.cpTextDefault, self.cpTextNormal]
         for c in self.colorPickerList:
             self.Bind(wx.EVT_COLOURPICKER_CHANGED, self.onColorChanged, c)
     
     def updateColor(self):
-        self.numberPanel.BG_CL       = App.clBgNormal
-        self.numberPanel.BG_CL_FOCUS = App.clBgFocus
-        self.numberPanel.BG_CL_OVER  = App.clBgOver
-        self.numberPanel.BG_CL_DEFAULT= App.clBgDefault
+        self.numberPanel.BG_CL       = app.clBgNormal
+        self.numberPanel.BG_CL_FOCUS = app.clBgFocus
+        self.numberPanel.BG_CL_OVER  = app.clBgOver
+        self.numberPanel.BG_CL_DEFAULT= app.clBgDefault
         self.numberPanel.updateBrush()
         
     def onColorChanged(self, evt):
@@ -80,13 +80,13 @@ class PreferenceDialog(XrcDialog):
         for idx, c in enumerate(self.colorPickerList):
             if _id == c.GetId():
                 if c is self.cpBgFocus:
-                    App.clBgFocus = c.GetColour()
+                    app.clBgFocus = c.GetColour()
                 if c is self.cpBgOver:
-                    App.clBgOver = c.GetColour()
+                    app.clBgOver = c.GetColour()
                 if c is self.cpBgNormal:
-                    App.clBgNormal = c.GetColour()
+                    app.clBgNormal = c.GetColour()
                 if c is self.cpBgDefault:
-                    App.clBgDefault = c.GetColour()
+                    app.clBgDefault = c.GetColour()
                 self.updateColor()
                     
 class NumberPanel(XrcPanel):
@@ -108,9 +108,9 @@ class NumberPanel(XrcPanel):
         self.updateBrush()
         
         #self.cellPos = (-1,-1)
-        self.num = [ [] for n in App.rgGRID ]
-        for i in App.rgGRID:
-            self.num[i] = [ Number() for n in App.rgGRID ]
+        self.num = [ [] for n in app.rgGRID ]
+        for i in app.rgGRID:
+            self.num[i] = [ Number() for n in app.rgGRID ]
         self.default = deepcopy(self.num)
         
         self.focusPos = (-1,-1)
@@ -136,8 +136,8 @@ class NumberPanel(XrcPanel):
         from copy import deepcopy
         assert len(d)==len(self.default)
         #Default
-        for i in App.rgGRID:
-            for j in App.rgGRID:
+        for i in app.rgGRID:
+            for j in app.rgGRID:
                 self.default[i][j].val = d[i][j]
                 self.default[i][j].isDefault  =  d[i][j]!=0
         self.num = deepcopy(self.default)
@@ -235,8 +235,8 @@ class NumberPanel(XrcPanel):
         
         dc.SetFont(self.font)
         dc.SetPen(self.penTrans) #Don't draw the border on BG rect
-        for i in App.rgGRID:
-            for j in App.rgGRID:
+        for i in app.rgGRID:
+            for j in app.rgGRID:
                 num = self.num[i][j].val#i + j*App.nGRID +1
                 _r = (i*self.CELL_SIZE, j*self.CELL_SIZE, self.CELL_SIZE, self.CELL_SIZE)
                 if not dirtyR.Intersects(_r):
@@ -264,7 +264,7 @@ class NumberPanel(XrcPanel):
         dc.SetBrush(wx.NullBrush)
         
         s  = self.CELL_SIZE
-        sl = s * App.nGRID
+        sl = s * app.nGRID
         
         #Draw Dot Line
         dc.SetPen(wx.Pen(self.CL_LINE_DOT, 1, wx.DOT))
@@ -276,7 +276,7 @@ class NumberPanel(XrcPanel):
         
         dc.SetPen(wx.Pen(self.CL_LINE_SOLID, 2, wx.SOLID))
         dc.SetBrush(wx.TRANSPARENT_BRUSH)
-        dc.DrawRectangle(0, 0, s*App.nGRID, s*App.nGRID)
+        dc.DrawRectangle(0, 0, s*app.nGRID, s*app.nGRID)
         pass
         
 class ChoiceNumberPanel(wx.Panel):
@@ -340,7 +340,7 @@ class ChoiceNumberPanel(wx.Panel):
     def onMouseDown(self, evt):
         x,y = evt.GetPosition()
         pos = self.pt2pos(x,y)
-        num = pos[0] + pos[1]*App.nGRID + 1
+        num = pos[0] + pos[1]*app.nGRID + 1
         if num in self.focusNums:
             self.focusNums.remove(num)
         else:
@@ -373,9 +373,9 @@ class ChoiceNumberPanel(wx.Panel):
         
         dc.SetFont(self.font)
         dc.SetPen(self.penTrans) #Don't draw the border on BG rect
-        for i in App.rgGRID:
-            for j in App.rgGRID:
-                num = i + j*App.nGRID +1
+        for i in app.rgGRID:
+            for j in app.rgGRID:
+                num = i + j*app.nGRID +1
                 _r = (i*self.CELL_SIZE, j*self.CELL_SIZE, self.CELL_SIZE, self.CELL_SIZE)
                 if not dirtyR.Intersects(_r):
                     continue
@@ -399,7 +399,7 @@ class ChoiceNumberPanel(wx.Panel):
         dc.SetBrush(wx.NullBrush)
         
         s  = self.CELL_SIZE
-        sl = s * App.nGRID
+        sl = s * app.nGRID
         
         #Draw Dot Line
         dc.SetPen(wx.Pen(self.CL_LINE_DOT, 1, wx.DOT))
@@ -411,6 +411,6 @@ class ChoiceNumberPanel(wx.Panel):
         
         dc.SetPen(wx.Pen(self.CL_LINE_SOLID, 2, wx.SOLID))
         dc.SetBrush(wx.TRANSPARENT_BRUSH)
-        dc.DrawRectangle(0, 0, s*App.nGRID, s*App.nGRID)
+        dc.DrawRectangle(0, 0, s*app.nGRID, s*app.nGRID)
         pass
         

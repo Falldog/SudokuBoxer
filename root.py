@@ -1,10 +1,11 @@
 import wx
-import App
+import sys
+import app
 
 def SetDefaultLanguage():
     lang = util.config.get('LANG', 'language', 'ENU')
-    App.locale.AddCatalogLookupPathPrefix('.\\lang')
-    App.locale.AddCatalog(lang)
+    app.locale.AddCatalogLookupPathPrefix('.\\lang')
+    app.locale.AddCatalog(lang)
     #first launch
     if not os.path.exists(util.CONFIG_FILE):
         sup_lang = [ 'CHT', 'ENU' ]
@@ -14,7 +15,7 @@ def SetDefaultLanguage():
         ret = dlg.ShowModal()
         if ret == wx.ID_OK:
             lang = sup_lang[ dlg.GetSelection() ]
-            App.locale.AddCatalog( lang )
+            app.locale.AddCatalog( lang )
             util.config.set('LANG', 'language', lang)
         dlg.Destroy()
 
@@ -64,7 +65,7 @@ if __name__ == '__main__':
     import user
     import anim
     import util
-    from SudokuBoxer import MainFrame
+    from main_frame import MainFrame
     _ = wx.GetTranslation
     
     mainApp = MainApp()
@@ -80,15 +81,15 @@ if __name__ == '__main__':
     
     time = 0
     cur_puzzle = []
-    if App.bRecordLastPuzzle and App.lastPuzzle:
-        _id         = App.lastPuzzle['id']
-        time        = App.lastPuzzle['time']
-        puzzle      = util.Str2Puzzle(App.lastPuzzle['puzzleDefault'])
-        cur_puzzle  = util.Str2Puzzle(App.lastPuzzle['puzzleCurrent'])
-        print '[root] RecordLastPuzzle!\nid=%d\ntime=%s\n    puzzle=%s\ncur puzzle=%s' % (_id, util.Sec2TimeFormat(time), App.lastPuzzle['puzzleDefault'], App.lastPuzzle['puzzleCurrent'])
+    if app.bRecordLastPuzzle and app.lastPuzzle:
+        _id         = app.lastPuzzle['id']
+        time        = app.lastPuzzle['time']
+        puzzle      = util.Str2Puzzle(app.lastPuzzle['puzzleDefault'])
+        cur_puzzle  = util.Str2Puzzle(app.lastPuzzle['puzzleCurrent'])
+        print '[root] RecordLastPuzzle!\nid=%d\ntime=%s\n    puzzle=%s\ncur puzzle=%s' % (_id, util.Sec2TimeFormat(time), app.lastPuzzle['puzzleDefault'], app.lastPuzzle['puzzleCurrent'])
     else:
         #puzzle loader
-        _id, puzzle = App.puzzleLoader.pick(mode)
+        _id, puzzle = app.puzzleLoader.pick(mode)
     
     #anim
     anim.InitAnimManager()
@@ -104,6 +105,6 @@ if __name__ == '__main__':
     mainApp.MainLoop()
     mainApp.close()
     
-    App.SetConfig()
+    app.SetConfig()
     util.WriteConfig()
     
