@@ -1,15 +1,18 @@
 import wx
 import os
 import sqlite3
+import logging
 import util
+
 _ = wx.GetTranslation
+logger = logging.getLogger(__name__)
 
 
 class UserInfoDB:
     def __init__(self):
         self.dbPath = os.path.join( util.to_unicode(os.path.abspath(os.curdir)), u'puzzle', u'PuzzleDB')
         if not os.path.exists(self.dbPath):
-            raise 'Puzzle DB doesn\'t exist!!!!'
+            raise Exception('Puzzle DB doesn\'t exist!!!!')
         self.db = sqlite3.connect(u'.\\puzzle\\PuzzleDB')
         self.cursor = self.db.cursor()
         self.curUserID   = -1
@@ -52,7 +55,7 @@ class UserInfoDB:
         
         self.cursor.execute("SELECT id FROM User WHERE name='%s'" % name)
         if self.cursor.rowcount == 0:
-            print '[UserInfo] setUser ERROR! User=%s doesn\'t exist!' % name
+            logger.info('setUser ERROR! User=%s doesn\'t exist!', name)
             return
         row = self.cursor.fetchone()
         _id = row[0]

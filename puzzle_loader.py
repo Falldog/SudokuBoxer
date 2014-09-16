@@ -1,8 +1,10 @@
-import wx
+﻿import wx
 import os
-import sqlite3
 import util
+import sqlite3
+import logging
 
+logger = logging.getLogger(__name__)
 PUZZLE_EXT = '.sb'
 '''
 class PuzzleLoader:
@@ -36,7 +38,7 @@ class PuzzleLoader:
     def parseFile(self, mode, file_name):
         path = self.folder + u'\\' + mode + u'\\' + file_name
         if not os.path.exists( path ):
-            print '[PuzzleLoader] File Doesn\'t exist!!!', file_name
+            logger.error("[PuzzleLoader] File Doesn't exist! filename=%s", file_name)
             return []
         
         sudoku = []
@@ -61,7 +63,7 @@ class PuzzleLoader:
                         if len(sudoku[-1]) != 9:
                             raise '[PuzzleLoader] Sudoku number wrong!!! %s' % n
         except:
-            print '[PuzzleLoader] Load File fail!'
+            logger.error('[PuzzleLoader] Load File fail!')
         
         f.close()
         return sudoku
@@ -88,7 +90,7 @@ class PuzzleLoaderDB:
         self.dbPath = os.path.join( util.to_unicode(os.path.abspath(os.curdir)), u'puzzle', u'PuzzleDB')
         if not os.path.exists(self.dbPath):
             raise Exception('Puzzle DB doesn\'t exist!!!!')
-        self.db = sqlite3.connect(u'.\\puzzle\\PuzzleDB') #[WARNING!] Use abs path will exception in Window XP Desktop
+        self.db = sqlite3.connect(ur'.\puzzle\PuzzleDB') #[WARNING!] Use abs path will exception in Window XP Desktop
         self.cursor = self.db.cursor()
         
         #initial count
@@ -97,7 +99,7 @@ class PuzzleLoaderDB:
             res = self.cursor.execute('SELECT COUNT(*) FROM puzzle_%s' % (level))
             for r in res:
                 self.count[level] = int(r[0])
-                print 'COUNT:', level, self.count[level]
+                logger.info('COUNT: %s, %d', level, self.count[level])
                 break
         pass
         
@@ -134,6 +136,6 @@ class PuzzleLoaderDB:
                 if puzzle:
                     break
         
-        print '[PuzzleLoaderDB] pick() mode=%s, id=%d\npuzzle=%s' % (mode, _id, row_data)
+        logger.info('mode=%s, id=%d, puzzle=%s', mode, _id, row_data)
         return _id, puzzle
     

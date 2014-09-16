@@ -1,15 +1,18 @@
-﻿import wx
+﻿import os
+import wx
 import wx.lib.newevent
+import logging
 from copy import deepcopy
-import os
-import sqlite3
+
 import anim
 import util
 import app
 from puzzle_loader import PuzzleLoaderDB
 from boxer import SudokuBoxer, Step, BoxerInfo
 from user import GetUserInfo
+
 _ = wx.GetTranslation
+logger = logging.getLogger(__name__)
 
 LICENSE = '''
 This program is free software: you can redistribute it and/or modify
@@ -391,7 +394,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
             return -1, -1
             
     def onKeyUp(self, evt):
-        #print 'KeyUp', evt.GetKeyCode()
+        #logger.info('KeyUp = %s', evt.GetKeyCode())
         key = evt.GetKeyCode()
         if key in [wx.WXK_LEFT, wx.WXK_RIGHT, wx.WXK_UP, wx.WXK_DOWN]:
             x, y = 0, 0
@@ -421,7 +424,7 @@ class NumberBoard(wx.Panel, SudokuBoxer):
             num_idx = num_list.index(key) + 1
         except ValueError:
             pass
-        print 'KeyDown key=%s, num_idx=%d' % (str(key), num_idx)
+        logger.info('KeyDown key=%s, num_idx=%d', str(key), num_idx)
         
         if num_idx > -1:
             self.setVal(self.focusPos[0], self.focusPos[1], num_idx)
@@ -989,7 +992,7 @@ class MainFrame(wx.Frame):
         elif _id == ID_MENU_OPT_SHOW_AUTOTIP:
             autoTip = True
         else:
-            print '[MainFrame] changeTipMode() _id wrong!'
+            logger.warning('[MainFrame] changeTipMode() _id wrong!')
             return
         app.bShowAutoTip = autoTip
         self.menuOpt.Check(_id, True)
@@ -1088,7 +1091,7 @@ class MainFrame(wx.Frame):
         dlg.Destroy()
         
     def check(self, evt):
-        print 'Check Finish', self.board.checkFinish()
+        logger.info('Check Finish = %s', self.board.checkFinish())
     
     def finish(self, evt):
         res = self.board.checkValid()
@@ -1100,10 +1103,6 @@ class MainFrame(wx.Frame):
             g_userInfo.setRecord(self.puzzleID, self.spendTime)
         else:
             msg = _('Hey man! Your answer is wrong... try again!')
-        #print msg
-        #print '123'
-        #print u'123'
-        #print msg
         dlg = wx.MessageDialog(None, msg, _('Information'), style=wx.OK)
         dlg.ShowModal()
         dlg.Destroy()

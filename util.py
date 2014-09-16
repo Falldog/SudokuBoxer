@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import ConfigParser
@@ -34,6 +35,13 @@ def write_config():
 init_config()
 
 #===============================================================================================
+def is_dev():
+    if not hasattr(sys, 'frozen'):  # source code
+        return True
+    else:  # PyInstaller frozen state
+        return os.getenv('SB_DEBUG', False)
+
+
 def time_format(secs):
     h = secs/(60*60)
     m = secs/(60) % 60

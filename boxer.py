@@ -1,6 +1,10 @@
 import wx
 import app
+import logging
 from copy import deepcopy
+
+logger = logging.getLogger(__name__)
+
 
 class Step:
     def __init__(self, i, j, ori_val, val):
@@ -355,7 +359,7 @@ class SudokuBoxer:
                  X       -> check 3 & 7, if 3 exist, this X is 7
                      X   -> check 3 & 7, if 3 exist, this X is 7
         '''
-        print '-----------boxerNextSoSo-----------'
+        logger.info('-----------boxerNextSoSo-----------')
         boolNumFalse = [False for i in app.rgLINE]
         #check vertical
         for i in app.rgLINE:
@@ -379,7 +383,8 @@ class SudokuBoxer:
                             checkBoolNum[n-1] = True
                             numPosList.append( {'pos':(line_i,j), 'num':n} )
                     if self._countLineBoolNum(checkBoolNum,False) == 1:
-                        print 'CheckVertical line=%s\n (i,j)=%s, checkBoolNum=%s' % ([int(self.num[i][n]) for n in app.rgLINE], (i,j), checkBoolNum)
+                        logger.info('CheckVertical line=%s\n (i,j)=%s, checkBoolNum=%s',
+                                    [int(self.num[i][n]) for n in app.rgLINE], (i,j), checkBoolNum)
                         num = checkBoolNum.index(False)+1
                         
                         #set boxer info
@@ -416,7 +421,8 @@ class SudokuBoxer:
                             checkBoolNum[n-1] = True
                             numPosList.append( {'pos':(line_i,j), 'num':n} )
                     if self._countLineBoolNum(checkBoolNum,False) == 1:
-                        print 'CheckHorizantol line=%s\n (i,j)=%s, checkBoolNum=%s' % ([self.num[n][j] for n in app.rgLINE], (i,j), checkBoolNum)
+                        logger.info('CheckHorizantol line=%s\n (i,j)=%s, checkBoolNum=%s',
+                                    [self.num[n][j] for n in app.rgLINE], (i,j), checkBoolNum)
                         num = checkBoolNum.index(False)+1
                         
                         #set boxer info
@@ -452,7 +458,7 @@ class SudokuBoxer:
                                 
                         if self._countLineBoolNum(checkBoolNum, False) == 1:
                             num = checkBoolNum.index(False)+1
-                            print 'CheckGrid (i,j)=%s checkBoolNum=%s' % ((gx,gy), checkBoolNum)
+                            logger.info('CheckGrid (i,j)=%s checkBoolNum=%s', (gx,gy), checkBoolNum)
                             
                             #set boxer info
                             bi = BoxerInfo()
@@ -483,7 +489,7 @@ class SudokuBoxer:
                  XX  X   -> check 4, if 2*X has 4, the only 1X is 4
                  XX  X   -> check 7, if 2*X has 7, the only 1X is 7
         '''
-        print '-----------boxerNextSoSo2-----------'
+        logger.info('-----------boxerNextSoSo2-----------')
         boolNumFalse = [False for i in app.rgLINE]
         #check vertical
         for i in app.rgLINE:
@@ -519,7 +525,8 @@ class SudokuBoxer:
                             break
                             
                 if self._countLineBoolNum(checkLineBoolNum, False) == 1:
-                    print 'CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s' % ([int(self.num[i][n]) for n in app.rgLINE], (i,j), checkLineBoolNum)
+                    logger.info('CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s',
+                                [int(self.num[i][n]) for n in app.rgLINE], (i,j), checkLineBoolNum)
                     j = checkLineBoolNum.index(False)
                     return (i,j), num, None
             
@@ -557,7 +564,8 @@ class SudokuBoxer:
                             checkLineBoolNum[i] = True
                             break
                 if self._countLineBoolNum(checkLineBoolNum, False) == 1:
-                    print 'CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s' % ([int(self.num[n][j]) for n in app.rgLINE], (i,j), checkLineBoolNum)
+                    logger.info('CheckVertical line=%s\n (i,j)=%s, checkLineBoolNum=%s',
+                                [int(self.num[n][j]) for n in app.rgLINE], (i,j), checkLineBoolNum)
                     i = checkLineBoolNum.index(False)
                     return (i,j), num, None
         
@@ -581,7 +589,7 @@ class SudokuBoxer:
                     if self._countGridBoolNum(checkGridBoolNum, False) == 1:
                         pos = self._queryGridBoolNum(checkGridBoolNum, False)
                         gx, gy = pos[0] + i*app.nGRID, pos[1] + j*app.nGRID #global x,y
-                        print 'CheckGrid (i,j)=%s, GridBoolNum=%s' % (pos, checkGridBoolNum)
+                        logger.info('CheckGrid (i,j)=%s, GridBoolNum=%s', pos, checkGridBoolNum)
                         return (gx,gy), num, None
         return None
         
@@ -616,7 +624,7 @@ class SudokuBoxer:
                     self.num[x][y].validList = self.getValidNum(x,y)
         
         ret = self._brute(0, 0)
-        print '[boxerBrute] ret=%s\npuzzle=%s' % (ret, util.puzzle2str(self.num))
+        logger.info('ret=%s\npuzzle=%s', ret, util.puzzle2str(self.num))
         answer = self.num
         
         
@@ -648,6 +656,7 @@ class SudokuBoxer:
             return False
     
     def _debugPrintBoolNum(self):
+        import sys
         print '------boolNum------'
         for i in app.rgLINE:
             for j in app.rgLINE:

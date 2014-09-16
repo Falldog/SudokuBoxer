@@ -1,7 +1,12 @@
 import wx
-import app
 from wx import xrc
+import logging
+
+import app
 from main_frame import Number
+
+logger = logging.getLogger(__name__)
+
 
 class XrcBase:
     def __init__(self):
@@ -200,7 +205,7 @@ class NumberPanel(XrcPanel):
             num_idx = num_list.index(key) + 1
         except ValueError:
             pass
-        print 'KeyDown key=%s, num_idx=%d' % (str(key), num_idx)
+        logger.info('KeyDown key=%s, num_idx=%d', str(key), num_idx)
         
         if num_idx > -1:
             self.setVal(self.focusPos[0], self.focusPos[1], num_idx)
