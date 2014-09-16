@@ -312,13 +312,13 @@ class NumberBoard(wx.Panel, SudokuBoxer):
         if not bString:
             return deepcopy(self.default)
         else:
-            return util.Puzzle2Str(self.default)
+            return util.puzzle2str(self.default)
             
     def getCurrentPuzzle(self, bString=False):
         if not bString:
             return deepcopy(self.num)
         else:
-            return util.Puzzle2Str(self.num)
+            return util.puzzle2str(self.num)
         
     def canUndo(self):
         return self.cur_step >= 0
@@ -948,7 +948,7 @@ class MainFrame(wx.Frame):
 #        m = t/(60) % 60
 #        s = t % 60
         #self.textSpendTime.SetLabel('%d:%02d:%02d' % (h,m,s))
-        self.textSpendTime.SetLabel(util.Sec2TimeFormat(t))
+        self.textSpendTime.SetLabel(util.time_format(t))
         
     
     def changeLang(self, lang_id, bInit=False):
@@ -1167,5 +1167,5 @@ class MainFrame(wx.Frame):
         wx.AboutBox(info)
     
     def linkProject(self, evt):
-        wx.LaunchDefaultBrowser('http://sourceforge.net/projects/sudokuboxer/')
+        wx.LaunchDefaultBrowser('https://github.com/Falldog/SudokuBoxer')
         

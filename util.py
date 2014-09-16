@@ -1,7 +1,8 @@
+import sys
 import time
 import ConfigParser
 
-
+#===============================================================================================
 class FConfigParser(ConfigParser.ConfigParser):
     def __init__(self, *argv, **argd):
         ConfigParser.ConfigParser.__init__(self, *argv, **argd)
@@ -19,48 +20,50 @@ class FConfigParser(ConfigParser.ConfigParser):
 config = None
 
 CONFIG_FILE = 'config.ini'
-def InitConfig():
+def init_config():
     global config
     config = FConfigParser()
     config.read(CONFIG_FILE)
-def WriteConfig():
+
+def write_config():
     global config
     f = open(CONFIG_FILE, 'w')
     config.write(f)
     f.close()
 
-InitConfig()
+init_config()
 
-
-
-def Sec2TimeFormat(secs):
+#===============================================================================================
+def time_format(secs):
     h = secs/(60*60)
     m = secs/(60) % 60
     s = secs % 60
     return u'%d:%02d:%02d' % (h,m,s)
 
-ori_unicode = unicode
-def unicode(s):
+
+def to_unicode(s):
     try:
-        return ori_unicode(s)
+        return unicode(s)
     except UnicodeDecodeError:
-        return ori_unicode(s,'mbcs')
+        return unicode(s, sys.getfilesystemencoding())
 
 
-def Puzzle2Str(puzzle):
+def puzzle2str(puzzle):
     s = ''
     for i in range(9):
         for j in range(9):
             s += str(puzzle[j][i])
     return s
-def Str2Puzzle(s):
+
+def str2puzzle(s):
     n = []
     for i in range(9):
         n.append([])
         for j in range(9):
             n[-1].append( int(s[j*9+i]) )
     return n
-    
+
+
 def print_exctime(f):
     def _f(*argv, **argd):
         t = time.time()

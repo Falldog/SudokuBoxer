@@ -2,7 +2,7 @@ import wx
 import sys
 import app
 
-def SetDefaultLanguage():
+def set_default_language():
     lang = util.config.get('LANG', 'language', 'ENU')
     app.locale.AddCatalogLookupPathPrefix('.\\lang')
     app.locale.AddCatalog(lang)
@@ -71,7 +71,7 @@ if __name__ == '__main__':
     mainApp = MainApp()
     mainApp.ParseArgument()
     
-    SetDefaultLanguage()
+    set_default_language()
     
     #initial
     user.InitUserInfo() #user info
@@ -84,9 +84,9 @@ if __name__ == '__main__':
     if app.bRecordLastPuzzle and app.lastPuzzle:
         _id         = app.lastPuzzle['id']
         time        = app.lastPuzzle['time']
-        puzzle      = util.Str2Puzzle(app.lastPuzzle['puzzleDefault'])
-        cur_puzzle  = util.Str2Puzzle(app.lastPuzzle['puzzleCurrent'])
-        print '[root] RecordLastPuzzle!\nid=%d\ntime=%s\n    puzzle=%s\ncur puzzle=%s' % (_id, util.Sec2TimeFormat(time), app.lastPuzzle['puzzleDefault'], app.lastPuzzle['puzzleCurrent'])
+        puzzle      = util.str2puzzle(app.lastPuzzle['puzzleDefault'])
+        cur_puzzle  = util.str2puzzle(app.lastPuzzle['puzzleCurrent'])
+        print '[root] RecordLastPuzzle!\nid=%d\ntime=%s\n    puzzle=%s\ncur puzzle=%s' % (_id, util.time_format(time), app.lastPuzzle['puzzleDefault'], app.lastPuzzle['puzzleCurrent'])
     else:
         #puzzle loader
         _id, puzzle = app.puzzleLoader.pick(mode)
@@ -106,5 +106,5 @@ if __name__ == '__main__':
     mainApp.close()
     
     app.SetConfig()
-    util.WriteConfig()
+    util.write_config()
     

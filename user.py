@@ -7,7 +7,7 @@ _ = wx.GetTranslation
 
 class UserInfoDB:
     def __init__(self):
-        self.dbPath = os.path.join( util.unicode(os.path.abspath(os.curdir)), u'puzzle', u'PuzzleDB')
+        self.dbPath = os.path.join( util.to_unicode(os.path.abspath(os.curdir)), u'puzzle', u'PuzzleDB')
         if not os.path.exists(self.dbPath):
             raise 'Puzzle DB doesn\'t exist!!!!'
         self.db = sqlite3.connect(u'.\\puzzle\\PuzzleDB')
@@ -184,7 +184,7 @@ class RecordList(wx.ListCtrl):
         if col==0:
             return unicode(self.data[idx]['id'])
         elif col==1:
-            return util.Sec2TimeFormat(self.data[idx]['time'])
+            return util.time_format(self.data[idx]['time'])
         
 class RecordListDialog(wx.Dialog):
     def __init__(self, parent, ID, title, size=(100,500), pos=wx.DefaultPosition, 

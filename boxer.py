@@ -616,7 +616,7 @@ class SudokuBoxer:
                     self.num[x][y].validList = self.getValidNum(x,y)
         
         ret = self._brute(0, 0)
-        print '[boxerBrute] ret=%s\npuzzle=%s' % (ret, util.Puzzle2Str(self.num))
+        print '[boxerBrute] ret=%s\npuzzle=%s' % (ret, util.puzzle2str(self.num))
         answer = self.num
         
         

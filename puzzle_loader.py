@@ -85,7 +85,7 @@ class PuzzleLoader:
 
 class PuzzleLoaderDB:
     def __init__(self):
-        self.dbPath = os.path.join( util.unicode(os.path.abspath(os.curdir)), u'puzzle', u'PuzzleDB')
+        self.dbPath = os.path.join( util.to_unicode(os.path.abspath(os.curdir)), u'puzzle', u'PuzzleDB')
         if not os.path.exists(self.dbPath):
             raise Exception('Puzzle DB doesn\'t exist!!!!')
         self.db = sqlite3.connect(u'.\\puzzle\\PuzzleDB') #[WARNING!] Use abs path will exception in Window XP Desktop
@@ -113,7 +113,7 @@ class PuzzleLoaderDB:
         p = ''
         for row in self.cursor:
             p = row[0]
-            n = util.Str2Puzzle(p)
+            n = util.str2puzzle(p)
         return n, p
         
     def pick(self, mode='easy', _id=-1):
