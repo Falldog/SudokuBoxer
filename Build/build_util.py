@@ -35,14 +35,6 @@ def GenerateVersion(version_path):
     f = open(version_path, 'w')
     f.write('%s\n%s' % (ver, ver_date))
     f.close()
-    
 
+    return '%s.%s' % (ver, ver_date)
 
-if len(sys.argv) > 1:
-    task = sys.argv[1]
-    if task == 'generate_py_list':
-        GeneratePyList( sys.argv[2] )
-        
-    elif task == 'generate_version':
-        GenerateVersion( sys.argv[2] )
-        

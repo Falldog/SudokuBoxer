@@ -9,9 +9,11 @@ Version
 0.7.x Alpha
 
 Requirement
------------
+--------------
 * [Python 2.7](https://www.python.org/download/releases/2.7)
-* [wxPython 2.8](http://www.wxpython.org/download.php)
+* [wxPython 2.8 for Python 2.7](http://www.wxpython.org/download.php)
+* PyWin32 
+* PyInstaller 2.1 - `pip install pyinstaller==2.1`
 * [Tips] Please download both 32bit or 64bit
 
 
@@ -23,8 +25,8 @@ IDE
 Development
 --------------
 * `git clone <SudokuBoxer repo> <SudokuBoxerDir>`
-* Install requirement (Python2.7 & wxPython2.8)
-* Open `<SudokuBoxerDir>` by PyCharm
+* install requirement
+* open `<SudokuBoxerDir>` by PyCharm
 * configure Python Interpreter in PyCharm
 * execute `root.py`
 
@@ -32,15 +34,18 @@ Development
 Build Package
 --------------
 * Windows
-  * execute `./sudukuboxer/Build/build.bat`
+  * execute `python <SudokuBoxerDir>/build/build.py`
 * Linux & Mac
-  * not support yet
+  * execute `python <SudokuBoxerDir>/build/build.py` (not verified)
 
 
 Language
 --------------
 * Chinese
 * English
+
+##### Build & update language translating file (.PO)
+ execute `python <SudokuBoxerDir>/build/build.py --update-po`
 
 
 GUI Screenshots
