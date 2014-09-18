@@ -1,4 +1,4 @@
-import wx
+﻿import wx
 import sys
 import app
 import logging
@@ -8,11 +8,13 @@ logger = logging.getLogger(__name__)
 
 def set_default_language():
     lang = util.config.get('LANG', 'language', 'ENU')
-    app.locale.AddCatalogLookupPathPrefix('.\\lang')
+    app.locale.AddCatalogLookupPathPrefix(app.LANG_PATH)
     app.locale.AddCatalog(lang)
+    logger.info('[Language] lang = %s', lang)
+
     #first launch
     if not os.path.exists(util.CONFIG_FILE):
-        sup_lang = [ 'CHT', 'ENU' ]
+        sup_lang = ['CHT', 'ENU']
         trans_sup_lang = [ _(w) for w in sup_lang ]
         dlg = wx.SingleChoiceDialog(None, _('Choice Language'), 'SudokuBoxer', trans_sup_lang, wx.OK)
         dlg.SetSelection(0)
@@ -32,9 +34,17 @@ class MainApp(wx.App):
 
     def InitLogging(self):
         import util
-        if util.is_dev():
-            FORMAT = '%(asctime)s [%(levelname)s] [%(name)s::%(funcName)s] %(message)s'
-            logging.basicConfig(format=FORMAT, level=logging.INFO)
+        FORMAT = '%(asctime)s [%(levelname)s] [%(name)s::%(funcName)s] %(message)s'
+        logging.basicConfig(format=FORMAT, level=logging.INFO)
+
+        # frozen by PyInstaller, redirect log to DbgView on Windows
+        if not util.is_dev() and sys.platform == 'win32':
+            h = logging.StreamHandler(util.DbgViewStream())
+            h.setLevel(logging.INFO)
+            h.setFormatter(logging.Formatter(FORMAT))
+
+            root_logger = logging.getLogger()
+            root_logger.addHandler(h)
 
 
 if __name__ == '__main__':
@@ -79,7 +89,7 @@ if __name__ == '__main__':
         frame._setUser(user)
     if time:
         frame.setSpendTime(time)
-        
+
     mainApp.MainLoop()
 
     app.SetConfig()

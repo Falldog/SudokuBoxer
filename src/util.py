@@ -36,6 +36,18 @@ def write_config():
 init_config()
 
 #===============================================================================================
+class DbgViewStream(object):
+    ''' stream debug message to OutputDebugString '''
+    def __init__(self):
+        import ctypes
+        self.output = ctypes.windll.Kernel32.OutputDebugStringW
+    def write(self, s):
+        self.output(to_unicode(s))
+    def flush(self):
+        pass
+
+
+#===============================================================================================
 def is_dev():
     if not hasattr(sys, 'frozen'):  # source code
         return True

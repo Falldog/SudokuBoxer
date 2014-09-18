@@ -1,5 +1,7 @@
 import wx
+import sys
 import util
+from os.path import join, abspath, dirname
 from puzzle_loader import PuzzleLoaderDB
 
 #--------------------------- Get Version ------------------------------#
@@ -15,7 +17,9 @@ VERSION = v
 VERSION_DATE = vd
 #-----------------------------------------------------------------------#
 
-XRC_PATH = r'.\resource\xrc'
+ROOT_PATH = abspath(dirname(sys.argv[0]))
+XRC_PATH = join(ROOT_PATH, 'resource', 'xrc')
+LANG_PATH = join(ROOT_PATH, 'lang')
 
 nCellSize = eval(util.config.get('APP', 'CellSize', '50'))
 nAnswerCellSize = nCellSize*0.6
