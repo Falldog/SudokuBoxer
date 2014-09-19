@@ -7,7 +7,7 @@ from copy import deepcopy
 import anim
 import util
 import app
-from puzzle_loader import PuzzleLoaderDB
+from puzzle_loader import get_puzzle_loader
 from boxer import SudokuBoxer, Step
 from boxer_plugin import boxer_util
 from boxer_plugin.boxer_info import BoxerInfo
@@ -977,14 +977,14 @@ class MainFrame(wx.Frame):
         self.textPuzzleID.SetLabel(unicode(_id))
         
     def new(self, evt):
-        _id, puzzle = app.puzzleLoader.pick(MODE_STR_MAP[self.curModeID])
+        _id, puzzle = get_puzzle_loader().pick(MODE_STR_MAP[self.curModeID])
         self.setDefault(_id, puzzle)
         
     def newNull(self, evt):
         self.board.clearToNull()
     
     def select(self, evt):
-        count = app.puzzleLoader.getCount( MODE_STR_MAP[self.curModeID] )
+        count = get_puzzle_loader().getCount( MODE_STR_MAP[self.curModeID] )
         dlg = wx.TextEntryDialog( self, message=_('Please input a ID number : (1~%d)' % count), 
                                         caption='Select ID' )
         
@@ -995,7 +995,7 @@ class MainFrame(wx.Frame):
                 if 0 < v <= count:
                     self.selectId(v)
                 else:
-                    raise 'Number Error!'
+                    raise Exception('Number Error!')
             except:
                 msg = wx.MessageDialog(None, _('Please input a correctly number!'), _('Information'), style=wx.OK)
                 msg.ShowModal()
@@ -1003,7 +1003,7 @@ class MainFrame(wx.Frame):
         dlg.Destroy()
     
     def selectId(self, _id):
-        self.setDefault( *app.puzzleLoader.pick(MODE_STR_MAP[self.curModeID], _id) )
+        self.setDefault( *get_puzzle_loader().pick(MODE_STR_MAP[self.curModeID], _id) )
         
     def clearAll(self, evt):
         self.board.clearToDefault()

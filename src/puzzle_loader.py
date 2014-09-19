@@ -6,6 +6,15 @@ import logging
 
 logger = logging.getLogger(__name__)
 PUZZLE_EXT = '.sb'
+_puzzle_loader = None
+
+def get_puzzle_loader():
+    global _puzzle_loader
+    if _puzzle_loader is None:
+        _puzzle_loader = PuzzleLoaderDB()
+    return _puzzle_loader
+
+
 '''
 class PuzzleLoader:
     def __init__(self):

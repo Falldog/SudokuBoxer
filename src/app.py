@@ -2,8 +2,6 @@ import wx
 import sys
 import util
 from os.path import join, abspath, dirname
-from puzzle_loader import PuzzleLoaderDB
-
 #--------------------------- Get Version ------------------------------#
 try:
     f = open('version', 'r')
@@ -17,7 +15,7 @@ VERSION = v
 VERSION_DATE = vd
 #-----------------------------------------------------------------------#
 
-ROOT_PATH = abspath(dirname(sys.argv[0]))
+ROOT_PATH = util.to_unicode(abspath(dirname(sys.argv[0])))
 XRC_PATH = join(ROOT_PATH, 'resource', 'xrc')
 LANG_PATH = join(ROOT_PATH, 'lang')
 
@@ -36,7 +34,6 @@ clTextNormal = '#000000'
 clTextDefault = '#000000'
 
 locale = wx.Locale()
-puzzleLoader = PuzzleLoaderDB()
 
 bShowAutoTip      = eval(util.config.get('APP', 'ShowAutoTip', 'False'))
 bRecordLastPuzzle = eval(util.config.get('APP', 'RecordLastPuzzle', 'False'))

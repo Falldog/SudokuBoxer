@@ -1,6 +1,8 @@
-﻿import wx
+﻿import os
+import wx
 import sys
 import app
+import util
 import logging
 
 logger = logging.getLogger(__name__)
@@ -11,6 +13,8 @@ def set_default_language():
     lang_map = {'ENU': 'en_US', 'CHT': 'zh_TW'}
     util.init_translate(lang_map[lang])
     logger.info('[Language] lang = %s (%s)', lang, lang_map[lang])
+
+    _ = util.get_translate
 
     #first launch
     if not os.path.exists(util.CONFIG_FILE):
@@ -48,13 +52,11 @@ class MainApp(wx.App):
 
 
 if __name__ == '__main__':
-    import os
     import user
     import anim
-    import util
+    from puzzle_loader import get_puzzle_loader
     from main_frame import MainFrame
-    _ = wx.GetTranslation
-    
+
     mainApp = MainApp()
 
     set_default_language()
@@ -77,7 +79,7 @@ if __name__ == '__main__':
         logger.info('cur puzzle=%s', app.lastPuzzle['puzzleCurrent'])
     else:
         #puzzle loader
-        _id, puzzle = app.puzzleLoader.pick(mode)
+        _id, puzzle = get_puzzle_loader().pick(mode)
     
     #anim
     anim.InitAnimManager()
