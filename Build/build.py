@@ -47,6 +47,7 @@ class Builder():
         self.update_MUI_mo()
         self.process_pyinstaller()
         self.copy_resource()
+        self.remove_redundant_files()
 
     def update_MUI_po(self):
         ''' update PO file for translating it '''
@@ -107,7 +108,7 @@ class Builder():
         cwd = os.getcwd()
         os.chdir(CUR_DIR)
         try:
-            subprocess.check_call(['pyinstaller', 'SudokuBoxer.spec'])
+            subprocess.check_call('python %s SudokuBoxer.spec' % join(CUR_DIR, 'pyinstaller-1.5.1', 'pyinstaller.py'), shell=True)
 
             # rename to SudokuBoxer-[version]
             ori_dist_dir = join(DIST_DIR, 'SudokuBoxer')
@@ -134,6 +135,16 @@ class Builder():
             shutil.copyfile(join(LANG_DIR, d, 'LC_MESSAGES', 'default.mo'),
                             join(self.lang_dir, d, 'LC_MESSAGES', 'default.mo'))
 
+    def remove_redundant_files(self):
+
+        # PyInstaller-1.5.1 will collect redundant files, include
+        # * API-MS-Win-Core-Debug-L1-1-0.dll
+        # * API-MS-Win-Core-ErrorHandling-L1-1-0
+        # * ...
+        # try to remove it
+        for f in os.listdir(self.dist_dir):
+            if f.startswith('API-MS-Win'):
+                os.remove(join(self.dist_dir, f))
 
 if __name__ == '__main__':
     args = parse_args()

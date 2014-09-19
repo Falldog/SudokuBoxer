@@ -1,25 +1,20 @@
-# -*- mode: python -*-
-from os.path import join, abspath
-
-a = Analysis([join('..', 'root.py')],
-             pathex=[abspath(join('..', 'src'))],
-             hiddenimports=[],
-             hookspath=None,
-             runtime_hooks=None)
+﻿# -*- mode: python -*-
+a = Analysis([os.path.join(HOMEPATH,'support\\_mountzlib.py'), os.path.join(HOMEPATH,'support\\useUnicode.py'), os.path.join('..','root.py')],
+             pathex=[os.path.join('..','src')])
 pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
-          exclude_binaries=True,
-          name='SudokuBoxer.exe',
+          exclude_binaries=1,
+          name=os.path.join('build', 'SudokuBoxer', 'SudokuBoxer.exe'),
           debug=False,
-          strip=None,
+          strip=False,
           upx=True,
-          console=False , 
-          icon=join('..', 'img', 'sudoku.ico'))
+          console=False,
+          icon=os.path.join('..', 'img', 'sudoku.ico'))
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
                a.datas,
-               strip=None,
+               strip=False,
                upx=True,
-               name='SudokuBoxer')
+               name=os.path.join('dist', 'SudokuBoxer'))

@@ -13,7 +13,6 @@ Requirement
 * [Python 2.7](https://www.python.org/download/releases/2.7)
 * [wxPython 2.8 for Python 2.7](http://www.wxpython.org/download.php)
 * PyWin32 
-* PyInstaller 2.1 - `pip install pyinstaller==2.1`
 * [Tips] Please download both 32bit or 64bit
 
 
