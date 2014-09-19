@@ -3,6 +3,7 @@ import wx
 import wx.lib.newevent
 import logging
 from copy import deepcopy
+from os.path import join
 
 import anim
 import util
@@ -744,7 +745,7 @@ class MainFrame(wx.Frame):
                           size=size, 
                           style=wx.DEFAULT_FRAME_STYLE & ~(wx.RESIZE_BORDER | wx.RESIZE_BOX | wx.MAXIMIZE_BOX) )
         #set icon
-        self.SetIcon( wx.Icon(u'./img/sudoku.ico', wx.BITMAP_TYPE_ICO) )
+        self.SetIcon( wx.Icon(join(app.ROOT_PATH,'img','sudoku.ico'), wx.BITMAP_TYPE_ICO) )
         
         l, t = (size[0]-boardLen)/2.0, (size[1]-boardLen)/2.0
         self.board = NumberBoard(self, -1, pos=(l,t), size=(boardLen, boardLen))
@@ -842,23 +843,23 @@ class MainFrame(wx.Frame):
     def initToolbar(self):
         self.toolbar = self.CreateToolBar()
         self.toolbar.AddSeparator()
-        self.toolbar.AddTool(ID_TOOLBAR_NEW,        wx.Bitmap('./img/new puzzle.png'),      shortHelpString=_('New Puzzle'))
-        self.toolbar.AddTool(ID_TOOLBAR_NEW_NULL,   wx.Bitmap('./img/new puzzle null.png'), shortHelpString=_('New Null Puzzle'))
-        self.toolbar.AddTool(ID_TOOLBAR_SELECT,     wx.Bitmap('./img/select.png'),          shortHelpString=_('Select Puzzle By ID'))
+        self.toolbar.AddTool(ID_TOOLBAR_NEW,        wx.Bitmap(join(app.ROOT_PATH,'img','new puzzle.png')),      shortHelpString=_('New Puzzle'))
+        self.toolbar.AddTool(ID_TOOLBAR_NEW_NULL,   wx.Bitmap(join(app.ROOT_PATH,'img','new puzzle null.png')), shortHelpString=_('New Null Puzzle'))
+        self.toolbar.AddTool(ID_TOOLBAR_SELECT,     wx.Bitmap(join(app.ROOT_PATH,'img','select.png')),          shortHelpString=_('Select Puzzle By ID'))
         self.toolbar.AddSeparator()
         
-        self.toolbar.AddTool(wx.ID_UNDO,            wx.Bitmap('./img/undo.png'),             shortHelpString=_('Undo'))
-        self.toolbar.AddTool(wx.ID_REDO,            wx.Bitmap('./img/redo.png'),             shortHelpString=_('Redo'))
-        self.toolbar.AddTool(ID_TOOLBAR_CLEARALL,   wx.Bitmap('./img/clear all.png'),        shortHelpString=_('Clear All'))
+        self.toolbar.AddTool(wx.ID_UNDO,            wx.Bitmap(join(app.ROOT_PATH,'img','undo.png')),             shortHelpString=_('Undo'))
+        self.toolbar.AddTool(wx.ID_REDO,            wx.Bitmap(join(app.ROOT_PATH,'img','redo.png')),             shortHelpString=_('Redo'))
+        self.toolbar.AddTool(ID_TOOLBAR_CLEARALL,   wx.Bitmap(join(app.ROOT_PATH,'img','clear all.png')),        shortHelpString=_('Clear All'))
         self.toolbar.AddSeparator()
         
-        self.toolbar.AddTool(ID_TOOLBAR_GUESS,      wx.Bitmap('./img/guess.png'),            shortHelpString=_('Guess Next'))
-        self.toolbar.AddTool(ID_TOOLBAR_ANSWER,   wx.Bitmap('./img/guess all.png'),        shortHelpString=_('Show Answer'))
-        self.toolbar.AddTool(ID_TOOLBAR_CHECKVALID, wx.Bitmap('./img/check valid.png'),      shortHelpString=_('Check Valid'))
+        self.toolbar.AddTool(ID_TOOLBAR_GUESS,      wx.Bitmap(join(app.ROOT_PATH,'img','guess.png')),            shortHelpString=_('Guess Next'))
+        self.toolbar.AddTool(ID_TOOLBAR_ANSWER,     wx.Bitmap(join(app.ROOT_PATH,'img','guess all.png')),        shortHelpString=_('Show Answer'))
+        self.toolbar.AddTool(ID_TOOLBAR_CHECKVALID, wx.Bitmap(join(app.ROOT_PATH,'img','check valid.png')),      shortHelpString=_('Check Valid'))
         self.toolbar.AddSeparator()
         
-        self.toolbar.AddTool(ID_TOOLBAR_SETUSER,    wx.Bitmap('./img/user.png'),             shortHelpString=_('Choice User'))
-        self.toolbar.AddTool(ID_TOOLBAR_RECORDTIME, wx.Bitmap('./img/time.png'),             shortHelpString=_('Record Time'))
+        self.toolbar.AddTool(ID_TOOLBAR_SETUSER,    wx.Bitmap(join(app.ROOT_PATH,'img','user.png')),             shortHelpString=_('Choice User'))
+        self.toolbar.AddTool(ID_TOOLBAR_RECORDTIME, wx.Bitmap(join(app.ROOT_PATH,'img','time.png')),             shortHelpString=_('Record Time'))
         self.toolbar.AddSeparator()
         
         self.toolbar.Realize()
