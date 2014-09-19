@@ -1,94 +1,85 @@
+﻿import os
 import wx
-import App
+import sys
+import app
+import util
+import logging
 
-def SetDefaultLanguage():
+logger = logging.getLogger(__name__)
+
+
+def set_default_language():
     lang = util.config.get('LANG', 'language', 'ENU')
-    App.locale.AddCatalogLookupPathPrefix('.\\lang')
-    App.locale.AddCatalog(lang)
+    lang_map = {'ENU': 'en_US', 'CHT': 'zh_TW'}
+    util.init_translate(lang_map[lang])
+    logger.info('[Language] lang = %s (%s)', lang, lang_map[lang])
+
+    _ = util.get_translate
+
     #first launch
     if not os.path.exists(util.CONFIG_FILE):
-        sup_lang = [ 'CHT', 'ENU' ]
+        sup_lang = ['CHT', 'ENU']
         trans_sup_lang = [ _(w) for w in sup_lang ]
         dlg = wx.SingleChoiceDialog(None, _('Choice Language'), 'SudokuBoxer', trans_sup_lang, wx.OK)
         dlg.SetSelection(0)
         ret = dlg.ShowModal()
         if ret == wx.ID_OK:
             lang = sup_lang[ dlg.GetSelection() ]
-            App.locale.AddCatalog( lang )
+            util.init_translate(lang_map[lang])
             util.config.set('LANG', 'language', lang)
         dlg.Destroy()
-
-class HookStdOut:
-    def __init__(self, f, of):
-        self.encoding = sys.getfilesystemencoding()
-        self.f = f
-        self.of = of
-    def write(self, s):
-        if isinstance(s, unicode):
-            s = s.encode(self.encoding)
-        self.f.write(s)
-        self.of.write(s)
 
 class MainApp(wx.App):
     def __init__(self):
         wx.App.__init__(self, False)
         
         self.hookStdOutFile = None
-    
-    def close(self):
-        #self.UnHookStdOut()
-        pass
-    
-    def ParseArgument(self):
-        #parse argument first, for set debug_log
-        for arg in sys.argv:
-            if arg.upper() in ['DEBUG_LOG']:
-                self.HookStdOut()
-    
-    def HookStdOut(self):
-        import sys
-        self.hookStdOutFile = open('debug.log', 'w+')
-        sys.stderr = HookStdOut(self.hookStdOutFile, sys.stderr)
-        sys.stdout = HookStdOut(self.hookStdOutFile, sys.stdout)
-    
-    def UnHookStdOut(self):
-        import sys
-        if self.hookStdOutFile:
-            self.hookStdOutFile.close()
-            sys.stderr = sys.__stderr__
-            sys.stdout = sys.__stdout__
+        self.InitLogging()
+
+    def InitLogging(self):
+        import util
+        FORMAT = '%(asctime)s [%(levelname)s] [%(name)s::%(funcName)s] %(message)s'
+        logging.basicConfig(format=FORMAT, level=logging.INFO)
+
+        # frozen by PyInstaller, redirect log to DbgView on Windows
+        if not util.is_dev() and sys.platform == 'win32':
+            h = logging.StreamHandler(util.DbgViewStream())
+            h.setLevel(logging.INFO)
+            h.setFormatter(logging.Formatter(FORMAT))
+
+            root_logger = logging.getLogger()
+            root_logger.addHandler(h)
 
 
 if __name__ == '__main__':
-    import os
     import user
     import anim
-    import util
-    from SudokuBoxer import MainFrame
-    _ = wx.GetTranslation
-    
+    from puzzle_loader import get_puzzle_loader
+    from main_frame import MainFrame
+
     mainApp = MainApp()
-    mainApp.ParseArgument()
-    
-    SetDefaultLanguage()
+
+    set_default_language()
     
     #initial
     user.InitUserInfo() #user info
     
-    mode = util.config.get('APP',  'level',    'easy')
-    user = util.config.get('APP',  'user',     '')
+    mode = util.config.get('APP', 'level', 'easy')
+    user = util.config.get('APP', 'user', '')
     
     time = 0
     cur_puzzle = []
-    if App.bRecordLastPuzzle and App.lastPuzzle:
-        _id         = App.lastPuzzle['id']
-        time        = App.lastPuzzle['time']
-        puzzle      = util.Str2Puzzle(App.lastPuzzle['puzzleDefault'])
-        cur_puzzle  = util.Str2Puzzle(App.lastPuzzle['puzzleCurrent'])
-        print '[root] RecordLastPuzzle!\nid=%d\ntime=%s\n    puzzle=%s\ncur puzzle=%s' % (_id, util.Sec2TimeFormat(time), App.lastPuzzle['puzzleDefault'], App.lastPuzzle['puzzleCurrent'])
+    if app.bRecordLastPuzzle and app.lastPuzzle:
+        _id         = app.lastPuzzle['id']
+        time        = app.lastPuzzle['time']
+        puzzle      = util.str2puzzle(app.lastPuzzle['puzzleDefault'])
+        cur_puzzle  = util.str2puzzle(app.lastPuzzle['puzzleCurrent'])
+        logger.info('RecordLastPuzzle! id=%d, time=%s', _id, util.time_format(time))
+        logger.info('puzzle=%s', app.lastPuzzle['puzzleDefault'])
+        logger.info('cur puzzle=%s', app.lastPuzzle['puzzleCurrent'])
     else:
         #puzzle loader
-        _id, puzzle = App.puzzleLoader.pick(mode)
+        _id, puzzle = get_puzzle_loader().pick(mode)
     
     #anim
     anim.InitAnimManager()
@@ -100,10 +91,9 @@ if __name__ == '__main__':
         frame._setUser(user)
     if time:
         frame.setSpendTime(time)
-        
+
     mainApp.MainLoop()
-    mainApp.close()
-    
-    App.SetConfig()
-    util.WriteConfig()
+
+    app.SetConfig()
+    util.write_config()
     

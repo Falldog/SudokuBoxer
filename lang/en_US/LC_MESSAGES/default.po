@@ -1,0 +1,275 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-19 10:26+0800\n"
+"PO-Revision-Date: 2010-06-03 00:36+0800\n"
+"Last-Translator: Falldog <falldog7@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:2
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:4
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:6
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:8
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:10
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:12
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:14
+msgid "#000000"
+msgstr "#000000"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:803
+msgid "About"
+msgstr "About"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1019
+msgid "Answer"
+msgstr "Answer"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:888
+msgid "Best Time:"
+msgstr "Best Time :"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:792
+msgid "CHT"
+msgstr "中文"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:17
+msgid "Cancel"
+msgstr "Cancel"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:804
+msgid "Check New Version"
+msgstr "Check New Version"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:857
+msgid "Check Valid"
+msgstr "Check Valid"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1043
+msgid "Check Valid : Correctly!"
+msgstr "Check Valid : Correctly!"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1045
+msgid "Check Valid : Wrong!"
+msgstr "Check Valid : Wrong!"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\root.py:21
+msgid "Choice Language"
+msgstr "Choice Language"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:860
+msgid "Choice User"
+msgstr "Choice User"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:852
+msgid "Clear All"
+msgstr "Clear All"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1056
+msgid "Congratulations! You had finish this Sudoku!"
+msgstr "Congratulations! You had finish this Sudoku!"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\user.py:147
+msgid "Create a User"
+msgstr "Create a User"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\user.py:114
+msgid "Create a new user"
+msgstr "Create a new user"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:791
+msgid "ENU"
+msgstr "English"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:785
+msgid "Easy"
+msgstr "Easy"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:788
+msgid "Evil"
+msgstr "Evil"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:855
+msgid "Guess Next"
+msgstr "Guess Next"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:787
+msgid "Hard"
+msgstr "Hard"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:809
+msgid "Help"
+msgstr "Help"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1062
+msgid "Hey man! Your answer is wrong... try again!"
+msgstr "Hey man! Your answer is wrong... try again!"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:921
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1000
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1046
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1063
+msgid "Information"
+msgstr "Information"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:807
+msgid "Language"
+msgstr "Language"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:786
+msgid "Medium"
+msgstr "Medium"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:806
+msgid "Mode"
+msgstr "Mode"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:846
+msgid "New Null Puzzle"
+msgstr "New Empty Puzzle"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:845
+msgid "New Puzzle"
+msgstr "New Puzzle"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\user.py:122
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:16
+msgid "OK"
+msgstr "OK"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:808
+msgid "Options"
+msgstr "Options"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:988
+#, python-format
+msgid "Please input a ID number : (1~%d)"
+msgstr "Please input a ID number : (1~%d)"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1000
+msgid "Please input a correctly number!"
+msgstr "Please input a correctly number!"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\user.py:146
+msgid "Please input a user name"
+msgstr "Please input a user name"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:921
+msgid "Please relaunch SudokuBoxer to load correctly Language"
+msgstr "Please relaunch SudokuBoxer to load correctly Language"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:799
+msgid "Preference"
+msgstr "Preference"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:891
+msgid "Puzzle ID :"
+msgstr "Puzzle ID :"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\user.py:173
+msgid "PuzzleID"
+msgstr "PuzzleID"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:798
+msgid "Record Last Puzzle"
+msgstr "Record Last Puzzle"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1102
+msgid "Record List"
+msgstr "Record List"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:861
+msgid "Record Time"
+msgstr "Record Time :"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:851
+msgid "Redo"
+msgstr "Redo"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:847
+msgid "Select Puzzle By ID"
+msgstr "Select Puzzle By ID"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:1076
+msgid "Select User"
+msgstr "Select User"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\pytest.py:13
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\pytest.py:19
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\test.py:12
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:856
+msgid "Show Answer"
+msgstr "Show Answer"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:795
+msgid "Show AutoTip"
+msgstr "Display candidate on every cell"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:796
+msgid "Show UserTip"
+msgstr "Setting candidate by User"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:894
+msgid "Spend Time :"
+msgstr "Spend Time :"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\user.py:174
+msgid "Time"
+msgstr "Time"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:850
+msgid "Undo"
+msgstr "Undo"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\src\main_frame.py:885
+msgid "User Name :"
+msgstr "User Name :"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:7
+msgid "[BG] Default"
+msgstr "[BG] Default"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:3
+msgid "[BG] Focus"
+msgstr "[BG] Focus"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:5
+msgid "[BG] Mouse Over"
+msgstr "[BG] Mouse Over"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:9
+msgid "[BG] Normal"
+msgstr "[BG] Normal"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:11
+msgid "[Text] Default"
+msgstr "[Text] Default"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:15
+msgid "[Text] Invalid"
+msgstr "[Text] Invalid"
+
+#: E:\WorkRoom\SudokuBoxer\SudokuBoxer\build\xrc_string.py:13
+msgid "[Text] Normal"
+msgstr "[Text] Normal"
+
+#~ msgid "Guess Easy"
+#~ msgstr "Guess Easy"
+
+#~ msgid "Guess Medium"
+#~ msgstr "Guess Medium"
+
+#~ msgid ""
+#~ "Sorry! I can't fix this puzzle now.\n"
+#~ "Please wait new version."
+#~ msgstr ""
+#~ "Sorry! I can't fix this puzzle now.\n"
+#~ "Please wait new version."

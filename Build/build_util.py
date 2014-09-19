@@ -1,27 +1,12 @@
-import os, sys
+import os
+import sys
+from os.path import join
+
+def get_lang_path(basedir, lang, ext='.mo', domain='default'):
+    lang_map = {'ENU': 'en_US', 'CHT': 'zh_TW'}
+    return join(basedir, lang_map[lang], 'LC_MESSAGES', '%s%s' % (domain, ext))
 
 
-def GeneratePyList(output_file):
-    PY_DIR = '..\\'
-    f = open(output_file, 'w')
-    files = os.listdir(PY_DIR)
-    for fname in files:
-        if os.path.splitext(fname)[1] != '.py' : continue
-        f.write(PY_DIR+fname+'\n')
-    
-    _GenerateXRCTranslateString('.\\xrc_string.py')
-    f.write('xrc_string.py')
-    f.close()
-
-def _GenerateXRCTranslateString(filename=''):
-    XRC_Folder = r'..\resource\xrc'
-    xrcList = os.listdir(XRC_Folder)
-    strFiles = ''
-    for xrc in xrcList:
-        if xrc.lower() in ['.svn']: continue
-        strFiles +=  ' ' + os.path.join(XRC_Folder, xrc)
-    os.system('python pywxrc.py -o %s -g %s' % (filename, strFiles))
-    
 def GenerateVersion(version_path):
     import datetime
     f = open(version_path, 'r')
@@ -35,14 +20,6 @@ def GenerateVersion(version_path):
     f = open(version_path, 'w')
     f.write('%s\n%s' % (ver, ver_date))
     f.close()
-    
 
+    return '%s.%s' % (ver, ver_date)
 
-if len(sys.argv) > 1:
-    task = sys.argv[1]
-    if task == 'generate_py_list':
-        GeneratePyList( sys.argv[2] )
-        
-    elif task == 'generate_version':
-        GenerateVersion( sys.argv[2] )
-        
