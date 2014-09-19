@@ -1,0 +1,16 @@
+*.pyc
+*.pyo
+config.ini
+
+.idea/workspace.xml
+
+lang/base.po
+lang/*/LC_MESSAGES/default.mo
+
+build/build/*
+build/dist/*
+build/warn*.txt
+build/logdict*
+build/pyinstaller-1.5.1/config.dat
+build/pyinstaller-1.5.1/bincache*
+build/pyinstaller-1.5.1/support/*
