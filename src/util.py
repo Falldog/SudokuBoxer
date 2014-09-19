@@ -3,6 +3,7 @@ import sys
 import time
 import gettext
 import ConfigParser
+from os.path import join
 import app
 
 #===============================================================================================
@@ -76,6 +77,10 @@ def time_format(secs):
     m = secs/(60) % 60
     s = secs % 60
     return u'%d:%02d:%02d' % (h,m,s)
+
+
+def get_img_path(img_file):
+    return join(app.ROOT_PATH, 'img', img_file)
 
 
 def to_unicode(s):
