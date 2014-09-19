@@ -39,7 +39,7 @@ Build Package
   * execute `python <SudokuBoxerDir>/build/build.py` (not verified)
 
 
-Language
+Language (i18n)
 --------------
 * Chinese
 * English

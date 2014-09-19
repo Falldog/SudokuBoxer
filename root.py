@@ -8,9 +8,9 @@ logger = logging.getLogger(__name__)
 
 def set_default_language():
     lang = util.config.get('LANG', 'language', 'ENU')
-    app.locale.AddCatalogLookupPathPrefix(app.LANG_PATH)
-    app.locale.AddCatalog(lang)
-    logger.info('[Language] lang = %s', lang)
+    lang_map = {'ENU': 'en_US', 'CHT': 'zh_TW'}
+    util.init_translate(lang_map[lang])
+    logger.info('[Language] lang = %s (%s)', lang, lang_map[lang])
 
     #first launch
     if not os.path.exists(util.CONFIG_FILE):
@@ -21,7 +21,7 @@ def set_default_language():
         ret = dlg.ShowModal()
         if ret == wx.ID_OK:
             lang = sup_lang[ dlg.GetSelection() ]
-            app.locale.AddCatalog( lang )
+            util.init_translate(lang_map[lang])
             util.config.set('LANG', 'language', lang)
         dlg.Destroy()
 

@@ -4,7 +4,7 @@ import sqlite3
 import logging
 import util
 
-_ = wx.GetTranslation
+_ = util.get_translate
 logger = logging.getLogger(__name__)
 
 

@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import gettext
 import ConfigParser
 import app
 
@@ -45,6 +46,21 @@ class DbgViewStream(object):
         self.output(to_unicode(s))
     def flush(self):
         pass
+
+
+#===============================================================================================
+translate_gettext = None
+def init_translate(lang):
+    # looking for MO file : <app.LANG_PATH>/@lang/LC_MESSAGES/@domain.mo
+    domain = 'default'
+    t = gettext.translation(domain, app.LANG_PATH, languages=[lang])
+
+    global translate_gettext
+    translate_gettext = t.ugettext
+
+def get_translate(*argv):
+    global translate_gettext
+    return translate_gettext(*argv)
 
 
 #===============================================================================================

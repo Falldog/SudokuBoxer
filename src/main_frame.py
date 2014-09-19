@@ -13,7 +13,7 @@ from boxer_plugin import boxer_util
 from boxer_plugin.boxer_info import BoxerInfo
 from user import GetUserInfo
 
-_ = wx.GetTranslation
+_ = util.get_translate
 logger = logging.getLogger(__name__)
 
 LICENSE = '''
