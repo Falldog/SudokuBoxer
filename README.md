@@ -49,13 +49,8 @@ Language (i18n)
 
 GUI Screenshots
 --------------
-* Play UI
-![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_UI.png "Play UI")
-* Solve next step 1
-![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_Solve1.png "Solve next step")
-* Solve next step 2
-![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_Solve2.png "Solve next step")
-* Solve next step 3
-![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_Solve3.png "Solve next step")
-* MultiLanguage (i18n)
-![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_i18n.png "MultiLanguage")
+* ![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_UI.png "Play UI") Play UI
+* ![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_Solve1.png "Solve next step") Solve next step 1
+* ![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_Solve2.png "Solve next step") Solve next step 2
+* ![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_Solve3.png "Solve next step") Solve next step 3
+* ![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_i18n.png "MultiLanguage") MultiLanguage (i18n)
