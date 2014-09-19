@@ -18,6 +18,7 @@ VERSION_DATE = vd
 ROOT_PATH = util.to_unicode(abspath(dirname(sys.argv[0])))
 XRC_PATH = join(ROOT_PATH, 'resource', 'xrc')
 LANG_PATH = join(ROOT_PATH, 'lang')
+PUZZLE_PATH = join(ROOT_PATH, 'puzzle')
 
 nCellSize = eval(util.config.get('APP', 'CellSize', '50'))
 nAnswerCellSize = nCellSize*0.6

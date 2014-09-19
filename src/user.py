@@ -2,7 +2,9 @@ import wx
 import os
 import sqlite3
 import logging
+import app
 import util
+from os.path import join
 
 _ = util.get_translate
 logger = logging.getLogger(__name__)
@@ -10,10 +12,10 @@ logger = logging.getLogger(__name__)
 
 class UserInfoDB:
     def __init__(self):
-        self.dbPath = os.path.join( util.to_unicode(os.path.abspath(os.curdir)), u'puzzle', u'PuzzleDB')
-        if not os.path.exists(self.dbPath):
-            raise Exception('Puzzle DB doesn\'t exist!!!!')
-        self.db = sqlite3.connect(u'.\\puzzle\\PuzzleDB')
+        db_path = join(app.PUZZLE_PATH, 'PuzzleDB')
+        if not os.path.exists(db_path):
+            raise Exception("Puzzle DB doesn't exist!!!!")
+        self.db = sqlite3.connect(os.path.relpath(db_path))  #[WARNING!] Use abs path will exception in Window XP Desktop
         self.cursor = self.db.cursor()
         self.curUserID   = -1
         self.curUserName = ''
@@ -22,7 +24,7 @@ class UserInfoDB:
         try:
             self.cursor.execute("CREATE TABLE User (id INTEGER PRIMARY KEY, name CHAR(1024))")
         except:
-            pass#DB exist!
+            pass  # DB exist!
             
     def initRecordDB(self):
         try:
@@ -31,7 +33,7 @@ class UserInfoDB:
                                                         puzzle_id INTEGER,
                                                         time      INTEGER)""")
         except:
-            pass#DB exist!
+            pass  # DB exist!
     
     def getCurUser(self):
         return self.curUserName

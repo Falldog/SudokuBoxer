@@ -3,6 +3,8 @@ import os
 import util
 import sqlite3
 import logging
+import app
+from os.path import join
 
 logger = logging.getLogger(__name__)
 PUZZLE_EXT = '.sb'
@@ -96,10 +98,10 @@ class PuzzleLoader:
 
 class PuzzleLoaderDB:
     def __init__(self):
-        self.dbPath = os.path.join( util.to_unicode(os.path.abspath(os.curdir)), u'puzzle', u'PuzzleDB')
-        if not os.path.exists(self.dbPath):
-            raise Exception('Puzzle DB doesn\'t exist!!!!')
-        self.db = sqlite3.connect(ur'.\puzzle\PuzzleDB') #[WARNING!] Use abs path will exception in Window XP Desktop
+        db_path = join(app.PUZZLE_PATH, 'PuzzleDB')
+        if not os.path.exists(db_path):
+            raise Exception("Puzzle DB doesn't exist!!!!")
+        self.db = sqlite3.connect(os.path.relpath(db_path))  #[WARNING!] Use abs path will exception in Window XP Desktop
         self.cursor = self.db.cursor()
         
         #initial count
