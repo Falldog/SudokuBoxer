@@ -11,8 +11,11 @@ Version
 Requirement
 --------------
 * [Python 2.7](https://www.python.org/download/releases/2.7)
-* [wxPython 2.8 for Python 2.7](http://www.wxpython.org/download.php)
-* PyWin32 
+* Windows
+  * [wxPython 2.8 for Python 2.7](http://www.wxpython.org/download.php)
+  * PyWin32 
+* Ubuntu 12.04+
+  * `sudo apt-get install python-wxgtk2.8 python-wxtools wx2.8-i18n`
 * [Tips] Please download both 32bit or 64bit
 
 
@@ -32,9 +35,9 @@ Development
 
 Build Package
 --------------
-* Windows
+* Windows & Linux
   * execute `python <SudokuBoxerDir>/build/build.py`
-* Linux & Mac
+* Mac
   * execute `python <SudokuBoxerDir>/build/build.py` (not verified)
 
 

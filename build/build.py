@@ -3,6 +3,7 @@
 #
 
 import os
+import sys
 import shutil
 import argparse
 import subprocess
@@ -56,33 +57,39 @@ class Builder():
         xrc_string_path = join(CUR_DIR, 'xrc_string.py')
         self.generate_xrc_translate_string(xrc_string_path)
         self.generate_py_list(py_list_path, [ROOT_DIR, SRC_DIR], [xrc_string_path])
+        env = os.environ.copy()
+        if sys.platform == 'win32':
+            env['PATH'] = env['PATH'] + os.pathsep + GETTEXT_DIR
 
-        subprocess.check_call('%s -o "%s" --files-from=%s' % (join(GETTEXT_DIR, 'xgettext.exe'),
-                                                              join(LANG_DIR, 'base.po'),
-                                                              py_list_path),
-                              shell=True)
-        subprocess.check_call('%s %s "%s" "%s"' % (join(GETTEXT_DIR, 'msgmerge'), msgmerge_flags,
-                                                   get_lang_path(LANG_DIR, 'ENU', ext='.po'),
-                                                   join(LANG_DIR, 'base.po')),
-                              shell=True)
-        subprocess.check_call('%s %s "%s" "%s"' % (join(GETTEXT_DIR, 'msgmerge'), msgmerge_flags,
-                                                   get_lang_path(LANG_DIR, 'CHT', ext='.po'),
-                                                   join(LANG_DIR, 'base.po')),
-                              shell=True)
+        subprocess.check_call('xgettext -o "%s" --files-from=%s' % (join(LANG_DIR, 'base.po'),
+                                                                    py_list_path),
+                              env=env, shell=True)
+        subprocess.check_call('msgmerge %s "%s" "%s"' % (msgmerge_flags,
+                                                         get_lang_path(LANG_DIR, 'ENU', ext='.po'),
+                                                         join(LANG_DIR, 'base.po')),
+                              env=env, shell=True)
+        subprocess.check_call('msgmerge %s "%s" "%s"' % (msgmerge_flags,
+                                                         get_lang_path(LANG_DIR, 'CHT', ext='.po'),
+                                                         join(LANG_DIR, 'base.po')),
+                              env=env, shell=True)
         os.remove(py_list_path)
         os.remove(xrc_string_path)
 
     def update_MUI_mo(self):
         ''' convert .po(TEXT file) to .mo(Binary file) '''
         msgmerge_output_flags = '--output-file'
-        subprocess.check_call('%s %s "%s" "%s"' % (join(GETTEXT_DIR, 'msgfmt'), msgmerge_output_flags,
-                                                   get_lang_path(LANG_DIR, 'CHT', ext='.mo'),
-                                                   get_lang_path(LANG_DIR, 'CHT', ext='.po')),
-                              shell=True)
-        subprocess.check_call('%s %s "%s" "%s"' % (join(GETTEXT_DIR, 'msgfmt'), msgmerge_output_flags,
-                                                   get_lang_path(LANG_DIR, 'ENU', ext='.mo'),
-                                                   get_lang_path(LANG_DIR, 'ENU', ext='.po')),
-                              shell=True)
+        env = os.environ.copy()
+        if sys.platform == 'win32':
+            env['PATH'] = env['PATH'] + os.pathsep + GETTEXT_DIR
+        
+        subprocess.check_call('msgfmt %s "%s" "%s"' % (msgmerge_output_flags,
+                                                       get_lang_path(LANG_DIR, 'CHT', ext='.mo'),
+                                                       get_lang_path(LANG_DIR, 'CHT', ext='.po')),
+                              env=env, shell=True)
+        subprocess.check_call('msgfmt %s "%s" "%s"' % (msgmerge_output_flags,
+                                                       get_lang_path(LANG_DIR, 'ENU', ext='.mo'),
+                                                       get_lang_path(LANG_DIR, 'ENU', ext='.po')),
+                              env=env, shell=True)
 
     def generate_py_list(self, output_file, search_dirs=(), extra_files=()):
         with open(output_file, 'w') as f:

@@ -1,5 +1,5 @@
 ﻿# -*- mode: python -*-
-a = Analysis([os.path.join(HOMEPATH,'support\\_mountzlib.py'), os.path.join(HOMEPATH,'support\\useUnicode.py'), os.path.join('..','root.py')],
+a = Analysis([os.path.join(HOMEPATH,'support','_mountzlib.py'), os.path.join(HOMEPATH,'support','useUnicode.py'), os.path.join('..','root.py')],
              pathex=[os.path.join('..','src')])
 pyz = PYZ(a.pure)
 exe = EXE(pyz,
