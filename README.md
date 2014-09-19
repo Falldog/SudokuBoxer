@@ -1,6 +1,6 @@
 SudokuBoxer
 =======
-Sudoku GUI game & solver. Develop by wxPython. Help you solve the Sudoku puzzle step by step
+Cross platform Sudoku GUI game & solver. Develop by wxPython. Help you solve the Sudoku puzzle step by step
 
 --------------
 
@@ -58,3 +58,5 @@ GUI Screenshots
 ![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_Solve2.png "Solve next step")
 * Solve next step 3
 ![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_Solve3.png "Solve next step")
+* MultiLanguage (i18n)
+![Alt text](https://raw.githubusercontent.com/Falldog/SudokuBoxer/master/.imgres/Screenshots_i18n.png "MultiLanguage")
