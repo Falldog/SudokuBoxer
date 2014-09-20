@@ -15,7 +15,6 @@ CUR_DIR = abspath(dirname(__file__))
 ROOT_DIR = abspath(join(CUR_DIR, '..'))
 DIST_DIR = join(CUR_DIR, 'dist')
 PUZZLE_DIR = join(CUR_DIR, 'puzzle')
-GETTEXT_DIR = join(CUR_DIR, 'gettext')
 VERSION_PATH = join(ROOT_DIR, 'version')
 SRC_DIR = join(ROOT_DIR, 'src')
 LANG_DIR = join(ROOT_DIR, 'lang')
@@ -32,7 +31,7 @@ def parse_args():
 
 class Builder():
     def __init__(self):
-        self.ver_date = build_util.GenerateVersion(VERSION_PATH)
+        self.ver_date = build_util.generate_version(VERSION_PATH)
         self.dist_dir = join(DIST_DIR, 'SudokuBoxer-%s' % self.ver_date)
         self.puzzle_dir = join(self.dist_dir, 'puzzle')
         self.lang_dir = join(self.dist_dir, 'lang')
@@ -43,6 +42,10 @@ class Builder():
             shutil.rmtree(self.dist_dir)
         if os.path.isdir(join(DIST_DIR, 'SudokuBoxer')):
             shutil.rmtree(join(DIST_DIR, 'SudokuBoxer'))
+
+        self.gettext_dir = build_util.prepare_tool_gettext(CUR_DIR)
+        self.libiconv2_dir = build_util.prepare_tool_libiconv2(CUR_DIR)
+        self.pyinstaller_dir = build_util.prepare_tool_pyinstaller(CUR_DIR)
 
     def build(self):
         self.update_MUI_mo()
@@ -59,7 +62,8 @@ class Builder():
         self.generate_py_list(py_list_path, [ROOT_DIR, SRC_DIR], [xrc_string_path])
         env = os.environ.copy()
         if sys.platform == 'win32':
-            env['PATH'] = env['PATH'] + os.pathsep + GETTEXT_DIR
+            env['PATH'] += os.pathsep + self.gettext_dir
+            env['PATH'] += os.pathsep + self.libiconv2_dir
 
         subprocess.check_call('xgettext -o "%s" --files-from=%s' % (join(LANG_DIR, 'base.po'),
                                                                     py_list_path),
@@ -80,7 +84,8 @@ class Builder():
         msgmerge_output_flags = '--output-file'
         env = os.environ.copy()
         if sys.platform == 'win32':
-            env['PATH'] = env['PATH'] + os.pathsep + GETTEXT_DIR
+            env['PATH'] += os.pathsep + self.gettext_dir
+            env['PATH'] += os.pathsep + self.libiconv2_dir
         
         subprocess.check_call('msgfmt %s "%s" "%s"' % (msgmerge_output_flags,
                                                        get_lang_path(LANG_DIR, 'CHT', ext='.mo'),
@@ -115,7 +120,7 @@ class Builder():
         cwd = os.getcwd()
         os.chdir(CUR_DIR)
         try:
-            subprocess.check_call('python %s SudokuBoxer.spec' % join(CUR_DIR, 'pyinstaller-1.5.1', 'pyinstaller.py'), shell=True)
+            subprocess.check_call('python %s SudokuBoxer.spec' % join(self.pyinstaller_dir, 'pyinstaller.py'), shell=True)
 
             # rename to SudokuBoxer-[version]
             ori_dist_dir = join(DIST_DIR, 'SudokuBoxer')
@@ -133,6 +138,7 @@ class Builder():
 
         shutil.copytree(join(ROOT_DIR, 'img'), join(self.dist_dir, 'img'))
 
+        # copy lang
         self.lang_dir = join(self.dist_dir, 'lang')
         os.mkdir(self.lang_dir)
         for d in os.listdir(LANG_DIR):
@@ -141,6 +147,11 @@ class Builder():
             os.makedirs(join(self.lang_dir, d, 'LC_MESSAGES'))
             shutil.copyfile(join(LANG_DIR, d, 'LC_MESSAGES', 'default.mo'),
                             join(self.lang_dir, d, 'LC_MESSAGES', 'default.mo'))
+
+        # copy XRC resource
+        dist_xrc_dir = join(self.dist_dir, 'resource', 'xrc')
+        os.makedirs(dist_xrc_dir)
+        shutil.copyfile(join(XRC_DIR, 'PreferenceDialog.xrc'), join(dist_xrc_dir, 'PreferenceDialog.xrc'))
 
     def remove_redundant_files(self):
 

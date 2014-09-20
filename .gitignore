@@ -7,10 +7,8 @@ config.ini
 lang/base.po
 lang/*/LC_MESSAGES/default.mo
 
+build/bin/*
 build/build/*
 build/dist/*
 build/warn*.txt
 build/logdict*
-build/pyinstaller-1.5.1/config.dat
-build/pyinstaller-1.5.1/bincache*
-build/pyinstaller-1.5.1/support/*
